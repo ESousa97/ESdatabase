@@ -1,14 +1,22 @@
 const { Pool } = require('pg');
 
-// Configuração do pool de conexão com o banco de dados
 const pool = new Pool({
   connectionString: 'postgres://default:srE4lQaZ1oGy@ep-calm-field-a4v1frtu-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require',
-  ssl: {
-    rejectUnauthorized: false // Certifique-se de que essa opção esteja configurada corretamente para o seu ambiente
-  }
+  ssl: { rejectUnauthorized: false }
 });
 
 async function handler(req, res) {
+  // Configuração dos cabeçalhos de CORS
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Não use '*' em produção!
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+
+  if (req.method === 'OPTIONS') {
+    // Método OPTIONS é utilizado como preflight pelo CORS, nós respondemos apenas com os cabeçalhos
+    return res.status(200).end();
+  }
+
   try {
     const { query } = req.query;
     if (!query) {
@@ -21,11 +29,11 @@ async function handler(req, res) {
       [searchTerms]
     );
 
-    res.status(200).json(result.rows);
+    return res.status(200).json(result.rows);
   } catch (error) {
     console.error('Erro ao buscar dados:', error);
-    res.status(500).json({ message: 'Erro ao consultar o banco de dados', error: error.message });
+    return res.status(500).json({ message: 'Erro ao consultar o banco de dados', error: error.message });
   }
 }
 
-export default handler;
+module.exports = handler;
