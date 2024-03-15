@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
@@ -45,38 +45,107 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
   zIndex: 1, // Garante que o ícone fique acima do input
 }));
 
-const SearchBox = () => {
-  const [expanded, setExpanded] = useState(false);
+const SearchResults = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  top: '100%',
+  left: 0,
+  right: 0,
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: theme.shadows[2],
+  borderRadius: theme.shape.borderRadius,
+  zIndex: 2,
+  overflow: 'auto',
+  maxHeight: '300px',
+}));
 
-  const toggleSearchBox = () => {
-    setExpanded(!expanded);
-  };
+const SearchBox = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [debouncedTerm, setDebouncedTerm] = useState(searchTerm);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedTerm(searchTerm);
+    }, 500); // Delay de 500ms
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [searchTerm]);
+
+  // Efeito para disparar a busca quando o debouncedTerm é atualizado
+  useEffect(() => {
+    if (debouncedTerm) {
+      setIsLoading(true);
+      fetch(`https://esdatabase.vercel.app/api/search?query=${encodeURIComponent(debouncedTerm)}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Erro na busca');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setIsLoading(false);
+          setResults(data);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          setResults([]);
+          console.error('Erro na busca:', error);
+        });
+    } else {
+      setResults([]);
+    }
+  }, [debouncedTerm]);
 
   const handleKeyUp = (event) => {
     if (event.key === "Escape") {
-      setExpanded(false);
+      setIsExpanded(false);
     }
   };
 
+  console.log(results);
+  
   return (
     <SearchBoxWrapper>
-      <Slide direction="left" in={expanded} mountOnEnter unmountOnExit>
+      <Slide direction="left" in={isExpanded} mountOnEnter unmountOnExit>
         <StyledInputBase
           placeholder="Search…"
-          inputProps={{ "aria-label": "search" }}
-          autoFocus={expanded}
-          onBlur={() => setExpanded(false)}
-          onKeyUp={handleKeyUp}
+          inputProps={{ 'aria-label': 'search' }}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          autoFocus={isExpanded}
+          onBlur={() => setIsExpanded(false)}
         />
       </Slide>
-      <StyledIconButton
-        aria-label="search"
-        onClick={toggleSearchBox}
-      >
+      <StyledIconButton aria-label="search" onClick={() => setIsExpanded(!isExpanded)}>
         <SearchIcon />
       </StyledIconButton>
-    </SearchBoxWrapper>
-  );
+      {isExpanded && (
+      <SearchResults>
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          results.length > 0 && (
+            <ul>
+              {results.map((result) => (
+                <li key={result.id} style={{ borderBottom: '1px solid #ccc', padding: '8px' }}>
+                  <strong style={{ color: 'black', fontWeight: 'bold' }}>{result.titulo}</strong>
+                  <p style={{ color: 'black' }}>{result.descricao}</p>
+                </li>
+              ))}
+            </ul>
+          )
+        )}
+        {!isLoading && results.length === 0 && searchTerm && (
+          <div>No results found</div>
+        )}
+      </SearchResults>
+    )}
+  </SearchBoxWrapper>
+);
 };
 
 export default SearchBox;
