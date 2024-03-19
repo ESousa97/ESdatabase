@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
-    position: 'absolute', // Remove 'fixed' position.
+    position: 'fixed', // Remove 'fixed' position.
     marginTop: '64px', // Ajuste esta altura para corresponder à altura do seu cabeçalho.
     height: `calc(100% - 64px)`, // Ajuste esta altura se necessário.
     backgroundColor: theme.palette.background.default, // Ajuste a cor de fundo conforme necessário.

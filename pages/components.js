@@ -8,7 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import CustomThemeProvider from "../componentes/ThemeProvider/ThemeProvider";
 import SearchBox from "../componentes/SearchBox/SearchBox";
 import SideMenu from "../componentes/SideMenu/SideMenu";
-import HomeIcon from "@material-ui/icons/Home"; // Importe o ícone Home do Material-UI
+import HomeIcon from "@material-ui/icons/Home";
+import CardList from "../componentes/CardList/CardList"; // Importe o componente CardList
 
 const drawerWidth = 240;
 
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  homeButton: { // Estilo para o botão home
+  homeButton: {
     marginRight: theme.spacing(2),
   },
   content: {
@@ -39,18 +40,11 @@ export default function MainLayout() {
     setOpen(true);
   };
 
-  const handleHomeClick = () => {
-    // Navega de volta para a página inicial
-    history.push("/");
-  };
-
   return (
     <CustomThemeProvider>
       <div className={classes.root}>
-        {/* AppBar */}
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
-            {/* Menu Button */}
             <IconButton
               edge="start"
               className={classes.menuButton}
@@ -60,7 +54,6 @@ export default function MainLayout() {
             >
               <MenuIcon />
             </IconButton>
-            {/* Home Button */}
             <IconButton
               edge="start"
               className={classes.homeButton}
@@ -70,21 +63,18 @@ export default function MainLayout() {
             >
               <HomeIcon />
             </IconButton>
-            {/* Title */}
             <Typography variant="h6" noWrap>
               Es Data Base
             </Typography>
-            {/* Search Box */}
             <div style={{ marginLeft: "auto" }}>
               <SearchBox />
             </div>
           </Toolbar>
         </AppBar>
-        {/* Main Content */}
         <div className={classes.content}>
-          {/* Conteúdo principal da página */}
+          {/* Renderize o componente CardList aqui */}
+          <CardList />
         </div>
-        {/* Side Menu */}
         <SideMenu open={open} onClose={() => setOpen(false)} />
       </div>
     </CustomThemeProvider>
