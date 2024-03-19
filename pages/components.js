@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import CustomThemeProvider from "../componentes/ThemeProvider/ThemeProvider";
 import SearchBox from "../componentes/SearchBox/SearchBox";
 import SideMenu from "../componentes/SideMenu/SideMenu";
+import HomeIcon from "@material-ui/icons/Home"; // Importe o ícone Home do Material-UI
 
 const drawerWidth = 240;
 
@@ -19,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
   },
   menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  homeButton: { // Estilo para o botão home
     marginRight: theme.spacing(2),
   },
   content: {
@@ -33,6 +37,11 @@ export default function MainLayout() {
 
   const handleDrawerOpen = () => {
     setOpen(true);
+  };
+
+  const handleHomeClick = () => {
+    // Navega de volta para a página inicial
+    history.push("/");
   };
 
   return (
@@ -50,6 +59,16 @@ export default function MainLayout() {
               onClick={handleDrawerOpen}
             >
               <MenuIcon />
+            </IconButton>
+            {/* Home Button */}
+            <IconButton
+              edge="start"
+              className={classes.homeButton}
+              color="inherit"
+              aria-label="home"
+              onClick={() => { /* Adicione a lógica para ir para a página inicial aqui */ }}
+            >
+              <HomeIcon />
             </IconButton>
             {/* Title */}
             <Typography variant="h6" noWrap>

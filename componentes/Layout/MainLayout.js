@@ -77,7 +77,7 @@ export default function MainLayout() {
   };
 
   return (
-    <CustomThemeProvider> {/* Use o ThemeProvider personalizado aqui */}
+    <CustomThemeProvider>
       <div className={classes.root}>
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>

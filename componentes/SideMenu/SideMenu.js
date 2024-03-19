@@ -1,70 +1,107 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import axios from "axios";
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 
-const drawerWidth = 240;
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-    marginTop: theme.spacing(8),
+const StyledDrawer = styled(Drawer)(({ theme }) => ({
+  '& .MuiDrawer-paper': {
+    position: 'absolute', // Remove 'fixed' position.
+    marginTop: '64px', // Ajuste esta altura para corresponder à altura do seu cabeçalho.
+    height: `calc(100% - 64px)`, // Ajuste esta altura se necessário.
+    backgroundColor: theme.palette.background.default, // Ajuste a cor de fundo conforme necessário.
+    // Adicione quaisquer outros estilos necessários para o Drawer aqui.
   },
 }));
 
-const SideMenu = ({ open, onClose }) => {
-  const classes = useStyles();
-  const [menuItems, setMenuItems] = useState([]);
+const OutsideClickListener = ({ onOutsideClick, children }) => {
+  const ref = useRef();
 
   useEffect(() => {
-    async function fetchMenuItems() {
-      try {
-        const response = await axios.get("https://esdatabase.vercel.app/api/sidemenu");
-        setMenuItems(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar itens do menu lateral:", error);
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        onOutsideClick();
       }
-    }
+    };
 
-    fetchMenuItems();
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [onOutsideClick]);
+
+  return <div ref={ref}>{children}</div>;
+};
+
+const SideMenu = ({ open, onClose, headerHeight }) => {
+  const [categories, setCategories] = useState({});
+  const [openSubmenus, setOpenSubmenus] = useState({});
+
+  useEffect(() => {
+    axios.get('https://server-json-eight.vercel.app/api/categories')
+      .then(response => {
+        const fetchedCategories = response.data.reduce((acc, item) => {
+          if (!acc[item.categoria]) {
+            acc[item.categoria] = [];
+          }
+          acc[item.categoria].push(item);
+          return acc;
+        }, {});
+        setCategories(fetchedCategories);
+      })
+      .catch(error => {
+        console.error('Erro ao buscar itens do menu lateral:', error);
+      });
   }, []);
 
+  const handleToggle = (category) => {
+    setOpenSubmenus(prev => ({ ...prev, [category]: !prev[category] }));
+  };
+
+  const handleOutsideClick = () => {
+    onClose();
+  };
+
   return (
-    <Drawer
-      className={classes.drawer}
-      variant="temporary"
+    <StyledDrawer
+      variant="persistent"
       anchor="left"
       open={open}
       onClose={onClose}
-      classes={{
-        paper: classes.drawerPaper,
-      }}
     >
-      <List>
-        {menuItems.map((category, index) => (
-          <React.Fragment key={index}>
-            <ListItem disabled>
-              <ListItemText primary={category.nome_categoria} />
-            </ListItem>
-            {category.titulos.map((title, idx) => (
-              <ListItem button key={idx} onClick={onClose}>
-                <ListItemText primary={title} />
-              </ListItem>
-            ))}
-          </React.Fragment>
-        ))}
-      </List>
-    </Drawer>
+      <OutsideClickListener onOutsideClick={handleOutsideClick}>
+        <>
+          <Typography variant="h6" align="center" gutterBottom sx={{ paddingTop: '10px', paddingLeft: '75px', paddingRight: '75px', fontWeight: 'bold' }}>
+            Conteúdo
+          </Typography>
+          {Object.keys(categories).map((category) => (
+            <React.Fragment key={category}>
+              <List component="nav" sx={{ paddingLeft: '16px' }}>
+                <ListItemButton sx={{ fontWeight: 'bold' }} onClick={() => handleToggle(category)}>
+                  <ListItemText primary={category} />
+                  {openSubmenus[category] ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                <Collapse in={openSubmenus[category]} timeout="auto" unmountOnExit>
+                  {categories[category].map((item) => (
+                    <List component="div" disablePadding key={item.id}>
+                      <ListItemButton onClick={onClose}>
+                        <ListItemText primary={item.titulo} />
+                      </ListItemButton>
+                    </List>
+                  ))}
+                </Collapse>
+              </List>
+            </React.Fragment>
+          ))}
+        </>
+      </OutsideClickListener>
+    </StyledDrawer>
   );
 };
 

@@ -11,17 +11,12 @@ const theme = createTheme({
       main: "#dc004e",
     },
     text: {
-      primary: "#333333", // Altera a cor do texto para um preto escuro
+      primary: "#333333",
     },
   },
   typography: {
-    fontFamily: [
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-    ].join(','),
-    fontWeightBold: 700, // Define o peso da fonte para negrito
+    fontFamily: 'Roboto, "Helvetica Neue", Arial, sans-serif',
+    fontWeightBold: 700,
   },
 });
 

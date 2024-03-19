@@ -100,7 +100,7 @@ const SearchBox = () => {
   useEffect(() => {
     if (debouncedTerm) {
       setIsLoading(true);
-      fetch(`https://esdatabase.vercel.app/api/search?query=${encodeURIComponent(debouncedTerm)}`)
+      fetch(`https://server-json-eight.vercel.app/api/search?query=${encodeURIComponent(debouncedTerm)}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error('Erro na busca');
