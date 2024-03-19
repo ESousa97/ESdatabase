@@ -10,6 +10,18 @@ const theme = createTheme({
     secondary: {
       main: "#dc004e",
     },
+    text: {
+      primary: "#333333", // Altera a cor do texto para um preto escuro
+    },
+  },
+  typography: {
+    fontFamily: [
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+    ].join(','),
+    fontWeightBold: 700, // Define o peso da fonte para negrito
   },
 });
 

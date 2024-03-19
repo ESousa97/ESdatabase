@@ -8,15 +8,15 @@ import Slide from "@mui/material/Slide";
 const SearchBoxWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  borderRadius: '30px', // Bordas mais arredondadas
-  backgroundColor: theme.palette.common.white, // Fundo branco
-  border: `1px solid ${theme.palette.grey[300]}`, // Bordas mais suaves
+  borderRadius: '30px',
+  backgroundColor: theme.palette.common.white,
+  border: `1px solid ${theme.palette.grey[300]}`,
   transition: theme.transitions.create('width'),
   position: 'relative',
-  width: '48px', // Largura inicial do ícone
-  height: '48px', // Altura do ícone, fazendo com que seja quadrado
+  width: '48px',
+  height: '48px',
   '&:hover': {
-    boxShadow: '0 3px 6px rgba(0,0,0,0.1)', // Sombra suave ao passar o mouse
+    boxShadow: '0 3px 6px rgba(0,0,0,0.1)',
   },
   [theme.breakpoints.up('sm')]: {
     width: 'auto',
@@ -24,30 +24,34 @@ const SearchBoxWrapper = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: theme.palette.common.black, // Texto escuro
+  color: theme.palette.text.primary, // Cor do texto conforme o tema
   '& .MuiInputBase-input': {
-    borderRadius: '30px', // Bordas arredondadas
-    padding: theme.spacing(1), // Mantém o padding vertical
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`, // Aumenta o padding esquerdo para alinhar com o ícone
+    fontFamily: theme.typography.fontFamily, // Fonte do Material-UI
+    borderRadius: '30px',
+    padding: theme.spacing(1),
+    paddingLeft: `calc(${theme.spacing(4)})`,
+    paddingRight: `calc(${theme.spacing(2)})`,
     transition: theme.transitions.create('width'),
-    width: '0', // Inicia sem largura
+    width: '0',
     '&:focus': {
-      width: '200px', // Expande ao focar
+      width: '200px',
     },
   },
 }));
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(1),
-  color: theme.palette.primary.main, // Usando a cor primária do tema
-  position: 'absolute', // Posiciona o ícone absolutamente
-  left: 0, // Coloca o ícone no início do SearchBoxWrapper
-  zIndex: 1, // Garante que o ícone fique acima do input
+  color: theme.palette.primary.main,
+  position: 'absolute',
+  left: 0,
+  zIndex: 1,
 }));
 
 const SearchResults = styled('div')(({ theme }) => ({
+  color: theme.palette.text.primary, // Cor do texto conforme o tema
+  fontFamily: theme.typography.fontFamily,
   position: 'absolute',
-  top: '100%',
+  top: 'calc(100% + 7px)',
   left: 0,
   right: 0,
   backgroundColor: theme.palette.background.paper,
@@ -56,6 +60,19 @@ const SearchResults = styled('div')(({ theme }) => ({
   zIndex: 2,
   overflow: 'auto',
   maxHeight: '300px',
+  '& ul': {
+    listStyle: 'none',
+    padding: 0,
+    margin: 0,
+  },
+  '& li': {
+    padding: theme.spacing(1),
+    borderBottom: `1px solid ${theme.palette.grey[300]}`,
+    '&:hover': {
+      backgroundColor: theme.palette.grey[100],
+      cursor: 'pointer',
+    },
+  },
 }));
 
 const SearchBox = () => {
@@ -64,18 +81,22 @@ const SearchBox = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [debouncedTerm, setDebouncedTerm] = useState(searchTerm);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [clickedItemId, setClickedItemId] = useState(null);
+
+  const handleItemClick = (id) => {
+    setClickedItemId(id);
+  };
 
   useEffect(() => {
     const timerId = setTimeout(() => {
       setDebouncedTerm(searchTerm);
-    }, 500); // Delay de 500ms
+    }, 500);
 
     return () => {
       clearTimeout(timerId);
     };
   }, [searchTerm]);
 
-  // Efeito para disparar a busca quando o debouncedTerm é atualizado
   useEffect(() => {
     if (debouncedTerm) {
       setIsLoading(true);
@@ -106,8 +127,6 @@ const SearchBox = () => {
     }
   };
 
-  console.log(results);
-  
   return (
     <SearchBoxWrapper>
       <Slide direction="left" in={isExpanded} mountOnEnter unmountOnExit>
@@ -124,28 +143,31 @@ const SearchBox = () => {
         <SearchIcon />
       </StyledIconButton>
       {isExpanded && (
-      <SearchResults>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          results.length > 0 && (
-            <ul>
-              {results.map((result) => (
-                <li key={result.id} style={{ borderBottom: '1px solid #ccc', padding: '8px' }}>
-                  <strong style={{ color: 'black', fontWeight: 'bold' }}>{result.titulo}</strong>
-                  <p style={{ color: 'black' }}>{result.descricao}</p>
-                </li>
-              ))}
-            </ul>
-          )
-        )}
-        {!isLoading && results.length === 0 && searchTerm && (
-          <div>No results found</div>
-        )}
-      </SearchResults>
-    )}
-  </SearchBoxWrapper>
-);
+        <SearchResults>
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            results.length > 0 ? (
+              <ul>
+                {results.map((result) => (
+                  <li
+                    key={result.id}
+                    onClick={() => handleItemClick(result.id)}
+                    style={clickedItemId === result.id ? { backgroundColor: theme.palette.grey[200] } : null}
+                  >
+                    <strong style={{ fontWeight: 'bold' }}>{result.titulo}</strong> {/* Títulos em negrito */}
+                    <p>{result.descricao}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              searchTerm && <div>Humm, não encontrei nada relacionado nos processos</div>
+            )
+          )}
+        </SearchResults>
+      )}
+    </SearchBoxWrapper>
+  );
 };
 
 export default SearchBox;

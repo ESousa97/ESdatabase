@@ -1,10 +1,10 @@
-// SideMenu.js
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import axios from "axios";
 
 const drawerWidth = 240;
 
@@ -18,12 +18,26 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    marginTop: theme.spacing(8), // Ajuste o espaçamento superior para acomodar o AppBar
+    marginTop: theme.spacing(8),
   },
 }));
 
 const SideMenu = ({ open, onClose }) => {
   const classes = useStyles();
+  const [menuItems, setMenuItems] = useState([]);
+
+  useEffect(() => {
+    async function fetchMenuItems() {
+      try {
+        const response = await axios.get("https://esdatabase.vercel.app/api/sidemenu");
+        setMenuItems(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar itens do menu lateral:", error);
+      }
+    }
+
+    fetchMenuItems();
+  }, []);
 
   return (
     <Drawer
@@ -37,15 +51,18 @@ const SideMenu = ({ open, onClose }) => {
       }}
     >
       <List>
-        <ListItem button onClick={onClose}>
-          <ListItemText primary="Item 1" />
-        </ListItem>
-        <ListItem button onClick={onClose}>
-          <ListItemText primary="Item 2" />
-        </ListItem>
-        <ListItem button onClick={onClose}>
-          <ListItemText primary="Item 3" />
-        </ListItem>
+        {menuItems.map((category, index) => (
+          <React.Fragment key={index}>
+            <ListItem disabled>
+              <ListItemText primary={category.nome_categoria} />
+            </ListItem>
+            {category.titulos.map((title, idx) => (
+              <ListItem button key={idx} onClick={onClose}>
+                <ListItemText primary={title} />
+              </ListItem>
+            ))}
+          </React.Fragment>
+        ))}
       </List>
     </Drawer>
   );
