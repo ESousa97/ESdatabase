@@ -11,11 +11,10 @@ import Typography from '@mui/material/Typography';
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
-    position: 'fixed', // Remove 'fixed' position.
-    marginTop: '64px', // Ajuste esta altura para corresponder à altura do seu cabeçalho.
-    height: `calc(100% - 64px)`, // Ajuste esta altura se necessário.
-    backgroundColor: theme.palette.background.default, // Ajuste a cor de fundo conforme necessário.
-    // Adicione quaisquer outros estilos necessários para o Drawer aqui.
+    position: 'fixed',
+    marginTop: '64px',
+    height: `calc(100% - 64px)`,
+    backgroundColor: theme.palette.background.default,
   },
 }));
 
@@ -39,7 +38,7 @@ const OutsideClickListener = ({ onOutsideClick, children }) => {
   return <div ref={ref}>{children}</div>;
 };
 
-const SideMenu = ({ open, onClose, headerHeight }) => {
+const SideMenu = ({ open, onClose }) => {
   const [categories, setCategories] = useState({});
   const [openSubmenus, setOpenSubmenus] = useState({});
 
@@ -68,6 +67,10 @@ const SideMenu = ({ open, onClose, headerHeight }) => {
     onClose();
   };
 
+  const handleItemClick = () => {
+    onClose();
+  };
+
   return (
     <StyledDrawer
       variant="persistent"
@@ -84,13 +87,13 @@ const SideMenu = ({ open, onClose, headerHeight }) => {
             <React.Fragment key={category}>
               <List component="nav" sx={{ paddingLeft: '16px' }}>
                 <ListItemButton sx={{ fontWeight: 'bold' }} onClick={() => handleToggle(category)}>
-                  <ListItemText primary={category} />
-                  {openSubmenus[category] ? <ExpandLess /> : <ExpandMore />}
+                  <ListItemText primaryTypographyProps={{ variant: 'subtitle1', fontWeight: 'bold' }} primary={category} />
+                  {openSubmenus[category] ? <ExpandLess sx={{ color: 'primary.main' }} /> : <ExpandMore />}
                 </ListItemButton>
                 <Collapse in={openSubmenus[category]} timeout="auto" unmountOnExit>
                   {categories[category].map((item) => (
                     <List component="div" disablePadding key={item.id}>
-                      <ListItemButton onClick={onClose}>
+                      <ListItemButton onClick={handleItemClick}>
                         <ListItemText primary={item.titulo} />
                       </ListItemButton>
                     </List>
