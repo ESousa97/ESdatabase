@@ -8,6 +8,7 @@ import Collapse from '@mui/material/Collapse';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
@@ -29,7 +30,6 @@ const OutsideClickListener = ({ onOutsideClick, children }) => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -80,24 +80,45 @@ const SideMenu = ({ open, onClose }) => {
     >
       <OutsideClickListener onOutsideClick={handleOutsideClick}>
         <>
-          <Typography variant="h6" align="center" gutterBottom sx={{ paddingTop: '10px', paddingLeft: '75px', paddingRight: '75px', fontWeight: 'bold' }}>
+          <Typography variant="h6" align="center" gutterBottom sx={{ paddingTop: '10px', paddingLeft: '75px', paddingRight: '75px'}}>
             Conteúdo
           </Typography>
           {Object.keys(categories).map((category) => (
             <React.Fragment key={category}>
-              <List component="nav" sx={{ paddingLeft: '16px' }}>
-                <ListItemButton sx={{ fontWeight: 'bold' }} onClick={() => handleToggle(category)}>
-                  <ListItemText primaryTypographyProps={{ variant: 'subtitle1', fontWeight: 'bold' }} primary={category} />
-                  {openSubmenus[category] ? <ExpandLess sx={{ color: 'primary.main' }} /> : <ExpandMore />}
-                </ListItemButton>
+              <List component="nav" sx={{ paddingLeft: '16px'}}>
+              <ListItemButton onClick={() => handleToggle(category)}>
+                   <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
+                     <Box component="span" fontWeight="bold" fontFamily= 'Roboto, "Helvetica Neue", Arial, sans-serif'>
+                       {category}
+                     </Box>
+                     {openSubmenus[category] ? 
+                       <ExpandLess sx={{ color: 'primary.main' }} /> : 
+                       <ExpandMore sx={{ color: 'primary.main' }} />}
+                   </Box>
+                 </ListItemButton>
                 <Collapse in={openSubmenus[category]} timeout="auto" unmountOnExit>
-                  {categories[category].map((item) => (
-                    <List component="div" disablePadding key={item.id}>
-                      <ListItemButton onClick={handleItemClick}>
-                        <ListItemText primary={item.titulo} />
-                      </ListItemButton>
-                    </List>
-                  ))}
+                {categories[category].map((item) => (
+                   <List component="div" disablePadding key={item.id}>
+                     <ListItemButton onClick={handleItemClick}>
+                       <ListItemText 
+                         primary={
+                           <Box component="span" sx={{
+                             display: 'flex',
+                             alignItems: 'center',
+                             padding:'5px',
+                           }}>
+                             <Box component="span" sx={{ 
+                               fontWeight: 'bold', 
+                               color: 'primary.main.black', 
+                               mr: 1, // margin right
+                             }}>•</Box>
+                             {item.titulo}
+                          </Box>
+                         } 
+                       />
+                     </ListItemButton>
+                   </List>
+                 ))}
                 </Collapse>
               </List>
             </React.Fragment>
