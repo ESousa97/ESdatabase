@@ -23,21 +23,24 @@ const SearchBoxWrapper = styled('div')(({ theme }) => ({
   },
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: theme.palette.text.primary, // Cor do texto conforme o tema
+const StyledInputBase = styled(InputBase, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
+  color: theme.palette.text.primary,
   '& .MuiInputBase-input': {
-    fontFamily: theme.typography.fontFamily, // Fonte do Material-UI
+    fontFamily: theme.typography.fontFamily,
     borderRadius: '30px',
     padding: theme.spacing(1),
     paddingLeft: `calc(${theme.spacing(4)})`,
     paddingRight: `calc(${theme.spacing(2)})`,
+    width: isExpanded ? '200px' : '0',
     transition: theme.transitions.create('width'),
-    width: '0',
-    '&:focus': {
-      width: '200px',
+    '&:not(:focus)': {
+      width: isExpanded ? '200px' : '0',
     },
   },
 }));
+
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -78,13 +81,21 @@ const SearchResults = styled('div')(({ theme }) => ({
 const SearchBox = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [debouncedTerm, setDebouncedTerm] = useState(searchTerm);
+  const [isLoading, setIsLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const handleCloseSearchBox = () => {
+    setIsExpanded(false);
+    // Certifique-se de que qualquer outro estado ou animação esteja sendo revertido aqui
+  };
   const [clickedItemId, setClickedItemId] = useState(null);
 
   const handleItemClick = (id) => {
     setClickedItemId(id);
+  };
+
+  const handleExpandToggle = () => {
+    setIsExpanded((prev) => !prev);
   };
 
   useEffect(() => {
@@ -129,8 +140,14 @@ const SearchBox = () => {
 
   return (
     <SearchBoxWrapper>
-      <Slide direction="left" in={isExpanded} mountOnEnter unmountOnExit>
+     <Slide 
+        direction="left" 
+        in={isExpanded} // aqui o estado isExpanded é passado para o Slide
+        mountOnEnter 
+        unmountOnExit
+      >
         <StyledInputBase
+          isExpanded={isExpanded} // Passamos isExpanded como prop
           placeholder="Search…"
           inputProps={{ 'aria-label': 'search' }}
           value={searchTerm}
