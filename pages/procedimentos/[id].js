@@ -27,7 +27,7 @@ const ProcedurePage = () => {
   useEffect(() => {
     const fetchProcedure = async () => {
       try {
-        const response = await fetch(`https://server-json-eight.vercel.app/api/procedure.js/${id}`);
+        const response = await fetch(`https://server-json-eight.vercel.app/api/procedure.js?id=${id}`);
         if (!response.ok) {
           throw new Error('Erro ao carregar o procedimento');
         }
