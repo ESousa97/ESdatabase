@@ -4,78 +4,59 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/material/styles";
 import Slide from "@mui/material/Slide";
+import Paper from "@mui/material/Paper";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useRouter } from 'next/router';
 
 const SearchBoxWrapper = styled('div')(({ theme }) => ({
+  position: 'relative',
   display: 'flex',
   alignItems: 'center',
-  borderRadius: '30px',
-  backgroundColor: theme.palette.common.white,
-  border: `1px solid ${theme.palette.grey[300]}`,
-  transition: theme.transitions.create('width'),
-  position: 'relative',
-  width: '48px',
-  height: '48px',
+  borderRadius: '20px', // Bordas mais arredondadas
+  backgroundColor: theme.palette.background.default,
+  boxShadow: theme.shadows[2],
   '&:hover': {
-    boxShadow: '0 3px 6px rgba(0,0,0,0.1)',
-  },
-  [theme.breakpoints.up('sm')]: {
-    width: 'auto',
+    boxShadow: theme.shadows[4], // Elevação aumentada ao passar o mouse
   },
 }));
 
-const StyledInputBase = styled(InputBase, {
-  shouldForwardProp: (prop) => prop !== 'isExpanded',
-})(({ theme, isExpanded }) => ({
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: theme.palette.text.primary,
   '& .MuiInputBase-input': {
     fontFamily: theme.typography.fontFamily,
-    borderRadius: '30px',
+    borderRadius: '20px', // Bordas mais arredondadas
     padding: theme.spacing(1),
     paddingLeft: `calc(${theme.spacing(4)})`,
     paddingRight: `calc(${theme.spacing(2)})`,
-    width: isExpanded ? '200px' : '0',
+    width: '200px',
     transition: theme.transitions.create('width'),
-    '&:not(:focus)': {
-      width: isExpanded ? '200px' : '0',
-    },
   },
 }));
-
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(1),
   color: theme.palette.primary.main,
-  position: 'absolute',
-  left: 0,
-  zIndex: 1,
 }));
 
-const SearchResults = styled('div')(({ theme }) => ({
-  color: theme.palette.text.primary, // Cor do texto conforme o tema
-  fontFamily: theme.typography.fontFamily,
+const SearchResults = styled(Paper)(({ theme }) => ({
   position: 'absolute',
-  top: 'calc(100% + 7px)',
-  left: 0,
-  right: 0,
+  top: 'calc(100% + 10px)', // Posição ajustada para ficar abaixo da caixa de pesquisa
+  right: 0, // Posicionado no canto superior direito
+  width: '290px', // Mesma largura da caixa de pesquisa
   backgroundColor: theme.palette.background.paper,
-  boxShadow: theme.shadows[2],
-  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[8],
+  borderRadius: '10px', // Bordas mais arredondadas
   zIndex: 2,
   overflow: 'auto',
   maxHeight: '300px',
-  '& ul': {
-    listStyle: 'none',
-    padding: 0,
-    margin: 0,
-  },
-  '& li': {
-    padding: theme.spacing(1),
-    borderBottom: `1px solid ${theme.palette.grey[300]}`,
-    '&:hover': {
-      backgroundColor: theme.palette.grey[100],
-      cursor: 'pointer',
-    },
-  },
+  display: 'flex',
+  alignItems: 'center', // Centralizar verticalmente
+  justifyContent: 'center', // Centralizar horizontalmente
+  fontWeight: 'bold',
 }));
 
 const SearchBox = () => {
@@ -84,11 +65,11 @@ const SearchBox = () => {
   const [debouncedTerm, setDebouncedTerm] = useState(searchTerm);
   const [isLoading, setIsLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [clickedItemId, setClickedItemId] = useState(null);
+
   const handleCloseSearchBox = () => {
     setIsExpanded(false);
-    // Certifique-se de que qualquer outro estado ou animação esteja sendo revertido aqui
   };
-  const [clickedItemId, setClickedItemId] = useState(null);
 
   const handleItemClick = (id) => {
     setClickedItemId(id);
@@ -96,6 +77,10 @@ const SearchBox = () => {
 
   const handleExpandToggle = () => {
     setIsExpanded((prev) => !prev);
+  };
+  
+  const handleResultClick = (id) => {
+    router.push(`/procedimentos/${id}`);
   };
 
   useEffect(() => {
@@ -140,45 +125,50 @@ const SearchBox = () => {
 
   return (
     <SearchBoxWrapper>
-     <Slide 
+      <Slide 
         direction="left" 
-        in={isExpanded} // aqui o estado isExpanded é passado para o Slide
+        in={isExpanded} 
         mountOnEnter 
         unmountOnExit
       >
         <StyledInputBase
-          isExpanded={isExpanded} // Passamos isExpanded como prop
           placeholder="Search…"
           inputProps={{ 'aria-label': 'search' }}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           autoFocus={isExpanded}
-          onBlur={() => setIsExpanded(false)}
+          onBlur={handleCloseSearchBox}
+          onKeyUp={handleKeyUp}
         />
       </Slide>
-      <StyledIconButton aria-label="search" onClick={() => setIsExpanded(!isExpanded)}>
+      <StyledIconButton aria-label="search" onClick={handleExpandToggle}>
         <SearchIcon />
       </StyledIconButton>
       {isExpanded && (
         <SearchResults>
           {isLoading ? (
-            <div>Loading...</div>
+            <CircularProgress />
           ) : (
             results.length > 0 ? (
-              <ul>
+              <List>
                 {results.map((result) => (
-                  <li
-                    key={result.id}
-                    onClick={() => handleItemClick(result.id)}
-                    style={clickedItemId === result.id ? { backgroundColor: theme.palette.grey[200] } : null}
-                  >
-                    <strong style={{ fontWeight: 'bold' }}>{result.titulo}</strong> {/* Títulos em negrito */}
-                    <p>{result.descricao}</p>
-                  </li>
+                  <ListItem button key={result.id} onClick={() => handleResultClick(result.id)}>
+                  
+                    <ListItemText
+                      primary={
+                        <Typography variant="subtitle1" fontWeight="bold">
+                          {result.titulo}
+                        </Typography>
+                      }
+                      secondary={result.descricao}
+                    />
+                  </ListItem>
                 ))}
-              </ul>
+              </List>
             ) : (
-              searchTerm && <div>Humm, não encontrei nada relacionado nos processos</div>
+              <Typography variant="body2" align="center" fontWeight="bold"> {/* Centralizar a mensagem */}
+                Humm, não encontrei nada relacionado nos processos
+              </Typography>
             )
           )}
         </SearchResults>

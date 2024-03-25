@@ -1,71 +1,58 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import InputBase from "@material-ui/core/InputBase";
-import SearchIcon from "@material-ui/icons/Search";
-import Typography from "@material-ui/core/Typography";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import InputBase from "@mui/material/InputBase";
+import SearchIcon from "@mui/icons-material/Search";
+import Typography from "@mui/material/Typography";
 import SideMenu from "../SideMenu/SideMenu";
 import CustomThemeProvider from "../ThemeProvider/ThemeProvider"; // Importe seu ThemeProvider personalizado
+import { styled, alpha } from "@mui/material/styles";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.common.white,
-    "&:hover": {
-      backgroundColor: theme.palette.common.white,
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
+    // Vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
     },
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
   },
 }));
 
 export default function MainLayout() {
-  const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -78,34 +65,31 @@ export default function MainLayout() {
 
   return (
     <CustomThemeProvider>
-      <div className={classes.root}>
-        <AppBar position="fixed" className={classes.appBar}>
+      <div sx={{ display: "flex" }}>
+        <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
           <Toolbar>
             <IconButton
               edge="start"
-              className={classes.menuButton}
               color="inherit"
               aria-label="open drawer"
               onClick={handleDrawerOpen}
+              size="large"
+              sx={{ marginRight: 2 }}
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap>
+            <Typography variant="h6" noWrap component="div">
               Your Brand
             </Typography>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
+            <Search>
+              <SearchIconWrapper>
                 <SearchIcon />
-              </div>
-              <InputBase
+              </SearchIconWrapper>
+              <StyledInputBase
                 placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
+                inputProps={{ 'aria-label': 'search' }}
               />
-            </div>
+            </Search>
           </Toolbar>
         </AppBar>
         <SideMenu open={open} onClose={handleClose} />

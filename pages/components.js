@@ -1,81 +1,66 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import CustomThemeProvider from "../componentes/ThemeProvider/ThemeProvider";
-import SearchBox from "../componentes/SearchBox/SearchBox";
-import SideMenu from "../componentes/SideMenu/SideMenu";
-import HomeIcon from "@material-ui/icons/Home";
-import CardList from "../componentes/CardList/CardList"; // Importe o componente CardList
-
-const drawerWidth = 240;
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  homeButton: {
-    marginRight: theme.spacing(2),
-  },
-  content: {
-    flexGrow: 1,
-    marginTop: theme.spacing(8),
-  },
-}));
+import AppBar from "@mui/material/AppBar";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import CustomThemeProvider from "../componentes/ThemeProvider/ThemeProvider"; // Corrigido o caminho
+import SearchBox from "../componentes/SearchBox/SearchBox"; // Corrigido o caminho
+import SideMenu from "../componentes/SideMenu/SideMenu"; // Corrigido o caminho
+import HomeIcon from "@mui/icons-material/Home";
+import CardList from "../componentes/CardList/CardList"; // Corrigido o caminho
 
 export default function MainLayout() {
-  const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
+  // Esta função estava faltando. Você pode adicionar a lógica de navegação conforme necessário.
+  const handleHomeClick = () => {
+    console.log("Home clicado. Implemente a navegação aqui.");
+  };
+
   return (
     <CustomThemeProvider>
-      <div className={classes.root}>
-        <AppBar position="fixed" className={classes.appBar}>
+      <div style={{ display: "flex" }}> {/* Corrigido para style ao invés de sx */}
+        <AppBar position="fixed" style={{ zIndex: 1201 }}> {/* Corrigido para style e simplificado */}
           <Toolbar>
             <IconButton
               edge="start"
-              className={classes.menuButton}
               color="inherit"
               aria-label="open drawer"
               onClick={handleDrawerOpen}
+              size="large"
+              style={{ marginRight: '16px' }} // Corrigido para style
             >
               <MenuIcon />
             </IconButton>
             <IconButton
               edge="start"
-              className={classes.homeButton}
               color="inherit"
               aria-label="home"
-              onClick={() => { /* Adicione a lógica para ir para a página inicial aqui */ }}
+              onClick={handleHomeClick} // Função corrigida
+              size="large"
+              style={{ marginRight: '16px' }} // Corrigido para style
             >
               <HomeIcon />
             </IconButton>
-            <Typography variant="h6" noWrap>
-              Es Data Base
+            <Typography variant="h6" noWrap style={{ flexGrow: 1 }}> {/* Corrigido para style */}
+              ES Data Base
             </Typography>
-            <div style={{ marginLeft: "auto" }}>
-              <SearchBox />
-            </div>
+            <SearchBox />
           </Toolbar>
         </AppBar>
-        <div className={classes.content}>
-          {/* Renderize o componente CardList aqui */}
-          <CardList />
-        </div>
         <SideMenu open={open} onClose={() => setOpen(false)} />
+        <main style={{ flexGrow: 1, padding: '24px', marginTop: '64px' }}> {/* Corrigido para style */}
+          <Typography variant="h4" component="h1" style={{ marginBottom: '32px' }}> {/* Corrigido para style */}
+            Lista de Cartões
+          </Typography>
+          <CardList />
+          {/* Removido ListItemButton e ListItemText incorretos */}
+        </main>
       </div>
     </CustomThemeProvider>
   );

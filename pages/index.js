@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
-import Router from "next/router";
-
+import React, { useEffect } from "react"; // Correção aqui
+import { useRouter } from "next/router";
 
 const Index = () => {
-  useEffect(() => {
-    Router.push("/components");
-  }, []);
+  const router = useRouter();
 
-  return <div />;
+  useEffect(() => {
+    router.push("/components");
+  }, [router]);
+
+  return null;
 };
 
 export default Index;

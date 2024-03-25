@@ -9,6 +9,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { useRouter } from 'next/router'; // Garanta que este import está presente
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
@@ -41,6 +42,7 @@ const OutsideClickListener = ({ onOutsideClick, children }) => {
 const SideMenu = ({ open, onClose }) => {
   const [categories, setCategories] = useState({});
   const [openSubmenus, setOpenSubmenus] = useState({});
+  const router = useRouter(); // Adicionado aqui para definir a variável router
 
   useEffect(() => {
     axios.get('https://server-json-eight.vercel.app/api/categories')
@@ -67,8 +69,8 @@ const SideMenu = ({ open, onClose }) => {
     onClose();
   };
 
-  const handleItemClick = () => {
-    onClose();
+  const handleMenuItemClick = (id) => {
+    router.push(`/procedimentos/${id}`); // Agora o router está definido corretamente
   };
 
   return (
@@ -80,45 +82,46 @@ const SideMenu = ({ open, onClose }) => {
     >
       <OutsideClickListener onOutsideClick={handleOutsideClick}>
         <>
-          <Typography variant="h6" align="center" gutterBottom sx={{ paddingTop: '10px', paddingLeft: '75px', paddingRight: '75px'}}>
+          <Typography variant="h6" align="center" gutterBottom sx={{ paddingTop: '10px', paddingLeft: '90px', paddingRight: '90px'}}>
             Conteúdo
           </Typography>
           {Object.keys(categories).map((category) => (
             <React.Fragment key={category}>
               <List component="nav" sx={{ paddingLeft: '16px'}}>
-              <ListItemButton onClick={() => handleToggle(category)}>
-                   <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
-                     <Box component="span" fontWeight="bold" fontFamily= 'Roboto, "Helvetica Neue", Arial, sans-serif'>
-                       {category}
-                     </Box>
-                     {openSubmenus[category] ? 
-                       <ExpandLess sx={{ color: 'primary.main' }} /> : 
-                       <ExpandMore sx={{ color: 'primary.main' }} />}
-                   </Box>
-                 </ListItemButton>
+                <ListItemButton onClick={() => handleToggle(category)}>
+                  <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
+                    <Box component="span" fontWeight="bold" fontFamily= 'Roboto, "Helvetica Neue", Arial, sans-serif'>
+                      {category}
+                    </Box>
+                    {openSubmenus[category] ? 
+                      <ExpandLess sx={{ color: 'primary.main' }} /> : 
+                      <ExpandMore sx={{ color: 'primary.main' }} />}
+                  </Box>
+                </ListItemButton>
                 <Collapse in={openSubmenus[category]} timeout="auto" unmountOnExit>
-                {categories[category].map((item) => (
-                   <List component="div" disablePadding key={item.id}>
-                     <ListItemButton onClick={handleItemClick}>
-                       <ListItemText 
-                         primary={
-                           <Box component="span" sx={{
-                             display: 'flex',
-                             alignItems: 'center',
-                             padding:'5px',
-                           }}>
-                             <Box component="span" sx={{ 
-                               fontWeight: 'bold', 
-                               color: 'primary.main.black', 
-                               mr: 1, // margin right
-                             }}>•</Box>
-                             {item.titulo}
-                          </Box>
-                         } 
-                       />
-                     </ListItemButton>
-                   </List>
-                 ))}
+                  {categories[category].map((item) => (
+                    <List component="div" disablePadding key={item.id}>
+                      <ListItemButton onClick={() => handleMenuItemClick(item.id)}>
+                        <ListItemText 
+                          primary={
+                            <Box component="span" sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              padding:'5px',
+                            }}>
+                              <Box component="span" sx={{ 
+                                fontWeight: 'bold', 
+                                color: 'primary.main.black', 
+                                mr: 1, // margin right
+                             
+                              }}>•</Box>
+                              {item.titulo}
+                            </Box>
+                          } 
+                        />
+                      </ListItemButton>
+                    </List>
+                  ))}
                 </Collapse>
               </List>
             </React.Fragment>
@@ -126,7 +129,7 @@ const SideMenu = ({ open, onClose }) => {
         </>
       </OutsideClickListener>
     </StyledDrawer>
-  );
-};
-
-export default SideMenu;
+    );
+  };
+  
+  export default SideMenu;

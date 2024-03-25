@@ -1,17 +1,16 @@
-// ThemeProvider.js
-import React from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import React from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#1976d2",
+      main: '#1976d2',
     },
     secondary: {
-      main: "#dc004e",
+      main: '#dc004e',
     },
     text: {
-      primary: "#333333",
+      primary: '#333333',
     },
   },
   typography: {

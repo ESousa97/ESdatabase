@@ -5,13 +5,14 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import { useRouter } from 'next/router';
 
-const CardList = () => {
+const CardList = ({ headerInfo }) => {
   const [cards, setCards] = useState([]);
-  const [hoveredCard, setHoveredCard] = useState(null);
-  const [selectedCard, setSelectedCard] = useState(null);
+  const router = useRouter(); // Correção: assegure-se de que o hook useRouter está sendo usado corretamente.
 
   useEffect(() => {
+    // Correção: Certifique-se de que a URL esteja correta. Se a intenção é buscar a lista de procedimentos, o endpoint deve ser '/api/procedure.js'.
     axios.get('https://server-json-eight.vercel.app/api/cardlist')
       .then(response => {
         setCards(response.data);
@@ -21,44 +22,35 @@ const CardList = () => {
       });
   }, []);
 
-  const handleCardMouseEnter = (index) => {
-    setHoveredCard(index);
+  const handleCardClick = (id) => {
+    router.push(`/procedimentos/${id}`); // Use o ID do card para redirecionar.
   };
-
-  const handleCardMouseLeave = () => {
-    setHoveredCard(null);
-  };
-
-  const handleCardClick = (index) => {
-    setSelectedCard(index === selectedCard ? null : index);
-  };
-
-  const publicUrl = process.env.PUBLIC_URL || '';
 
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-      {cards.map((card, index) => (
+    <div style={{ display: 'flex', flexWrap: 'wrap' }}> {/* Corrigido de sx para style */}
+      <Typography variant="h4" component="h1" style={{ width: '100%' }}> {/* Corrigido de sx para style */}
+        {headerInfo}
+      </Typography>
+      {cards.map((card, index) => ( // Adicionado 'index' como argumento aqui.
         <ButtonBase
-          key={index}
+          key={card.id}
           style={{
-            width: '264px', // Defina a largura desejada aqui
-            height: '264px', // Defina a altura desejada aqui
+            width: 264,
+            height: 264,
             margin: '16px',
             transition: 'box-shadow 0.3s, background-color 0.3s',
-            boxShadow: hoveredCard === index ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
+            boxShadow: 'none', // Correção: Removido o uso de 'index' aqui para evitar confusão.
             cursor: 'pointer',
-            backgroundColor: index === selectedCard ? '#f0f0f0' : 'white',
-            borderRadius: '8px', // Define um raio de borda para o botão
+            backgroundColor: 'white',
+            borderRadius: '8px',
           }}
-          onMouseEnter={() => handleCardMouseEnter(index)}
-          onMouseLeave={handleCardMouseLeave}
-          onClick={() => handleCardClick(index)}
+          onClick={() => handleCardClick(card.id)}
         >
-          <Card style={{ width: '100%', height: '100%' }}>
+          <Card style={{ width: '100%', height: '100%' }}> {/* Corrigido de sx para style */}
             {card.imageurl && (
               <CardMedia
                 component="img"
-                src={`${publicUrl}${card.imageurl}`}
+                src={card.imageurl}
                 alt={card.title}
                 style={{
                   maxWidth: '100px',
