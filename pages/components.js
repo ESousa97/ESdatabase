@@ -9,9 +9,11 @@ import SearchBox from "../componentes/SearchBox/SearchBox"; // Corrigido o camin
 import SideMenu from "../componentes/SideMenu/SideMenu"; // Corrigido o caminho
 import HomeIcon from "@mui/icons-material/Home";
 import CardList from "../componentes/CardList/CardList"; // Corrigido o caminho
+import { useRouter } from 'next/router'; // Certifique-se de que useRouter está sendo importado corretamente
 
 export default function MainLayout() {
   const [open, setOpen] = useState(false);
+  const router = useRouter(); // Chame useRouter aqui dentro do componente
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -19,7 +21,7 @@ export default function MainLayout() {
 
   // Esta função estava faltando. Você pode adicionar a lógica de navegação conforme necessário.
   const handleHomeClick = () => {
-    console.log("Home clicado. Implemente a navegação aqui.");
+    router.push('/components'); // Agora, router.push deve funcionar corretamente
   };
 
   return (
