@@ -25,7 +25,9 @@ const OutsideClickListener = ({ onOutsideClick, children }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      console.log('Clicou fora:', event); // Loga o evento de clique
       if (ref.current && !ref.current.contains(event.target)) {
+        console.log('handleOutsideClick chamado'); // Confirma que o manipulador será chamado
         onOutsideClick();
       }
     };
@@ -42,7 +44,7 @@ const OutsideClickListener = ({ onOutsideClick, children }) => {
 const SideMenu = ({ open, onClose }) => {
   const [categories, setCategories] = useState({});
   const [openSubmenus, setOpenSubmenus] = useState({});
-  const router = useRouter(); // Adicionado aqui para definir a variável router
+  const router = useRouter();
 
   useEffect(() => {
     axios.get('https://server-json-eight.vercel.app/api/categories')
@@ -61,16 +63,17 @@ const SideMenu = ({ open, onClose }) => {
       });
   }, []);
 
-  const handleToggle = (category) => {
+  const handleToggle = (category, event) => {
+    event.stopPropagation(); // Impede que o clique se propague
+    console.log('Categoria clicada:', category);
     setOpenSubmenus(prev => ({ ...prev, [category]: !prev[category] }));
   };
 
-  const handleOutsideClick = () => {
-    onClose();
-  };
-
-  const handleMenuItemClick = (id) => {
-    router.push(`/procedimentos/${id}`); // Agora o router está definido corretamente
+  const handleMenuItemClick = (id, event) => {
+    event.stopPropagation(); // Impede que o clique se propague
+    console.log('Item do menu clicado:', id);
+    router.push(`/procedimentos/${id}`);
+    onClose(); // Fechar o menu lateral após o clique em um item
   };
 
   return (
@@ -80,7 +83,7 @@ const SideMenu = ({ open, onClose }) => {
       open={open}
       onClose={onClose}
     >
-      <OutsideClickListener onOutsideClick={handleOutsideClick}>
+      <OutsideClickListener onOutsideClick={onClose}> {/* Use diretamente onClose aqui */}
         <>
           <Typography variant="h6" align="center" gutterBottom sx={{ paddingTop: '10px', paddingLeft: '90px', paddingRight: '90px'}}>
             Conteúdo
@@ -88,7 +91,7 @@ const SideMenu = ({ open, onClose }) => {
           {Object.keys(categories).map((category) => (
             <React.Fragment key={category}>
               <List component="nav" sx={{ paddingLeft: '16px'}}>
-                <ListItemButton onClick={() => handleToggle(category)}>
+                <ListItemButton onClick={(event) => handleToggle(category, event)}>
                   <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
                     <Box component="span" fontWeight="bold" fontFamily= 'Roboto, "Helvetica Neue", Arial, sans-serif'>
                       {category}
@@ -101,7 +104,7 @@ const SideMenu = ({ open, onClose }) => {
                 <Collapse in={openSubmenus[category]} timeout="auto" unmountOnExit>
                   {categories[category].map((item) => (
                     <List component="div" disablePadding key={item.id}>
-                      <ListItemButton onClick={() => handleMenuItemClick(item.id)}>
+                      <ListItemButton onClick={(event) => handleMenuItemClick(item.id, event)}>
                         <ListItemText 
                           primary={
                             <Box component="span" sx={{

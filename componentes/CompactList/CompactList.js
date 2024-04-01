@@ -4,6 +4,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { useRouter } from 'next/router'; // Importe o useRouter
+import MainLayout from '../../pages/MainLayout';
 
 const CompactList = () => {
   const [items, setItems] = useState([]);
@@ -24,6 +25,8 @@ const CompactList = () => {
   };
 
   return (
+    <MainLayout>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
     <List>
       {items.map((item) => (
         <ListItem 
@@ -39,6 +42,8 @@ const CompactList = () => {
         </ListItem>
       ))}
     </List>
+    </div>
+  </MainLayout>
   );
 };
 

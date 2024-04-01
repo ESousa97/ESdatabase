@@ -7,6 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import DescriptionIcon from '@mui/icons-material/Description';
 import { format } from 'date-fns';
 import { useRouter } from 'next/router';
+import MainLayout from '../../pages/MainLayout';
 
 const DetailedList = () => {
   const [items, setItems] = useState([]);
@@ -27,6 +28,8 @@ const DetailedList = () => {
   };
 
   return (
+    <MainLayout>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
     <List>
       {items.map((item) => (
         <ListItem button key={item.id} onClick={() => handleCardClick(item.id)}>
@@ -46,6 +49,8 @@ const DetailedList = () => {
         </ListItem>
       ))}
     </List>
+    </div>
+  </MainLayout>
   );
 };
 

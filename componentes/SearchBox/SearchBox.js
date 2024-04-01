@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/material/styles";
-import Slide from "@mui/material/Slide";
 import Paper from "@mui/material/Paper";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -12,163 +11,154 @@ import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from 'next/router';
 
-const SearchBoxWrapper = styled('div')(({ theme }) => ({
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  padding: theme.spacing(1),
+  color: theme.palette.primary.main,
+}));
+
+const SearchBoxWrapper = styled('div')(({ theme, isExpanded }) => ({
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
-  borderRadius: '20px', // Bordas mais arredondadas
+  borderRadius: '20px',
   backgroundColor: theme.palette.background.default,
   boxShadow: theme.shadows[2],
+  transition: 'width 300ms ease',
+  width: isExpanded ? '30%' : '40px',
   '&:hover': {
-    boxShadow: theme.shadows[4], // Elevação aumentada ao passar o mouse
+    boxShadow: theme.shadows[4],
   },
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: theme.palette.text.primary,
   '& .MuiInputBase-input': {
-    fontFamily: theme.typography.fontFamily,
-    borderRadius: '20px', // Bordas mais arredondadas
-    padding: theme.spacing(1),
-    paddingLeft: `calc(${theme.spacing(4)})`,
-    paddingRight: `calc(${theme.spacing(2)})`,
-    width: '200px',
     transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '35ch',
+      '&:focus': {
+        width: '35ch',
+      },
+    },
   },
-}));
-
-const StyledIconButton = styled(IconButton)(({ theme }) => ({
-  padding: theme.spacing(1),
-  color: theme.palette.primary.main,
 }));
 
 const SearchResults = styled(Paper)(({ theme }) => ({
   position: 'absolute',
-  top: 'calc(100% + 10px)', // Posição ajustada para ficar abaixo da caixa de pesquisa
-  right: 0, // Posicionado no canto superior direito
-  width: '290px', // Mesma largura da caixa de pesquisa
-  backgroundColor: theme.palette.background.paper,
-  boxShadow: theme.shadows[8],
-  borderRadius: '10px', // Bordas mais arredondadas
+  top: '115%',
+  left: 0,
+  right: 0,
   zIndex: 2,
-  overflow: 'auto',
   maxHeight: '300px',
+  overflowY: 'auto',
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: theme.shadows[1],
+  borderRadius: theme.shape.borderRadius,
+}));
+
+const CenteredItem = styled('div')(({ theme }) => ({
   display: 'flex',
-  alignItems: 'center', // Centralizar verticalmente
-  justifyContent: 'center', // Centralizar horizontalmente
-  fontWeight: 'bold',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: theme.spacing(0.5),
 }));
 
 const SearchBox = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
-  const [debouncedTerm, setDebouncedTerm] = useState(searchTerm);
   const [isLoading, setIsLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [clickedItemId, setClickedItemId] = useState(null);
-
-  const handleCloseSearchBox = () => {
-    setIsExpanded(false);
-  };
-
-  const handleItemClick = (id) => {
-    setClickedItemId(id);
-  };
-
-  const handleExpandToggle = () => {
-    setIsExpanded((prev) => !prev);
-  };
-  
-  const handleResultClick = (id) => {
-    router.push(`/procedimentos/${id}`);
-  };
+  const searchBoxRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
-    const timerId = setTimeout(() => {
-      setDebouncedTerm(searchTerm);
-    }, 500);
-
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [searchTerm]);
-
-  useEffect(() => {
-    if (debouncedTerm) {
+    const fetchResults = async () => {
       setIsLoading(true);
-      fetch(`https://server-json-eight.vercel.app/api/search?query=${encodeURIComponent(debouncedTerm)}`)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Erro na busca');
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setIsLoading(false);
-          setResults(data);
-        })
-        .catch((error) => {
-          setIsLoading(false);
-          setResults([]);
-          console.error('Erro na busca:', error);
-        });
+      try {
+        const response = await fetch(`https://server-json-eight.vercel.app/api/search?query=${encodeURIComponent(searchTerm)}`);
+        const data = await response.json();
+        setResults(data);
+      } catch (error) {
+        console.error('Erro na busca:', error);
+        setResults([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (searchTerm) {
+      fetchResults();
     } else {
       setResults([]);
     }
-  }, [debouncedTerm]);
+  }, [searchTerm]);
 
-  const handleKeyUp = (event) => {
-    if (event.key === "Escape") {
-      setIsExpanded(false);
-    }
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setIsExpanded(false);
+    };
+    const handleClickOutside = (event) => {
+      if (searchBoxRef.current && !searchBoxRef.current.contains(event.target)) {
+        setIsExpanded(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleExpandToggle = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const handleCardClick = (id) => {
+    router.push(`/procedimentos/${id}`);
   };
 
   return (
-    <SearchBoxWrapper>
-      <Slide 
-        direction="left" 
-        in={isExpanded} 
-        mountOnEnter 
-        unmountOnExit
-      >
+    <SearchBoxWrapper ref={searchBoxRef} isExpanded={isExpanded ? 1 : 0}>
+        <StyledIconButton aria-label="search" onClick={handleExpandToggle}>
+            <SearchIcon />
+        </StyledIconButton>
         <StyledInputBase
-          placeholder="Search…"
-          inputProps={{ 'aria-label': 'search' }}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          autoFocus={isExpanded}
-          onBlur={handleCloseSearchBox}
-          onKeyUp={handleKeyUp}
-        />
-      </Slide>
-      <StyledIconButton aria-label="search" onClick={handleExpandToggle}>
-        <SearchIcon />
-      </StyledIconButton>
+        isExpanded={isExpanded ? 1 : 0}
+        placeholder={isExpanded ? "Search…" : ""}
+        inputProps={{ 'aria-label': 'search' }}
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        autoFocus={isExpanded}
+      />
+
       {isExpanded && (
         <SearchResults>
           {isLoading ? (
-            <CircularProgress />
+            <CenteredItem>
+              <CircularProgress />
+            </CenteredItem>
           ) : (
             results.length > 0 ? (
               <List>
                 {results.map((result) => (
-                  <ListItem button key={result.id} onClick={() => handleResultClick(result.id)}>
-                  
+                  <ListItem button key={result.id} onClick={() => handleCardClick(result.id)}>
                     <ListItemText
-                      primary={
-                        <Typography variant="subtitle1" fontWeight="bold">
-                          {result.titulo}
-                        </Typography>
-                      }
+                      primary={<Typography variant="subtitle1" fontWeight="bold">{result.titulo}</Typography>}
                       secondary={result.descricao}
                     />
                   </ListItem>
                 ))}
               </List>
             ) : (
-              <Typography variant="body2" align="center" fontWeight="bold"> {/* Centralizar a mensagem */}
-                Humm, não encontrei nada relacionado nos processos
-              </Typography>
+              <CenteredItem>
+                <Typography variant="body2" align="center" fontWeight="bold">
+                  Humm, não encontrei nada relacionado nos processos
+                </Typography>
+              </CenteredItem>
             )
           )}
         </SearchResults>

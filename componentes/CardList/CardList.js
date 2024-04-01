@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/router';
+import MainLayout from '../../pages/MainLayout';
 
 const CardList = ({ headerInfo }) => {
   const [cards, setCards] = useState([]);
@@ -27,11 +28,19 @@ const CardList = ({ headerInfo }) => {
   };
 
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap' }}> {/* Corrigido de sx para style */}
-      <Typography variant="h4" component="h1" style={{ width: '100%' }}> {/* Corrigido de sx para style */}
-        {headerInfo}
-      </Typography>
-      {cards.map((card, index) => ( // Adicionado 'index' como argumento aqui.
+    <MainLayout>
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center', // Isso centralizará os cards horizontalmente
+        alignItems: 'flex-start', // Isso alinhará os cards no início do contêiner
+        maxWidth: 'calc(100% - 64px)', // Isso limitará a largura máxima e subtrai o espaçamento
+        margin: 'auto' // Isso aplicará margem automática em ambos os lados
+      }}>
+        <Typography variant="h4" component="h1" style={{ width: '100%', textAlign: 'center' }}> {/* Alinha o título no centro */}
+          {headerInfo}
+        </Typography>
+        {cards.map((card, index) => ( // Adicionado 'index' como argumento aqui.
         <ButtonBase
           key={card.id}
           style={{
@@ -72,6 +81,7 @@ const CardList = ({ headerInfo }) => {
         </ButtonBase>
       ))}
     </div>
+  </MainLayout>
   );
 };
 
