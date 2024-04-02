@@ -1,0 +1,33 @@
+/* styles.css */
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px; /* Espaço acima da tabela para separação */
+  box-shadow: 0 3px 5px rgba(0,0,0,0.2); /* Sombra suave para dar profundidade */
+}
+
+.thead {
+  background-color: #1976d2; /* Azul padrão do MUI */
+  color: #fff; /* Texto branco para contraste */
+}
+
+.tr {
+  /* Transição para hover */
+  transition: background-color 0.3s ease;
+}
+
+.tr:hover {
+  background-color: #1976d2; /* Cor suave ao passar o mouse */
+}
+
+.th,
+.td { /* Aplicando estilos uniformes para th e td */
+  border-bottom: 1px solid #ddd; /* Linha de separação sutil */
+  padding: 12px; /* Espaçamento interno maior */
+  text-align: left; /* Alinhamento do texto */
+}
+
+.th {
+  /* Estilos específicos para cabeçalhos da tabela */
+  letter-spacing: 0.5px; /* Espaçamento de letras para melhor legibilidade */
+}

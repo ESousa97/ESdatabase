@@ -16,7 +16,9 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.primary.main,
 }));
 
-const SearchBoxWrapper = styled('div')(({ theme, isExpanded }) => ({
+const SearchBoxWrapper = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'isExpanded',
+})(({ theme, isExpanded }) => ({
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
@@ -24,7 +26,7 @@ const SearchBoxWrapper = styled('div')(({ theme, isExpanded }) => ({
   backgroundColor: theme.palette.background.default,
   boxShadow: theme.shadows[2],
   transition: 'width 300ms ease',
-  width: isExpanded ? '30%' : '40px',
+  width: isExpanded ? '360px' : '40px',
   '&:hover': {
     boxShadow: theme.shadows[4],
   },
@@ -102,6 +104,7 @@ const SearchBox = () => {
     const handleClickOutside = (event) => {
       if (searchBoxRef.current && !searchBoxRef.current.contains(event.target)) {
         setIsExpanded(false);
+        setSearchTerm(""); // Limpa o termo de pesquisa ao clicar fora
       }
     };
 
@@ -127,13 +130,12 @@ const SearchBox = () => {
             <SearchIcon />
         </StyledIconButton>
         <StyledInputBase
-        isExpanded={isExpanded ? 1 : 0}
-        placeholder={isExpanded ? "Search…" : ""}
-        inputProps={{ 'aria-label': 'search' }}
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        autoFocus={isExpanded}
-      />
+  placeholder={isExpanded ? "Search…" : ""}
+  inputProps={{ 'aria-label': 'search' }}
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+  autoFocus={isExpanded}
+/>
 
       {isExpanded && (
         <SearchResults>
