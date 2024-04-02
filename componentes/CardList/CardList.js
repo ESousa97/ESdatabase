@@ -46,12 +46,12 @@ const CardList = ({ headerInfo }) => {
           style={{
             width: 264,
             height: 264,
-            margin: '16px',
+            margin: '10px',
             transition: 'box-shadow 0.3s, background-color 0.3s',
             boxShadow: 'none', // Correção: Removido o uso de 'index' aqui para evitar confusão.
             cursor: 'pointer',
             backgroundColor: 'white',
-            borderRadius: '8px',
+            borderRadius: '10px',
           }}
           onClick={() => handleCardClick(card.id)}
         >
@@ -62,8 +62,8 @@ const CardList = ({ headerInfo }) => {
                 src={card.imageurl}
                 alt={card.title}
                 style={{
-                  maxWidth: '100px',
-                  maxHeight: '100px',
+                  maxWidth: '99px',
+                  maxHeight: '99px',
                   display: 'block',
                   margin: 'auto',
                 }}
