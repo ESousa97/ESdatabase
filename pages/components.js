@@ -20,7 +20,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import { Button } from "@mui/material";
 
-const TIMEOUT = 60 * 1000; // 1 minuto em milissegundos
+const TIMEOUT = 45 * 60 * 1000; // 45 minutos em milissegundos
 
 export default function MainLayout() {
   const [viewMode, setViewMode] = useState('cards');
