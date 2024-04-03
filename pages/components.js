@@ -1,3 +1,4 @@
+import { getSession } from 'next-auth/react';
 import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -17,11 +18,11 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewCompactIcon from '@mui/icons-material/ViewCompact';
 import Box from "@mui/material/Box";
 
-const TIMEOUT = 30 * 60 * 1000; // 1 minuto em milissegundos
-
-export default function MainLayout() {
+export default function ComponentsPage(props) {
   const [viewMode, setViewMode] = useState('cards');
   const router = useRouter();
+
+  const TIMEOUT = 30 * 60 * 1000; // 30 minuto em milissegundos
 
   useEffect(() => {
     let timeoutId;
@@ -97,4 +98,24 @@ export default function MainLayout() {
       </div>
     </CustomThemeProvider>
   );
+}
+
+// Verificação de sessão com getServerSideProps
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    // Se não há sessão, redirecione para a página de login
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  // Se há sessão, retorne as props normais
+  return {
+    props: { session },
+  };
 }
