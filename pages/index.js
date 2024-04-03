@@ -5,7 +5,7 @@ const Index = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push("/components");
+    router.push("./login");
   }, [router]);
 
   return null;

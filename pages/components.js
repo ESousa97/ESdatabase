@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -11,15 +11,46 @@ import CardList from "../componentes/CardList/CardList";
 import DetailedList from "../componentes/DetailedList/DetailedList";
 import CompactList from "../componentes/CompactList/CompactList";
 import { useRouter } from 'next/router';
-// Ícones para modos de visualização
+import { signOut } from 'next-auth/react'; // Importe signOut
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewCompactIcon from '@mui/icons-material/ViewCompact';
-import Box from "@mui/material/Box"; // Importe Box para alinhar os ícones
+import Box from "@mui/material/Box";
+
+const TIMEOUT = 30 * 60 * 1000; // 1 minuto em milissegundos
 
 export default function MainLayout() {
-  const [viewMode, setViewMode] = useState('cards'); // Adiciona estado para controlar o modo de visualização
+  const [viewMode, setViewMode] = useState('cards');
   const router = useRouter();
+
+  useEffect(() => {
+    let timeoutId;
+
+    const resetTimeout = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        // Encerra a sessão do usuário e redireciona para a tela de login
+        console.log('Usuário inativo. Encerrando sessão...');
+        signOut({ redirect: false }).then(() => router.push('/login'));
+      }, TIMEOUT);
+    };
+
+    // Eventos para resetar o timer de inatividade
+    window.addEventListener('mousemove', resetTimeout);
+    window.addEventListener('keypress', resetTimeout);
+    window.addEventListener('scroll', resetTimeout);
+
+    // Inicia o timer
+    resetTimeout();
+
+    // Limpa o timer quando o componente é desmontado ou quando o router muda
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('mousemove', resetTimeout);
+      window.removeEventListener('keypress', resetTimeout);
+      window.removeEventListener('scroll', resetTimeout);
+    };
+  }, [router]);
 
   const handleHomeClick = () => router.push('/components');
 
