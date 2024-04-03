@@ -1,0 +1,3 @@
+# Impede o acesso direto a arquivos dentro desta pasta
+Options -Indexes
+Deny from all
