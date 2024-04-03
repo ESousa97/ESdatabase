@@ -4,6 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
+import LogoutIcon from '@mui/icons-material/Logout'; // Importe o ícone de logout
 import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
@@ -11,14 +12,21 @@ import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
 import SearchBox from '../componentes/SearchBox/SearchBox';
 import SideMenu from '../componentes/SideMenu/SideMenu';
 import { useRouter } from 'next/router';
+import { signOut } from 'next-auth/react'; // Importe a função de logout
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 
 const drawerWidth = 320; // Valor em pixels, ajuste conforme necessário
 
 const MainLayout = ({ children }) => {
   const [open, setOpen] = useState(false);
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false); // Estado para controlar a abertura do diálogo de logout
   const theme = useTheme();
   const router = useRouter();
-
 
   const handleDrawerToggle = () => {
     setOpen(!open);
@@ -26,6 +34,19 @@ const MainLayout = ({ children }) => {
 
   const handleHomeClick = () => {
     router.push('/components');
+  };
+
+  const handleLogout = () => {
+    setLogoutDialogOpen(true); // Abrir o diálogo de logout
+  };
+
+  const handleConfirmLogout = async () => {
+    await signOut({ redirect: false });
+    router.push('/login');
+  };
+
+  const handleCloseLogoutDialog = () => {
+    setLogoutDialogOpen(false);
   };
 
   const handleCloseDrawer = () => {
@@ -53,9 +74,18 @@ const MainLayout = ({ children }) => {
           >
             <HomeIcon />
           </IconButton>
-          <Typography variant="h6" noWrap style={{ flexGrow: 1, marginLeft: '12px'}}>
-              ES Data Base
-            </Typography>
+          {/* Botão de logout */}
+          <IconButton
+            color="inherit"
+            aria-label="logout"
+            onClick={handleLogout}
+            size="large"
+          >
+            <LogoutIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap style={{ flexGrow: 1, marginLeft: '12px' }}>
+            ES Data Base
+          </Typography>
           {/* Adiciona um spacer aqui se você quer um pouco de espaço antes do título */}
           <div style={{ flexGrow: 1 }} />
           <SearchBox />
@@ -98,6 +128,27 @@ const MainLayout = ({ children }) => {
       >
         {children}
       </main>
+      
+      {/* Diálogo de confirmação de logout */}
+      <Dialog
+        open={logoutDialogOpen}
+        onClose={handleCloseLogoutDialog}
+        aria-labelledby="logout-dialog-title"
+        aria-describedby="logout-dialog-description"
+      >
+        <DialogTitle id="logout-dialog-title">Deseja sair?</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="logout-dialog-description">
+            Você será desconectado da sua conta.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseLogoutDialog}>Cancelar</Button>
+          <Button onClick={handleConfirmLogout} autoFocus>
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </ThemeProvider>
   );
 };
