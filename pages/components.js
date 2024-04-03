@@ -1,11 +1,7 @@
-import { getSession } from 'next-auth/react';
 import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import HomeIcon from "@mui/icons-material/Home";
-import Typography from "@mui/material/Typography";
 import CustomThemeProvider from "../componentes/ThemeProvider/ThemeProvider";
 import SearchBox from "../componentes/SearchBox/SearchBox";
 import CardList from "../componentes/CardList/CardList";
@@ -17,12 +13,19 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewCompactIcon from '@mui/icons-material/ViewCompact';
 import Box from "@mui/material/Box";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+import { Button } from "@mui/material";
 
-export default function ComponentsPage(props) {
+const TIMEOUT = 60 * 1000; // 1 minuto em milissegundos
+
+export default function MainLayout() {
   const [viewMode, setViewMode] = useState('cards');
+  const [sessionExpired, setSessionExpired] = useState(false);
   const router = useRouter();
-
-  const TIMEOUT = 30 * 60 * 1000; // 30 minuto em milissegundos
 
   useEffect(() => {
     let timeoutId;
@@ -30,9 +33,9 @@ export default function ComponentsPage(props) {
     const resetTimeout = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
-        // Encerra a sessão do usuário e redireciona para a tela de login
         console.log('Usuário inativo. Encerrando sessão...');
-        signOut({ redirect: false }).then(() => router.push('/login'));
+        signOut({ redirect: false });
+        setSessionExpired(true); // Mostra a mensagem de sessão expirada
       }, TIMEOUT);
     };
 
@@ -52,6 +55,12 @@ export default function ComponentsPage(props) {
       window.removeEventListener('scroll', resetTimeout);
     };
   }, [router]);
+
+  // Função para redirecionar para a tela de login
+  const redirectToLogin = () => {
+    setSessionExpired(false);
+    router.push('/login');
+  };
 
   const handleHomeClick = () => router.push('/components');
 
@@ -75,15 +84,6 @@ export default function ComponentsPage(props) {
       <div style={{ display: "flex" }}>
         <AppBar position="fixed" style={{ zIndex: 1201 }}>
           <Toolbar>
-            <IconButton edge="start" color="inherit" aria-label="open drawer" size="large" style={{ marginRight: '16px' }}>
-              <MenuIcon />
-            </IconButton>
-            <IconButton edge="start" color="inherit" aria-label="home" onClick={handleHomeClick} size="large" style={{ marginRight: '16px' }}>
-              <HomeIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap style={{ flexGrow: 1 }}>
-              ES Data Base
-            </Typography>
             <SearchBox />
           </Toolbar>
         </AppBar>
@@ -96,26 +96,26 @@ export default function ComponentsPage(props) {
         {content} {/* Altere esta linha para usar a variável content */}
       </main>
       </div>
+      {sessionExpired && (
+      <Dialog
+        open={true}
+        onClose={redirectToLogin} // Modificado para chamar redirectToLogin ao fechar
+        aria-labelledby="session-expired-dialog-title"
+        aria-describedby="session-expired-dialog-description"
+      >
+        <DialogTitle id="session-expired-dialog-title">{"Sessão Expirada"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="session-expired-dialog-description">
+            Sua sessão expirou devido à inatividade (inativo por mais de 40min). Por favor, faça login novamente.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={redirectToLogin} color="primary">
+            Fazer login novamente
+          </Button>
+        </DialogActions>
+      </Dialog>
+    )}
     </CustomThemeProvider>
   );
-}
-
-// Verificação de sessão com getServerSideProps
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-
-  if (!session) {
-    // Se não há sessão, redirecione para a página de login
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
-
-  // Se há sessão, retorne as props normais
-  return {
-    props: { session },
-  };
 }

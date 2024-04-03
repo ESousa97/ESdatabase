@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -8,8 +8,8 @@ import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
 import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
-import SearchBox from '../componentes/SearchBox/SearchBox'; // Verifique o caminho
-import SideMenu from '../componentes/SideMenu/SideMenu'; // Verifique o caminho
+import SearchBox from '../componentes/SearchBox/SearchBox';
+import SideMenu from '../componentes/SideMenu/SideMenu';
 import { useRouter } from 'next/router';
 
 const drawerWidth = 320; // Valor em pixels, ajuste conforme necessário
@@ -18,6 +18,7 @@ const MainLayout = ({ children }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const router = useRouter();
+
 
   const handleDrawerToggle = () => {
     setOpen(!open);
@@ -37,37 +38,30 @@ const MainLayout = ({ children }) => {
       <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1 }}>
         <Toolbar>
           <IconButton
-            edge="start"
             color="inherit"
             aria-label="open drawer"
-            onClick={(event) => {
-              event.stopPropagation(); // Impede que o evento clique se propague
-              handleDrawerToggle();
-            }}
+            onClick={handleDrawerToggle}
             size="large"
-            sx={{ marginRight: '16px' }}
           >
             <MenuIcon />
           </IconButton>
           <IconButton
-            edge="start"
             color="inherit"
             aria-label="home"
-            onClick={(event) => {
-              event.stopPropagation(); // Impede que o evento clique se propague
-              handleHomeClick();
-            }}
+            onClick={handleHomeClick}
             size="large"
-            sx={{ marginRight: '16px' }}
           >
             <HomeIcon />
           </IconButton>
-          <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
-            ES Data Base
-          </Typography>
+          <Typography variant="h6" noWrap style={{ flexGrow: 1, marginLeft: '12px'}}>
+              ES Data Base
+            </Typography>
+          {/* Adiciona um spacer aqui se você quer um pouco de espaço antes do título */}
+          <div style={{ flexGrow: 1 }} />
           <SearchBox />
         </Toolbar>
       </AppBar>
+      
       <Drawer
         variant="persistent"
         anchor="left"

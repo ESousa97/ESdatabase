@@ -1,46 +1,169 @@
-import { getSession, signIn } from 'next-auth/react';
 import React from 'react';
+import { getSession, signIn } from 'next-auth/react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
-import MicrosoftIcon from '../componentes/Login/MicrosoftIcon'; // Verifique o caminho para o componente do ícone
+import MicrosoftIcon from '../componentes/Login/MicrosoftIcon';
 import { styled } from '@mui/material/styles';
 
-// Estilo personalizado para o Container
 const StyledContainer = styled(Container)({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '100vh',
+  position: 'relative',
+});
+
+const ImageContainer = styled(Box)({
+  position: 'absolute',
+  left: '1%',
+  width: '40%',
+  '@media (max-width: 960px)': {
+    width: '100%',
+    top: 0,
+  },
+  '@media (max-width: 912px)': {
+    width: '90%',
+    left: '5%',
+    top: 90,
+  },
+  '@media (max-width: 820px)': {
+    width: '80%',
+    left: '12%',
+    top: 80,
+  },
+  '@media (max-width: 540px)': {
+    width: '80%',
+    left: '10%',
+    top: 0,
+  },
+  '@media (max-width: 430px)': {
+    width: '80%',
+    left: '10%',
+    top: 150,
+  },
+  '@media (max-width: 414px)': {
+    width: '80%',
+    left: '10%',
+    top: 150,
+  },
+  '@media (max-width: 375px)': {
+    width: '80%',
+    left: '10%',
+    top: 45,
+  },
+  '@media (max-width: 360px)': {
+    width: '80%',
+    left: '10%',
+    top: 90,
+  },
+});
+
+const RightBox = styled(Box)({
+  backgroundColor: '#FFFFFF',
+  padding: '20px',
+  borderRadius: '10px',
+  boxShadow: '0 4px 10px rgba(0, 0.5, 0.5, 0.5)', // Adicionando sombra
+  width: '40%',
+  position: 'absolute',
+  right: '5%',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  height: '100vh',
-  backgroundColor: '#f0f2f5',
-  '&:hover': {
-    backgroundColor: '#e6e7eb',
+  alignItems: 'center',
+  '@media (max-width: 960px)': {
+    width: '80%',
+    right: '10%',
+    bottom: '5%', // Posicionando a caixa no centro inferior da tela
+    transform: 'translate(6%)', // Ajustando a posição horizontalmente e verticalmente
   },
-  transition: 'background-color 0.5s ease',
+  '@media (max-width: 912px)': {
+    width: '80%',
+    right: '13%',
+    bottom: '5%', // Posicionando a caixa no centro inferior da tela
+    transform: 'translate(6%)', // Ajustando a posição horizontalmente e verticalmente
+  },
+  '@media (max-width: 853px)': {
+    width: '80%',
+    right: '11%',
+    bottom: '5%', // Posicionando a caixa no centro inferior da tela
+    transform: 'translate(6%)', // Ajustando a posição horizontalmente e verticalmente
+  },
+  '@media (max-width: 768px)': {
+    width: '80%',
+    right: '12%',
+    bottom: '5%', // Posicionando a caixa no centro inferior da tela
+    transform: 'translate(6%)', // Ajustando a posição horizontalmente e verticalmente
+  },
+  '@media (max-width: 430px)': {
+    width: '80%',
+    right: '10.5%',
+    bottom: '5%', // Posicionando a caixa no centro inferior da tela
+    transform: 'translate(6%)', // Ajustando a posição horizontalmente e verticalmente
+  },
+  '@media (max-width: 414px)': {
+    width: '80%',
+    right: '10%',
+    bottom: '5%', // Posicionando a caixa no centro inferior da tela
+    transform: 'translate(6%)', // Ajustando a posição horizontalmente e verticalmente
+  },
+  '@media (max-width: 414px)': {
+    width: '80%',
+    right: '10%',
+    bottom: '5%', // Posicionando a caixa no centro inferior da tela
+    transform: 'translate(6%)', // Ajustando a posição horizontalmente e verticalmente
+  },
+  '@media (max-width: 375px)': {
+    width: '80%',
+    right: '10%',
+    bottom: '5%', // Posicionando a caixa no centro inferior da tela
+    transform: 'translate(6%)', // Ajustando a posição horizontalmente e verticalmente
+  },
+  '@media (max-width: 360px)': {
+    width: '80%',
+    right: '10%',
+    bottom: '5%', // Posicionando a caixa no centro inferior da tela
+    transform: 'translate(6%)', // Ajustando a posição horizontalmente e verticalmente
+  },
+  '@media (max-width: 280px)': {
+    width: '80%',
+    right: '8%',
+    bottom: '5%', // Posicionando a caixa no centro inferior da tela
+    transform: 'translate(6%)', // Ajustando a posição horizontalmente e verticalmente
+  },
+});
+
+const WelcomeText = styled(Typography)({
+  textAlign: 'center',
+  position: 'relative',
+  top: '-20%',
+  left: '55%',
+  transform: 'translate(-50%, -50%)',
+  color: '#000000', // Cor preta
+  textShadow: '3px 3px 6px rgba(0, 0, 0, 0.5)', // Adicionando sombra nas letras
+  '@media (max-width: 1600px)': {
+    display: 'none',
+  },
 });
 
 export default function Login() {
-  // Função para manipular o login
   const handleLogin = () => {
     signIn('azure-ad', { callbackUrl: `${window.location.origin}/components` });
   };
 
   return (
-    <StyledContainer maxWidth="xs">
-      <Box
-        sx={{
-          my: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          background: 'rgba(255, 255, 255, 0.8)',
-          p: 4,
-          borderRadius: 2,
-          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-        }}
-      >
+    <StyledContainer maxWidth="xl">
+      <WelcomeText variant="h2" sx={{ mb: 2 }}>
+        Sejam bem vindo à Data Base
+        <br />
+        Um novo jeito de buscar processos
+      </WelcomeText>
+      <ImageContainer>
+        <img src="/images/background.gif" alt="Background" style={{ width: '100%', height: 'auto' }} />
+      </ImageContainer>
+      <RightBox>
         <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
           Login
         </Typography>
@@ -48,12 +171,13 @@ export default function Login() {
           onClick={handleLogin}
           fullWidth
           variant="contained"
-          startIcon={<MicrosoftIcon style={{ width: '25px', height: '25px' }} />}
+          startIcon={<MicrosoftIcon style={{ width: '25px', height: '25px', color: '#FFFFFF' }} />}
           sx={{
             mt: 1, mb: 2,
-            backgroundColor: '#2F2F2F',
+            backgroundColor: '#0078D4',
+            color: '#FFFFFF',
             '&:hover': {
-              backgroundColor: '#464646',
+              backgroundColor: '#005A9E',
             },
           }}
         >
@@ -62,25 +186,29 @@ export default function Login() {
         <Typography variant="body2" sx={{ mt: 2 }}>
           Não tem uma conta?
         </Typography>
-        <Link href="https://account.microsoft.com/account" variant="body2">
+        <Link href="https://account.microsoft.com/account" variant="body2" style={{ textDecoration: 'none' }}>
           <Button
             variant="outlined"
             fullWidth
-            sx={{ mt: 1 }}
+            sx={{
+              mt: 1,
+              color: '#000000',
+              borderColor: '#9E9E9E',
+              '&:hover': {
+                borderColor: '#757575',
+              },
+            }}
           >
             Criar conta
           </Button>
         </Link>
-      </Box>
+      </RightBox>
     </StyledContainer>
   );
 }
 
-// getServerSideProps para controle de acesso no lado do servidor
 export async function getServerSideProps(context) {
-  console.log(context.req); // Para verificar se o contexto está sendo passado corretamente
   const session = await getSession(context);
-  console.log(session);
 
   if (session) {
     return {
@@ -92,6 +220,6 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: {}, // Retorna props vazios se não houver sessão ativa
+    props: {},
   };
 }
