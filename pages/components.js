@@ -19,6 +19,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import { Button } from "@mui/material";
+import { getSession } from 'next-auth/react';
 
 const TIMEOUT = 45 * 60 * 1000; // 45 minutos em milissegundos
 
@@ -118,4 +119,24 @@ export default function MainLayout() {
     )}
     </CustomThemeProvider>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context); // Obtém o estado de autenticação do usuário
+
+  // Redireciona para a página de login se o usuário não estiver autenticado
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
 }
