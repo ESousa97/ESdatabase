@@ -4,28 +4,33 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import CustomThemeProvider from "../componentes/ThemeProvider/ThemeProvider";
 import SearchBox from "../componentes/SearchBox/SearchBox";
-import CardList from "../componentes/CardList/CardList";
-import DetailedList from "../componentes/DetailedList/DetailedList";
-import CompactList from "../componentes/CompactList/CompactList";
+// As importações de CardList, DetailedList, e CompactList podem ser removidas se não estão sendo usadas em outro lugar
 import { useRouter } from 'next/router';
-import { signOut } from 'next-auth/react'; // Importe signOut
+import { signOut, getSession } from 'next-auth/react';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewCompactIcon from '@mui/icons-material/ViewCompact';
 import Box from "@mui/material/Box";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
-import { Button } from "@mui/material";
-import { getSession } from 'next-auth/react';
+import Button from "@mui/material/Button";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ListViewWrapper from '../componentes/ListViewWrapper';
 
 const TIMEOUT = 60 * 60 * 1000; // 1 hora em milissegundos
 
 export default function MainLayout() {
   const [viewMode, setViewMode] = useState('cards');
   const [sessionExpired, setSessionExpired] = useState(false);
+  const [sortCriteria, setSortCriteria] = useState('date');
+  const [sortDirection, setSortDirection] = useState('asc');
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [data, setData] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -65,20 +70,23 @@ export default function MainLayout() {
 
   const handleHomeClick = () => router.push('/components');
 
-  let content;
-  switch (viewMode) {
-    case 'cards':
-      content = <CardList />; // Seu componente de cards já existente
-      break;
-    case 'detailed':
-      content = <DetailedList />; // Seu novo componente para a lista detalhada
-      break;
-    case 'compact':
-      content = <CompactList />; // Seu novo componente para a lista compacta
-      break;
-    default:
-      content = <CardList />; // O padrão será o componente de cards
-  }
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleSortCriteriaChange = (criteria) => {
+    setSortCriteria(criteria);
+    handleClose();
+  };
+
+  const toggleSortDirection = () => {
+    setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    handleClose();
+  };
 
   return (
     <CustomThemeProvider>
@@ -89,13 +97,31 @@ export default function MainLayout() {
           </Toolbar>
         </AppBar>
         <main style={{ flexGrow: 1, padding: '24px', marginTop: '64px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Box sx={{ marginBottom: '10px', '& > *': { margin: 1 } }}> {/* Box para alinhar os ícones */}
-          <IconButton color="primary" onClick={() => setViewMode('cards')}><ViewModuleIcon /></IconButton>
-          <IconButton color="primary" onClick={() => setViewMode('detailed')}><ViewListIcon /></IconButton>
-          <IconButton color="primary" onClick={() => setViewMode('compact')}><ViewCompactIcon /></IconButton>
-        </Box>
-        {content} {/* Altere esta linha para usar a variável content */}
-      </main>
+          <Box sx={{ marginBottom: '10px', '& > *': { margin: 1 } }}>
+            <IconButton color="primary" onClick={() => setViewMode('cards')}><ViewModuleIcon /></IconButton>
+            <IconButton color="primary" onClick={() => setViewMode('detailed')}><ViewListIcon /></IconButton>
+            <IconButton color="primary" onClick={() => setViewMode('compact')}><ViewCompactIcon /></IconButton>
+            <IconButton color="primary" onClick={handleMenuClick}><MoreVertIcon /></IconButton>
+            <Menu
+              id="filter-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={() => handleSortCriteriaChange('date')}>Data Criação</MenuItem>
+              <MenuItem onClick={() => handleSortCriteriaChange('alphabetical')}>Ordem Alfabética</MenuItem>
+              <MenuItem onClick={() => handleSortCriteriaChange('updateDate')}>Data de Atualização</MenuItem>
+              <MenuItem onClick={toggleSortDirection}>Direção: {sortDirection === 'asc' ? 'Ascendente' : 'Descendente'}</MenuItem>
+            </Menu>
+          </Box>
+          {/* Renderize somente o ListViewWrapper para mostrar a lista baseada no viewMode */}
+          <ListViewWrapper
+              viewMode={viewMode}
+              sortCriteria={sortCriteria}
+              sortDirection={sortDirection}
+            />
+        </main>
       </div>
       {sessionExpired && (
       <Dialog

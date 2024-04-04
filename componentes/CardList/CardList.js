@@ -9,21 +9,47 @@ import { useRouter } from 'next/router';
 import MainLayout from '../../pages/MainLayout';
 import { useTheme } from '@mui/material/styles';
 
-const CardList = ({ headerInfo }) => {
+const CardList = ({ sortCriteria, sortDirection }) => {
   const [cards, setCards] = useState([]);
   const [hoveredCard, setHoveredCard] = useState(null);
   const router = useRouter();
-  const theme = useTheme(); // Hook para acessar o tema atual
+  const theme = useTheme();
 
   useEffect(() => {
     axios.get('https://server-json-eight.vercel.app/api/cardlist')
       .then(response => {
-        setCards(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching card list:', error);
-      });
-  }, []);
+        const sortedData = response.data.sort((a, b) => {
+          let itemA, itemB;
+
+          // Utilize os critérios de ordenação recebidos como props
+          switch (sortCriteria) {
+            case 'date':
+              itemA = new Date(a.created_at);
+              itemB = new Date(b.created_at);
+              break;
+            case 'alphabetical':
+              itemA = a.title.toLowerCase();
+              itemB = b.title.toLowerCase();
+              break;
+              case 'updateDate':
+                // Use os campos data_modificacao para ordenação
+                itemA = new Date(a.data_modificacao);
+                itemB = new Date(b.data_modificacao);
+                break;
+              default:
+                return 0;
+            }
+  
+            const comparison = itemA < itemB ? -1 : itemA > itemB ? 1 : 0;
+            return sortDirection === 'asc' ? comparison : -comparison;
+          });
+  
+          setCards(sortedData);
+        })
+        .catch(error => {
+          console.error('Error fetching card list:', error);
+        });
+    }, [sortCriteria, sortDirection]);
 
   const handleCardClick = (id) => {
     router.push(`/procedimentos/${id}`);
@@ -39,7 +65,6 @@ const CardList = ({ headerInfo }) => {
         maxWidth: 'calc(100% - 2px)'
       }}>
         <Typography variant="h4" component="h1" style={{ width: '100%', textAlign: 'center' }}>
-          {headerInfo}
         </Typography>
         {cards.map((card) => (
           <ButtonBase
