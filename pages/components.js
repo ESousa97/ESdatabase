@@ -21,7 +21,7 @@ import DialogActions from '@mui/material/DialogActions';
 import { Button } from "@mui/material";
 import { getSession } from 'next-auth/react';
 
-const TIMEOUT = 45 * 60 * 1000; // 45 minutos em milissegundos
+const TIMEOUT = 60 * 60 * 1000; // 1 hora em milissegundos
 
 export default function MainLayout() {
   const [viewMode, setViewMode] = useState('cards');
