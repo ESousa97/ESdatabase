@@ -1,47 +1,44 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { styled } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import { useRouter } from 'next/router'; // Garanta que este import está presente
+import { styled } from '@mui/material/styles';
+import { useRouter } from 'next/router';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
     position: 'fixed',
-    marginTop: '64px',
-    height: `calc(100% - 64px)`,
+    marginTop: '65px',
+    height: `calc(100% - 65px)`,
     backgroundColor: theme.palette.background.default,
+    boxShadow: theme.shadows[4],
+    zIndex: theme.zIndex.drawer + 2,
+    overflowY: 'auto',
+    '&::-webkit-scrollbar': {
+      width: '6px',
+      borderRadius: '6px', // Arredondando as bordas da barra de rolagem
+    },
+    '&::-webkit-scrollbar-track': {
+      backgroundColor: theme.palette.grey[300],
+      borderRadius: '6px',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: theme.palette.grey[500],
+      borderRadius: '6px',
+    },
   },
 }));
 
-const OutsideClickListener = ({ onOutsideClick, children }) => {
-  const ref = useRef();
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      console.log('Clicou fora:', event); // Loga o evento de clique
-      if (ref.current && !ref.current.contains(event.target)) {
-        console.log('handleOutsideClick chamado'); // Confirma que o manipulador será chamado
-        onOutsideClick();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [onOutsideClick]);
-
-  return <div ref={ref}>{children}</div>;
-};
-
 const SideMenu = ({ open, onClose }) => {
+  const theme = useTheme();
   const [categories, setCategories] = useState({});
   const [openSubmenus, setOpenSubmenus] = useState({});
   const router = useRouter();
@@ -64,75 +61,46 @@ const SideMenu = ({ open, onClose }) => {
   }, []);
 
   const handleToggle = (category, event) => {
-    event.stopPropagation(); // Impede que o clique se propague
-    console.log('Categoria clicada:', category);
+    event.stopPropagation();
     setOpenSubmenus(prev => ({ ...prev, [category]: !prev[category] }));
   };
 
   const handleMenuItemClick = (id, event) => {
-    event.stopPropagation(); // Impede que o clique se propague
-    console.log('Item do menu clicado:', id);
+    event.stopPropagation();
     router.push(`/procedimentos/${id}`);
-    onClose(); // Fechar o menu lateral após o clique em um item
+    onClose();
   };
 
   return (
-    <StyledDrawer
-      variant="persistent"
-      anchor="left"
-      open={open}
-      onClose={onClose}
-    >
-      <OutsideClickListener onOutsideClick={onClose}> {/* Use diretamente onClose aqui */}
-        <>
-          <Typography variant="h6" align="center" gutterBottom sx={{ paddingTop: '10px', paddingLeft: '90px', paddingRight: '90px'}}>
-            Conteúdo
-          </Typography>
-          {Object.keys(categories).map((category) => (
-            <React.Fragment key={category}>
-              <List component="nav" sx={{ paddingLeft: '16px'}}>
-                <ListItemButton onClick={(event) => handleToggle(category, event)}>
-                  <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
-                    <Box component="span" fontWeight="bold" fontFamily= 'Roboto, "Helvetica Neue", Arial, sans-serif'>
-                      {category}
-                    </Box>
-                    {openSubmenus[category] ? 
-                      <ExpandLess sx={{ color: 'primary.main' }} /> : 
-                      <ExpandMore sx={{ color: 'primary.main' }} />}
-                  </Box>
+    <StyledDrawer variant="persistent" anchor="left" open={open} onClose={onClose}>
+      <Typography variant="h6" align="center" gutterBottom sx={{ paddingTop: '10px', fontWeight: 'bold' }}>
+        Conteúdo
+      </Typography>
+      {Object.keys(categories).map((category) => (
+        <List component="nav" key={category} sx={{ paddingX: '16px' }}>
+          <ListItemButton onClick={(event) => handleToggle(category, event)} sx={{ '&:hover': { backgroundColor: theme.palette.action.hover } }}>
+            <ListItemIcon sx={{ minWidth: '32px' }}>
+              <FiberManualRecordIcon sx={{ color: theme.palette.primary.main, fontSize: 'small' }} />
+            </ListItemIcon>
+            <ListItemText primary={category} primaryTypographyProps={{ fontWeight: 'bold' }} />
+            {openSubmenus[category] ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={openSubmenus[category]} timeout="auto" unmountOnExit>
+            {categories[category].map((item) => (
+              <List component="div" disablePadding key={item.id}>
+                <ListItemButton sx={{ pl: 2 }} onClick={(event) => handleMenuItemClick(item.id, event)}>
+                  <ListItemIcon sx={{ minWidth: '32px', marginLeft: '16px' }}>
+                    <Typography variant="body1" component="span" sx={{ color: theme.palette.primary.main, fontSize: 'small' }}>➤</Typography>
+                  </ListItemIcon>
+                  <ListItemText primary={item.titulo} />
                 </ListItemButton>
-                <Collapse in={openSubmenus[category]} timeout="auto" unmountOnExit>
-                  {categories[category].map((item) => (
-                    <List component="div" disablePadding key={item.id}>
-                      <ListItemButton onClick={(event) => handleMenuItemClick(item.id, event)}>
-                        <ListItemText 
-                          primary={
-                            <Box component="span" sx={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              padding:'5px',
-                            }}>
-                              <Box component="span" sx={{ 
-                                fontWeight: 'bold', 
-                                color: 'primary.main.black', 
-                                mr: 1, // margin right
-                             
-                              }}>•</Box>
-                              {item.titulo}
-                            </Box>
-                          } 
-                        />
-                      </ListItemButton>
-                    </List>
-                  ))}
-                </Collapse>
               </List>
-            </React.Fragment>
-          ))}
-        </>
-      </OutsideClickListener>
+            ))}
+          </Collapse>
+        </List>
+      ))}
     </StyledDrawer>
-    );
-  };
-  
-  export default SideMenu;
+  );
+};
+
+export default SideMenu;

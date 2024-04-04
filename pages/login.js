@@ -143,7 +143,7 @@ const WelcomeText = styled(Typography)({
   transform: 'translate(-50%, -50%)',
   color: '#000000', // Cor preta
   textShadow: '3px 3px 6px rgba(0, 0, 0, 0.5)', // Adicionando sombra nas letras
-  '@media (max-width: 1600px)': {
+  '@media (max-width: 1650px)': {
     display: 'none',
   },
 });
