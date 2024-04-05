@@ -4,9 +4,10 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import MicrosoftIcon from '../componentes/Login/MicrosoftIcon';
+import GoogleIcon from '../componentes/Login/GoogleIcon';
 import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
 
 const StyledContainer = styled(Container)({
   display: 'flex',
@@ -66,9 +67,9 @@ const RightBox = styled(Box)({
   padding: '20px',
   borderRadius: '10px',
   boxShadow: '0 4px 10px rgba(0, 0.5, 0.5, 0.5)', // Adicionando sombra
-  width: '40%',
+  width: '30%',
   position: 'absolute',
-  right: '5%',
+  right: '9%',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -149,8 +150,20 @@ const WelcomeText = styled(Typography)({
 });
 
 export default function Login() {
-  const handleLogin = () => {
+  const handleLoginMicrosoft = () => {
     signIn('azure-ad', { callbackUrl: `${window.location.origin}/components` });
+  };
+
+  const handleLoginGoogle = () => {
+    signIn('google', { callbackUrl: `${window.location.origin}/components` });
+  };
+
+  const handleCreateGoogleAccount = () => {
+    window.location.href = 'https://accounts.google.com/SignUp';
+  };
+  
+  const handleCreateMicrosoftAccount = () => {
+    window.location.href = 'https://signup.live.com/signup';
   };
 
   return (
@@ -168,40 +181,60 @@ export default function Login() {
           Login
         </Typography>
         <Button
-          onClick={handleLogin}
+          onClick={handleLoginMicrosoft}
           fullWidth
           variant="contained"
-          startIcon={<MicrosoftIcon style={{ width: '25px', height: '25px', color: '#FFFFFF' }} />}
+          startIcon={<MicrosoftIcon />}
           sx={{
-            mt: 1, mb: 2,
+            mt: 1, mb: 1,
             backgroundColor: '#0078D4',
             color: '#FFFFFF',
+            borderRadius: '20px',
             '&:hover': {
               backgroundColor: '#005A9E',
             },
           }}
         >
           Continuar com a Microsoft
+        </Button> {/* Corrigido aqui */}
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
+          <Typography variant="body2">
+            Acesse com uma conta Google
+          </Typography>
+          <IconButton onClick={handleCreateGoogleAccount} sx={{ ml: 1 }}>
+            <GoogleIcon sx={{ color: '#DB4437' }} />
+          </IconButton>
+        </Box>
+        <Button
+          onClick={handleLoginGoogle}
+          fullWidth
+          variant="contained"
+          startIcon={<GoogleIcon />}
+          sx={{
+            mt: 1, mb: 1,
+            backgroundColor: '#DB4437',
+            color: '#FFFFFF',
+            borderRadius: '20px',
+            '&:hover': {
+              backgroundColor: '#C1351D',
+            },
+          }}
+        >
+          Google
         </Button>
-        <Typography variant="body2" sx={{ mt: 2 }}>
-          Não tem uma conta?
-        </Typography>
-        <Link href="https://account.microsoft.com/account" variant="body2" style={{ textDecoration: 'none' }}>
-          <Button
-            variant="outlined"
-            fullWidth
-            sx={{
-              mt: 1,
-              color: '#000000',
-              borderColor: '#9E9E9E',
-              '&:hover': {
-                borderColor: '#757575',
-              },
-            }}
-          >
-            Criar conta
-          </Button>
-        </Link>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
+  <Typography variant="body2">
+    Não tem uma conta?
+  </Typography>
+  <Box>
+    <IconButton onClick={handleCreateGoogleAccount} sx={{ ml: 1 }}>
+      <GoogleIcon width="24px" height="24px" />
+    </IconButton>
+    <IconButton onClick={handleCreateMicrosoftAccount} sx={{ ml: 1 }}>
+      <MicrosoftIcon width="24px" height="24px" />
+    </IconButton>
+  </Box>
+</Box>
       </RightBox>
     </StyledContainer>
   );
