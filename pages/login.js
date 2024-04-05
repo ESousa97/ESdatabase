@@ -8,6 +8,8 @@ import MicrosoftIcon from '../componentes/Login/MicrosoftIcon';
 import GoogleIcon from '../componentes/Login/GoogleIcon';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
+import NextLink from 'next/link'; // Importação correta do Link do Next.js
+import { Link as MuiLink } from '@mui/material';
 
 const StyledContainer = styled(Container)({
   display: 'flex',
@@ -235,6 +237,15 @@ export default function Login() {
     </IconButton>
   </Box>
 </Box>
+<Box sx={{ mt: 2, textAlign: 'center' }}>
+      {/* Usando NextLink com o componente MuiLink */}
+      <NextLink href="/terms" passHref>
+        <MuiLink variant="body2" sx={{ marginRight: 2 }}>Termos de Uso</MuiLink>
+      </NextLink>
+      <NextLink href="/privacy" passHref>
+        <MuiLink variant="body2">Política de Privacidade</MuiLink>
+      </NextLink>
+    </Box>
       </RightBox>
     </StyledContainer>
   );
