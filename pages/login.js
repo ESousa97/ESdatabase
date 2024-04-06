@@ -170,7 +170,7 @@ export default function Login() {
 
   return (
     <StyledContainer maxWidth="xl">
-      <WelcomeText variant="h2" sx={{ mb: 2 }}>
+      <WelcomeText variant="h2" sx={{ mb: 15 }}>
         Sejam bem vindo à Data Base
         <br />
         Um novo jeito de buscar processos
@@ -198,14 +198,11 @@ export default function Login() {
           }}
         >
           Continuar com a Microsoft
-        </Button> {/* Corrigido aqui */}
+        </Button>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
-          <Typography variant="body2">
-            Acesse com uma conta Google
+          <Typography variant="body2" sx={{ mb: 2 }}>
+            Ou acesse com uma conta Google
           </Typography>
-          <IconButton onClick={handleCreateGoogleAccount} sx={{ ml: 1 }}>
-            <GoogleIcon sx={{ color: '#DB4437' }} />
-          </IconButton>
         </Box>
         <Button
           onClick={handleLoginGoogle}
@@ -214,11 +211,11 @@ export default function Login() {
           startIcon={<GoogleIcon />}
           sx={{
             mt: 1, mb: 1,
-            backgroundColor: '#DB4437',
+            backgroundColor: '#24262b',
             color: '#FFFFFF',
             borderRadius: '20px',
             '&:hover': {
-              backgroundColor: '#C1351D',
+              backgroundColor: '#333e5f',
             },
           }}
         >
@@ -226,7 +223,7 @@ export default function Login() {
         </Button>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
   <Typography variant="body2">
-    Não tem uma conta?
+    Não tem conta? Acesse
   </Typography>
   <Box>
     <IconButton onClick={handleCreateGoogleAccount} sx={{ ml: 1 }}>
@@ -237,7 +234,7 @@ export default function Login() {
     </IconButton>
   </Box>
 </Box>
-<Box sx={{ mt: 2, textAlign: 'center' }}>
+<Box sx={{ mt: 2, textAlign: 'center', mb: 1 }}>
       {/* Usando NextLink com o componente MuiLink */}
       <NextLink href="/terms" passHref>
         <MuiLink variant="body2" sx={{ marginRight: 2 }}>Termos de Uso</MuiLink>
