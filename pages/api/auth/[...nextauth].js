@@ -21,7 +21,7 @@ export default NextAuth({
 
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-        const allowedEmails = ['sousa3086@outlook.com', 'admin@enoque171.onmicrosoft.com', 'bvalentim@positivo.com.br', 'sousa308697@gmail.com', 'eloisesousa2022@outlook.com']; // Substitua pelos e-mails permitidos
+        const allowedEmails = ['sousa3086@outlook.com', 'eloisesousa2022@outlook.com', 'bvalentim@positivo.com.br', 'sousa308697@gmail.com', 'eloisefernandesdossantos@gmail.com']; // Substitua pelos e-mails permitidos
         if (user.email && allowedEmails.includes(user.email)) {
           return true; // O login será bem-sucedido
         } else {
