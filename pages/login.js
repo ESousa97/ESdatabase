@@ -152,16 +152,12 @@ const WelcomeText = styled(Typography)({
 });
 
 export default function Login() {
-  const handleLoginMicrosoft = async () => {
-    const res = await signIn('azure-ad', { redirect: false, callbackUrl: `${window.location.origin}/components` });
-    console.log(res); // Verifique a resposta
-    if (res?.url) window.location.href = res.url;
+  const handleLoginMicrosoft = () => {
+    signIn('azure-ad', { callbackUrl: `${window.location.origin}/components` });
   };
-  
-  const handleLoginGoogle = async () => {
-    const res = await signIn('google', { redirect: false, callbackUrl: `${window.location.origin}/components` });
-    console.log(res); // Verifique a resposta
-    if (res?.url) window.location.href = res.url;
+
+  const handleLoginGoogle = () => {
+    signIn('google', { callbackUrl: `${window.location.origin}/components` });
   };
 
   const handleCreateGoogleAccount = () => {
