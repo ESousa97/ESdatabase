@@ -77,7 +77,7 @@ export default function PrivacyPolicy() {
           Contato
         </Typography>
         <Typography paragraph>
-          Para quaisquer questões relacionadas a esta Política de Privacidade, entre em contato pelo e-mail <a href="mailto:sousa3086@outlook.com">sousa3086@outlook.com</a>.
+          Para quaisquer questões relacionadas a esta Política de Privacidade, entre em contato pelo e-mail <a href="mailto:sousa3086@outlook.com" target='_blank'>sousa3086@outlook.com</a>.
         </Typography>
         <Typography variant="h6" component="h2" gutterBottom>
           Alterações à Política de Privacidade

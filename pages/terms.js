@@ -75,7 +75,7 @@ export default function TermsOfService() {
         <Typography paragraph>
           <strong>Contato</strong>
           <br />
-          Em caso de dúvidas, entre em contato pelo e-mail <a href="mailto:sousa3086@outlook.com">sousa3086@outlook.com</a>.
+          Em caso de dúvidas, entre em contato pelo e-mail <a href="mailto:sousa3086@outlook.com" target='_blank'>sousa3086@outlook.com</a>.
         </Typography>
         <Typography paragraph>
           Estes Termos de Uso e Serviço representam o acordo completo entre todos os usuários, incluindo parceiros estratégicos como a Positivo e a IMC, e o Data Base, relativo ao uso do serviço. A aceitação destes Termos é obrigatória para o acesso e uso do Data Base.

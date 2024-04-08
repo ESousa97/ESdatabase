@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { getSession, signIn } from 'next-auth/react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -168,6 +168,12 @@ export default function Login() {
     window.location.href = 'https://signup.live.com/signup';
   };
 
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <StyledContainer maxWidth="xl">
       <WelcomeText variant="h2" sx={{ mb: 15 }}>
@@ -235,14 +241,14 @@ export default function Login() {
   </Box>
 </Box>
 <Box sx={{ mt: 2, textAlign: 'center', mb: 1 }}>
-      {/* Usando NextLink com o componente MuiLink */}
-      <NextLink href="/terms" passHref>
-        <MuiLink variant="body2" sx={{ marginRight: 2 }}>Termos de Uso</MuiLink>
-      </NextLink>
-      <NextLink href="/privacy" passHref>
-        <MuiLink variant="body2">Política de Privacidade</MuiLink>
-      </NextLink>
-    </Box>
+  {/* Assegurar que não haja aninhamento de <a> dentro de <a> */}
+  <NextLink href="/terms" passHref>
+    <Button variant="text" sx={{ fontSize: '0.60rem' }}>Termos de Uso</Button>
+  </NextLink>
+  <NextLink href="/privacy" passHref>
+    <Button variant="text" sx={{ fontSize: '0.60rem' }}>Política de Privacidade</Button>
+  </NextLink>
+</Box>
       </RightBox>
     </StyledContainer>
   );
