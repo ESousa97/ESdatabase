@@ -60,6 +60,9 @@
     "webpack": "5.88.2"
   },
   "devDependencies": {
-    "framer-motion": "^11.0.24"
+    "@types/node": "^20.12.5",
+    "@types/react": "^18.2.74",
+    "framer-motion": "^11.0.24",
+    "typescript": "^5.4.4"
   }
 }
