@@ -1,44 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Drawer from '@mui/material/Drawer';
+import { useRouter } from 'next/router';
 import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { useTheme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
-import { useRouter } from 'next/router';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-
-const StyledDrawer = styled(Drawer)(({ theme }) => ({
-  '& .MuiDrawer-paper': {
-    position: 'fixed',
-    marginTop: '65px',
-    height: `calc(100% - 65px)`,
-    backgroundColor: theme.palette.background.default,
-    boxShadow: theme.shadows[4],
-    zIndex: theme.zIndex.drawer + 2,
-    overflowY: 'auto',
-    '&::-webkit-scrollbar': {
-      width: '6px',
-      borderRadius: '6px', // Arredondando as bordas da barra de rolagem
-    },
-    '&::-webkit-scrollbar-track': {
-      backgroundColor: theme.palette.grey[300],
-      borderRadius: '6px',
-    },
-    '&::-webkit-scrollbar-thumb': {
-      backgroundColor: theme.palette.grey[500],
-      borderRadius: '6px',
-    },
-  },
-}));
+import { Typography } from '@mui/material';
+import { StyledDrawer, StyledListItemButton, CustomListItemIcon } from './SideMenuStyles';
 
 const SideMenu = ({ open, onClose }) => {
-  const theme = useTheme();
   const [categories, setCategories] = useState({});
   const [openSubmenus, setOpenSubmenus] = useState({});
   const router = useRouter();
@@ -78,22 +50,22 @@ const SideMenu = ({ open, onClose }) => {
       </Typography>
       {Object.keys(categories).map((category) => (
         <List component="nav" key={category} sx={{ paddingX: '16px' }}>
-          <ListItemButton onClick={(event) => handleToggle(category, event)} sx={{ '&:hover': { backgroundColor: theme.palette.action.hover } }}>
-            <ListItemIcon sx={{ minWidth: '32px' }}>
-              <FiberManualRecordIcon sx={{ color: theme.palette.primary.main, fontSize: 'small' }} />
+          <StyledListItemButton onClick={(event) => handleToggle(category, event)}>
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{ color: 'primary.main', fontSize: 'small' }} />
             </ListItemIcon>
-            <ListItemText primary={category} primaryTypographyProps={{ fontWeight: 'bold' }} />
+            <ListItemText primary={category} />
             {openSubmenus[category] ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
+          </StyledListItemButton>
           <Collapse in={openSubmenus[category]} timeout="auto" unmountOnExit>
             {categories[category].map((item) => (
               <List component="div" disablePadding key={item.id}>
-                <ListItemButton sx={{ pl: 2 }} onClick={(event) => handleMenuItemClick(item.id, event)}>
-                  <ListItemIcon sx={{ minWidth: '32px', marginLeft: '16px' }}>
-                    <Typography variant="body1" component="span" sx={{ color: theme.palette.primary.main, fontSize: 'small' }}>➤</Typography>
+                <StyledListItemButton sx={{ pl: 2 }} onClick={(event) => handleMenuItemClick(item.id, event)}>
+                  <ListItemIcon>
+                    <CustomListItemIcon variant="body1" component="span">➤</CustomListItemIcon>
                   </ListItemIcon>
                   <ListItemText primary={item.titulo} />
-                </ListItemButton>
+                </StyledListItemButton>
               </List>
             ))}
           </Collapse>
@@ -104,3 +76,4 @@ const SideMenu = ({ open, onClose }) => {
 };
 
 export default SideMenu;
+

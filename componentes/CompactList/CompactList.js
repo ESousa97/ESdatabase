@@ -2,14 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+import ListItemText from '@mui/material/ListItemText';
 import { useRouter } from 'next/router';
 import MainLayout from '../../pages/MainLayout';
 import { useTheme } from '@mui/material/styles';
-import { Paper } from '@mui/material'; // Importe o Paper para um efeito de elevação
+import { StyledListItem, StyledPaper } from './CompactListStyles';
 
 const CompactList = ({ sortCriteria, sortDirection }) => {
   const [items, setItems] = useState([]);
@@ -59,25 +58,16 @@ const CompactList = ({ sortCriteria, sortDirection }) => {
   return (
     <MainLayout>
       <div style={{ display: 'flex', justifyContent: 'center', padding: theme.spacing(2) }}>
-        <Paper elevation={0} sx={{ width: '100%', maxWidth: 800, mx: "auto", overflow: 'hidden' }}> {/* Paper adicionado para sombra e bordas arredondadas */}
+        <StyledPaper elevation={0}> {/* Utilize o Paper estilizado aqui */}
           <List>
             {items.map((item) => (
-              <ListItem
+              <StyledListItem // Utilize o ListItem estilizado aqui
                 button
                 key={item.id}
                 onClick={() => handleListItemClick(item.id)}
-                sx={{
-                  borderBottom: `2px solid ${theme.palette.primary.main}`,
-                  transition: 'transform 0.3s, boxShadow 0.3s',
-                  '&:hover': {
-                    transform: 'translateX(4px)',
-                    boxShadow: theme.shadows[3],
-                  }
-                }}
               >
                 <ListItemAvatar>
                   <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
-                    {/* Adicione aqui um ícone ou letra baseada no item */}
                     {item.title[0]}
                   </Avatar>
                 </ListItemAvatar>
@@ -85,10 +75,10 @@ const CompactList = ({ sortCriteria, sortDirection }) => {
                   primary={item.title}
                   secondary={item.description.length > 200 ? `${item.description.substring(0, 200)}...` : item.description}
                 />
-              </ListItem>
+              </StyledListItem>
             ))}
           </List>
-        </Paper>
+        </StyledPaper>
       </div>
     </MainLayout>
   );

@@ -1,71 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
-import IconButton from "@mui/material/IconButton";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
-import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import Typography from "@mui/material/Typography";
-import CircularProgress from "@mui/material/CircularProgress";
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
+import SearchIcon from '@mui/icons-material/Search';
+import List from '@mui/material/List'; // Importe List
+import ListItem from '@mui/material/ListItem'; // Importe ListItem
+import ListItemText from '@mui/material/ListItemText'; // Importe ListItemText
+import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
+import 'react-toastify/dist/ReactToastify.css';
+import {
+  StyledIconButton,
+  SearchBoxWrapper,
+  StyledInputBase,
+  SearchResults,
+  CenteredItem,
+} from './SearchBoxStyles'; // Importe os componentes estilizados
 
-const StyledIconButton = styled(IconButton)(({ theme }) => ({
-  padding: theme.spacing(1),
-  color: theme.palette.primary.main,
-}));
-
-const SearchBoxWrapper = styled('div', {
-  shouldForwardProp: (prop) => prop !== 'isExpanded',
-})(({ theme, isExpanded }) => ({
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  borderRadius: '20px',
-  backgroundColor: theme.palette.background.default,
-  boxShadow: theme.shadows[2],
-  transition: 'width 300ms ease',
-  width: isExpanded ? '360px' : '40px',
-  '&:hover': {
-    boxShadow: theme.shadows[4],
-  },
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: theme.palette.text.primary,
-  '& .MuiInputBase-input': {
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '35ch',
-      '&:focus': {
-        width: '35ch',
-      },
-    },
-  },
-}));
-
-const SearchResults = styled(Paper)(({ theme }) => ({
-  position: 'absolute',
-  top: '115%',
-  left: 0,
-  right: 0,
-  zIndex: 2,
-  maxHeight: '300px',
-  overflowY: 'auto',
-  backgroundColor: theme.palette.background.paper,
-  boxShadow: theme.shadows[1],
-  borderRadius: theme.shape.borderRadius,
-}));
-
-const CenteredItem = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: theme.spacing(0.5),
-}));
 
 const SearchBox = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -125,17 +74,17 @@ const SearchBox = () => {
   };
 
   return (
-    <SearchBoxWrapper ref={searchBoxRef} isExpanded={isExpanded ? 1 : 0}>
-        <StyledIconButton aria-label="search" onClick={handleExpandToggle}>
+    <SearchBoxWrapper ref={searchBoxRef} isExpanded={isExpanded}>
+        <StyledIconButton aria-label="search" onClick={() => setIsExpanded(!isExpanded)}>
             <SearchIcon />
         </StyledIconButton>
         <StyledInputBase
-  placeholder={isExpanded ? "Search…" : ""}
-  inputProps={{ 'aria-label': 'search' }}
-  value={searchTerm}
-  onChange={(e) => setSearchTerm(e.target.value)}
-  autoFocus={isExpanded}
-/>
+          placeholder={isExpanded ? "Search…" : ""}
+          inputProps={{ 'aria-label': 'search' }}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          autoFocus={isExpanded}
+        />
 
       {isExpanded && (
         <SearchResults>

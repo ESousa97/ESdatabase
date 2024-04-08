@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { format } from 'date-fns';
 import { useRouter } from 'next/router';
 import MainLayout from '../../pages/MainLayout';
 import { useTheme } from '@mui/material/styles';
-import { Paper, Avatar } from '@mui/material';
+import { StyledListItem, StyledPaper, StyledAvatar } from './DetailedListStyles';
 
 const DetailedList = ({ sortCriteria, sortDirection }) => { // Adicione sortCriteria e sortDirection como props
   const [items, setItems] = useState([]);
@@ -58,37 +57,22 @@ const DetailedList = ({ sortCriteria, sortDirection }) => { // Adicione sortCrit
   return (
     <MainLayout>
       <div style={{ display: 'flex', justifyContent: 'center', padding: theme.spacing(2) }}>
-        <Paper elevation={0} sx={{
-          width: '100%',
-          maxWidth: '80%',
-          mx: "auto",
-          overflow: 'hidden',
-          bgcolor: theme.palette.background.paper,
-        }}>
+        <StyledPaper elevation={0}>
           <List>
             {items.map((item) => (
-              <ListItem
+              <StyledListItem
                 button
                 key={item.id}
                 onClick={() => handleCardClick(item.id)}
-                sx={{
-                  transition: 'background-color 0.4s, transform 0.4s',
-                  '&:hover': {
-                    backgroundColor: theme.palette.action.hover,
-                    transform: 'scale(1.03)',
-                  },
-                  bgcolor: theme.palette.background.default,
-                }}
               >
-                <ListItemIcon sx={{ marginRight: 2 }}> {/* Adiciona espaço entre o ícone e o texto */}
+                <ListItemIcon sx={{ marginRight: 2 }}>
                   {item.imageurl ? (
-                    <Avatar
+                    <StyledAvatar
                       src={item.imageurl}
                       alt={item.title}
-                      sx={{ width: 56, height: 56 }}
                     />
                   ) : (
-                    <Avatar />
+                    <StyledAvatar />
                   )}
                 </ListItemIcon>
                 <ListItemText
@@ -101,10 +85,10 @@ const DetailedList = ({ sortCriteria, sortDirection }) => { // Adicione sortCrit
                     </span>
                   }
                 />
-              </ListItem>
+              </StyledListItem>
             ))}
           </List>
-        </Paper>
+        </StyledPaper>
       </div>
     </MainLayout>
   );

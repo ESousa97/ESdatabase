@@ -8,8 +8,7 @@ import MicrosoftIcon from '../componentes/Login/MicrosoftIcon';
 import GoogleIcon from '../componentes/Login/GoogleIcon';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
-import NextLink from 'next/link'; // Importação correta do Link do Next.js
-import { Link as MuiLink } from '@mui/material';
+import NextLink from 'next/link';
 
 const StyledContainer = styled(Container)({
   display: 'flex',

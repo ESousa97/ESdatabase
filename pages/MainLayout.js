@@ -57,7 +57,6 @@ const MainLayout = ({ children }) => {
   return (
     <>
       <Head>
-        {/* Insira a tag de verificação do Google aqui */}
         <meta name="google-site-verification" content="UvuKX1cPOo1fakawbq5Ry3zxnRuJdHQPdfHTLn4pXGY" />
       </Head>
       <ThemeProvider theme={createTheme()}>
