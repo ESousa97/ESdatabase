@@ -89,7 +89,7 @@ const MainLayout = ({ children }) => {
               <LogoutIcon />
             </IconButton>
             <Typography variant="h6" noWrap style={{ flexGrow: 1, marginLeft: '12px' }}>
-              ES Data Base
+              Data Base
             </Typography>
             {/* Spacer para espaço antes do título */}
             <div style={{ flexGrow: 1 }} />

@@ -3,6 +3,7 @@ import DOMPurify from 'dompurify';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { StyledButton, StyledCopyButton, ImageContainer, ContentContainer } from './ProcedureDetailsStyles';
+import styles from './styles.module.css';
 
 function getImagePath(imageFileName) {
   const [folder] = imageFileName.split('__');
@@ -12,13 +13,14 @@ function getImagePath(imageFileName) {
 function ProcedureDetails({ procedure }) {
   if (!procedure) return null;
 
-  function createMarkup(html) {
+   function createMarkup(html) {
+    // Substitui as tags pelo equivalente com a classe CSS aplicada
     let modifiedHtml = html
-      .replace(/<table>/g, `<table class="table">`)
-      .replace(/<thead>/g, `<thead class="thead">`)
-      .replace(/<tr>/g, `<tr class="tr">`)
-      .replace(/<th>/g, `<th class="th">`)
-      .replace(/<td>/g, `<td class="td">`);
+      .replace(/<table>/g, `<table class="${styles.table}">`)
+      .replace(/<thead>/g, `<thead class="${styles.thead}">`)
+      .replace(/<tr>/g, `<tr class="${styles.tr}">`)
+      .replace(/<th>/g, `<th class="${styles.th}">`)
+      .replace(/<td>/g, `<td class="${styles.td}">`);
   
     return { __html: DOMPurify.sanitize(modifiedHtml) };
   }

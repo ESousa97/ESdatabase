@@ -40,5 +40,5 @@ export const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
 export const CustomListItemIcon = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.main, 
   fontSize: 'small', 
-  marginLeft: '16px', 
+  marginLeft: '12px', 
 }));

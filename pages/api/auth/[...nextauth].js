@@ -21,12 +21,18 @@ export default NextAuth({
 
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-        const allowedEmails = ['sousa3086@outlook.com', 'eloisesousa2022@outlook.com', 'bvalentim@positivo.com.br', 'sousa308697@gmail.com', 'eloisefernandesdossantos@gmail.com', 'jenoque@positivo.com.br']; // Substitua pelos e-mails permitidos
-        if (user.email && allowedEmails.includes(user.email)) {
-          return true; // O login será bem-sucedido
-        } else {
-          return false; // O login será bloqueado
-        }
-      },
+      const allowedEmails = ['sousa3086@outlook.com', 'eloisesousa2022@outlook.com', 'bvalentim@positivo.com.br', 'sousa308697@gmail.com', 'eloisefernandesdossantos@gmail.com', 'jenoque@positivo.com.br'];
+  
+      // Verifica se algum dos e-mails do usuário está na lista de permitidos
+      const userEmails = [user.email, account.email, profile.email, email?.email, credentials?.email];
+      const isAllowedEmail = userEmails.some(email => allowedEmails.includes(email));
+  
+      if (isAllowedEmail) {
+        return true; // O login será bem-sucedido se o e-mail estiver na lista de permitidos
+      } else {
+        return false; // O login será bloqueado se o e-mail não estiver na lista de permitidos
+      }
     },
+  },
+    
   });
