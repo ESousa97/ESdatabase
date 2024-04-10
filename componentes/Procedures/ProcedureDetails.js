@@ -10,20 +10,22 @@ function getImagePath(imageFileName) {
   return `/Assets/${folder}/${imageFileName}`;
 }
 
+function createMarkup(html) {
+  let modifiedHtml = html
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/!!(.*?)!!/g, '<span style="color: red;">$1</span>')
+    // Substitui as tags pelo equivalente com a classe CSS aplicada
+    .replace(/<table>/g, `<table class="${styles.table}">`)
+    .replace(/<thead>/g, `<thead class="${styles.thead}">`)
+    .replace(/<tr>/g, `<tr class="${styles.tr}">`)
+    .replace(/<th>/g, `<th class="${styles.th}">`)
+    .replace(/<td>/g, `<td class="${styles.td}">`);
+
+  return { __html: DOMPurify.sanitize(modifiedHtml) };
+}
+
 function ProcedureDetails({ procedure }) {
   if (!procedure) return null;
-
-   function createMarkup(html) {
-    // Substitui as tags pelo equivalente com a classe CSS aplicada
-    let modifiedHtml = html
-      .replace(/<table>/g, `<table class="${styles.table}">`)
-      .replace(/<thead>/g, `<thead class="${styles.thead}">`)
-      .replace(/<tr>/g, `<tr class="${styles.tr}">`)
-      .replace(/<th>/g, `<th class="${styles.th}">`)
-      .replace(/<td>/g, `<td class="${styles.td}">`);
-  
-    return { __html: DOMPurify.sanitize(modifiedHtml) };
-  }
 
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text)
@@ -31,11 +33,31 @@ function ProcedureDetails({ procedure }) {
       .catch((error) => console.error('Erro ao copiar o conteúdo:', error));
   };
 
-  const processedContent = procedure.conteudo.split('\n').map((part, index) => {
-    const imageMatch = part.match(/(IMC\d+__\d+\.png)/);
-    const linkMatch = part.match(/\[([^\]]+)\]\((http[^)]+)\)/);
-    const copyMatch = part.match(/@@(.*?)@@/);
+  function processContent(part, index) {
+    const splitContent = part.split(/@@(.*?)@@/);
+    return splitContent.map((content, subIndex) => {
+      if (subIndex % 2 === 0) {
+        // Conteúdo fora dos marcadores @@
+        if (content.trim() === '') return null; // Evita renderizar spans vazios
+        return <span key={`text-${index}-${subIndex}`} dangerouslySetInnerHTML={createMarkup(content)} />;
+      } else {
+        // Conteúdo dentro dos marcadores @@ (destinado a cópia)
+        return <StyledCopyButton key={`copy-${index}-${subIndex}`} onClick={() => handleCopy(content)}>{content}</StyledCopyButton>;
+      }
+    });
+  }
 
+  const processedContent = procedure.conteudo.split('\n').map((part, index) => {
+    if (part.includes('@@')) {
+      // Se a parte inclui @@, processa para separar o texto de botões de cópia
+      return (
+        <ContentContainer key={index}>
+          {processContent(part, index)}
+        </ContentContainer>
+      );
+    }
+    // Para imagens e links, a lógica permanece a mesma
+    const imageMatch = part.match(/(IMC\d+__\d+\.png)/);
     if (imageMatch) {
       const imagePath = getImagePath(imageMatch[0]);
       return (
@@ -43,29 +65,22 @@ function ProcedureDetails({ procedure }) {
           <img src={imagePath} alt={`Imagem ${imageMatch[0]}`} style={{ maxWidth: '100%', height: 'auto', display: 'block', marginLeft: 'auto', marginRight: 'auto' }} />
         </ImageContainer>
       );
-    } else if (linkMatch) {
+    }
+
+    const linkMatch = part.match(/\[([^\]]+)\]\((http[^)]+)\)/);
+    if (linkMatch) {
       const [, linkText, linkUrl] = linkMatch;
       return (
         <ContentContainer key={index}>
           <StyledButton href={linkUrl} target="_blank">{linkText}</StyledButton>
         </ContentContainer>
       );
-    } else if (copyMatch) {
-      const contentToCopy = copyMatch[1];
-      return (
-        <ContentContainer key={index}>
-          <StyledCopyButton onClick={() => handleCopy(contentToCopy)}>{contentToCopy}</StyledCopyButton>
-        </ContentContainer>
-      );
-    } else {
-      let modifiedPart = part
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/!!(.*?)!!/g, '<span style="color: red;">$1</span>');
-
-      return (
-        <ContentContainer key={index} dangerouslySetInnerHTML={createMarkup(modifiedPart)} />
-      );
     }
+
+    // Para texto que não seja nem imagem, nem link, nem marcado para cópia
+    return (
+      <ContentContainer key={`text-${index}`} dangerouslySetInnerHTML={createMarkup(part)} />
+    );
   });
 
   return (
