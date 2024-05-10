@@ -21,7 +21,7 @@ export default NextAuth({
 
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      const allowedEmails = ['sousa3086@outlook.com', 'eloisesousa2022@outlook.com', 'bvalentim@positivo.com.br', 'sousa308697@gmail.com', 'eloisefernandesdossantos@gmail.com', 'jenoque@positivo.com.br', 'diego.silva@grupoimc.com.br'];
+      const allowedEmails = ['sousa3086@outlook.com', 'eloisesousa2022@outlook.com', 'bvalentim@positivo.com.br', 'sousa308697@gmail.com', 'eloisefernandesdossantos@gmail.com', 'jenoque@positivo.com.br', 'diego.silva@grupoimc.com.br', 'thiago.tabarana@grupoimc.com.br'];
   
       // Verifica se algum dos e-mails do usuário está na lista de permitidos
       const userEmails = [user.email, account.email, profile.email, email?.email, credentials?.email];
