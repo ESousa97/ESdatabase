@@ -1,56 +1,87 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
-import Typography from '@mui/material/Typography';
+import { Typography, CircularProgress, Snackbar } from '@mui/material';
+import { Alert } from '@mui/material';
 import { useRouter } from 'next/router';
 import MainLayout from '../../pages/MainLayout';
 import { useTheme } from '@mui/material/styles';
-import { StyledButtonBase, StyledCard, StyledCardMedia, StyledCardContent } from './CardStyles'; // Seus componentes estilizados
+import { StyledButtonBase, StyledCard, StyledCardMedia, StyledCardContent } from './CardStyles';
 
-const CardList = ({ sortCriteria, sortDirection }) => {
+const sortData = (data, sortCriteria, sortDirection) => {
+  return data.sort((a, b) => {
+    let itemA, itemB;
+    switch (sortCriteria) {
+      case 'date':
+        itemA = new Date(a.created_at);
+        itemB = new Date(b.created_at);
+        break;
+      case 'alphabetical':
+        itemA = a.title.toLowerCase();
+        itemB = b.title.toLowerCase();
+        break;
+      case 'updateDate':
+        itemA = new Date(a.data_modificacao);
+        itemB = new Date(b.data_modificacao);
+        break;
+      default:
+        return 0;
+    }
+    const comparison = itemA < itemB ? -1 : itemA > itemB ? 1 : 0;
+    return sortDirection === 'asc' ? comparison : -comparison;
+  });
+};
+
+const useCardList = (sortCriteria, sortDirection) => {
   const [cards, setCards] = useState([]);
-  const [hoveredCard, setHoveredCard] = useState(null);
-  const router = useRouter();
-  const theme = useTheme();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('https://server-json-eight.vercel.app/api/cardlist')
-      .then(response => {
-        const sortedData = response.data.sort((a, b) => {
-          let itemA, itemB;
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://server-json-eight.vercel.app/api/cardlist');
+        setCards(sortData(response.data, sortCriteria, sortDirection));
+      } catch (err) {
+        console.error('Error fetching card list:', err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [sortCriteria, sortDirection]);
 
-          // Utilize os critérios de ordenação recebidos como props
-          switch (sortCriteria) {
-            case 'date':
-              itemA = new Date(a.created_at);
-              itemB = new Date(b.created_at);
-              break;
-            case 'alphabetical':
-              itemA = a.title.toLowerCase();
-              itemB = b.title.toLowerCase();
-              break;
-              case 'updateDate':
-                // Use os campos data_modificacao para ordenação
-                itemA = new Date(a.data_modificacao);
-                itemB = new Date(b.data_modificacao);
-                break;
-              default:
-                return 0;
-            }
-  
-            const comparison = itemA < itemB ? -1 : itemA > itemB ? 1 : 0;
-            return sortDirection === 'asc' ? comparison : -comparison;
-          });
-  
-          setCards(sortedData);
-        })
-        .catch(error => {
-          console.error('Error fetching card list:', error);
-        });
-    }, [sortCriteria, sortDirection]);
+  return { cards, loading, error };
+};
+
+const CardList = memo(({ sortCriteria, sortDirection }) => {
+  const { cards, loading, error } = useCardList(sortCriteria, sortDirection);
+  const [hoveredCard, setHoveredCard] = useState(null);  // Aqui está definido o hoveredCard
+  const router = useRouter();
+  const theme = useTheme();
 
   const handleCardClick = (id) => {
     router.push(`/procedimentos/${id}`);
   };
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Snackbar open={true} autoHideDuration={6000}>
+        <Alert severity="error" variant="filled">
+          Error loading cards!
+        </Alert>
+      </Snackbar>
+    );
+  }
 
   return (
     <MainLayout>
@@ -59,26 +90,26 @@ const CardList = ({ sortCriteria, sortDirection }) => {
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        maxWidth: 'calc(100% - 2px)'
+        maxWidth: 'calc(100% - 2px)',
       }}>
         {cards.map((card) => (
           <StyledButtonBase
-          key={card.id}
-          onMouseEnter={() => setHoveredCard(card.id)}
-          onMouseLeave={() => setHoveredCard(null)}
-          onClick={() => handleCardClick(card.id)}
-          style={{
-            boxShadow: hoveredCard === card.id ? '0px 10px 15px rgba(0,0,0,0.2)' : 'none',
-            borderBottom: `4px solid ${theme.palette.primary.main}`,
-            // outros estilos que dependem de 'hovered'...
-          }}
-        >
+            key={card.id}
+            onMouseEnter={() => setHoveredCard(card.id)}
+            onMouseLeave={() => setHoveredCard(null)}
+            onClick={() => handleCardClick(card.id)}
+            style={{
+              boxShadow: hoveredCard === card.id ? '0px 10px 15px rgba(0,0,0,0.2)' : 'none',
+              borderBottom: `4px solid ${theme.palette.primary.main}`,
+            }}
+          >
             <StyledCard>
               {card.imageurl && (
                 <StyledCardMedia
                   component="img"
                   image={card.imageurl}
                   alt={card.title}
+                  loading="lazy"
                 />
               )}
               <StyledCardContent>
@@ -89,22 +120,17 @@ const CardList = ({ sortCriteria, sortDirection }) => {
                   {card.description}
                 </Typography>
               </StyledCardContent>
-              {hoveredCard === card.id && (
-                <div style={{
-                  position: 'absolute',
-                  top: 0,
-                  bottom: 0,
-                  right: 0,
-                  left: 0,
-                  backgroundColor: 'rgba(0,0,0,0.15)',
-                }} />
-              )}
             </StyledCard>
           </StyledButtonBase>
         ))}
       </div>
     </MainLayout>
   );
+});
+
+CardList.propTypes = {
+  sortCriteria: PropTypes.oneOf(['date', 'alphabetical', 'updateDate']).isRequired,
+  sortDirection: PropTypes.oneOf(['asc', 'desc']).isRequired,
 };
 
 export default CardList;

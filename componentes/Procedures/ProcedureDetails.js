@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import DOMPurify from 'dompurify';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { CircularProgress, Box } from '@mui/material';
 import { StyledButton, StyledCopyButton, ImageContainer, ContentContainer } from './ProcedureDetailsStyles';
 import styles from './styles.module.css';
 
@@ -14,7 +15,6 @@ function createMarkup(html) {
   let modifiedHtml = html
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/!!(.*?)!!/g, '<span style="color: red;">$1</span>')
-    // Substitui as tags pelo equivalente com a classe CSS aplicada
     .replace(/<table>/g, `<table class="${styles.table}">`)
     .replace(/<thead>/g, `<thead class="${styles.thead}">`)
     .replace(/<tr>/g, `<tr class="${styles.tr}">`)
@@ -25,7 +25,13 @@ function createMarkup(html) {
 }
 
 function ProcedureDetails({ procedure }) {
-  if (!procedure) return null;
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (procedure) {
+      setLoading(false);
+    }
+  }, [procedure]);
 
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text)
@@ -47,7 +53,7 @@ function ProcedureDetails({ procedure }) {
     });
   }
 
-  const processedContent = procedure.conteudo.split('\n').map((part, index) => {
+  const processedContent = procedure?.conteudo.split('\n').map((part, index) => {
     if (part.includes('@@')) {
       // Se a parte inclui @@, processa para separar o texto de botões de cópia
       return (
@@ -82,6 +88,14 @@ function ProcedureDetails({ procedure }) {
       <ContentContainer key={`text-${index}`} dangerouslySetInnerHTML={createMarkup(part)} />
     );
   });
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <div>

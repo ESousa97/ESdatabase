@@ -85,6 +85,7 @@ const MainLayout = ({ children }) => {
               aria-label="logout"
               onClick={handleLogout}
               size="large"
+              style={{ transform: 'rotate(-180deg)' }} // Adiciona a rotação
             >
               <LogoutIcon />
             </IconButton>

@@ -14,8 +14,8 @@ export const StyledListItem = styled(ListItem)(({ theme }) => ({
 
 export const StyledPaper = styled(Paper)(({ theme }) => ({
   width: '100%',
-  maxWidth: '80%',
-  margin: `${theme.spacing(2)} auto`,
+  maxWidth: '100%',
+  margin: `${theme.spacing(1)} auto`,
   overflow: 'hidden',
   bgcolor: theme.palette.background.paper,
 }));
