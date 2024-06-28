@@ -3,9 +3,9 @@ import Button from '@mui/material/Button';
 
 // Configurações comuns para os botões
 const commonButtonStyles = {
-  borderRadius: '5px',
-  padding: '8px 16px',
-  margin: '8px',
+  borderRadius: '10px',
+  padding: '5px 5px',
+  margin: '3px',
   transition: 'background-color 0.3s, color 0.3s',
 };
 
@@ -36,5 +36,5 @@ export const ImageContainer = styled('div')({
 });
 
 export const ContentContainer = styled('div')({
-  margin: '16px 0',
+  margin: '8px 0',
 });

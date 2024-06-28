@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 import { useRouter } from 'next/router';
 import MainLayout from '../../pages/MainLayout';
 import { useTheme } from '@mui/material/styles';
-import { StyledListItem, StyledPaper, StyledAvatar } from './DetailedListStyles';
+import { StyledListItem, StyledPaper, StyledAvatar, StyledListItemText } from './DetailedListStyles';
 
 const DetailedList = ({ sortCriteria, sortDirection }) => {
   const [items, setItems] = useState([]);
@@ -78,14 +78,14 @@ const DetailedList = ({ sortCriteria, sortDirection }) => {
                       <StyledAvatar />
                     )}
                   </ListItemIcon>
-                  <ListItemText
-                    primary={<span style={{ color: theme.palette.text.primary }}>{item.title}</span>}
+                  <StyledListItemText
+                    primary={item.title}
                     secondary={
-                      <span style={{ color: theme.palette.text.secondary }}>
+                      <>
                         {item.description}
                         <br />
                         {'Criado em: ' + format(new Date(item.created_at), 'dd/MM/yyyy HH:mm:ss')}
-                      </span>
+                      </>
                     }
                   />
                 </StyledListItem>

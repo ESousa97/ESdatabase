@@ -13,7 +13,8 @@ import {
   StyledInputBase,
   SearchResults,
   CenteredItem,
-} from './SearchBoxStyles'; // Importe os componentes estilizados
+  StyledListItemText  // Importe o StyledListItemText
+} from './SearchBoxStyles';
 
 
 const SearchBox = () => {
@@ -97,11 +98,11 @@ const SearchBox = () => {
               <List>
                 {results.map((result) => (
                   <ListItem button key={result.id} onClick={() => handleCardClick(result.id)}>
-                    <ListItemText
-                      primary={<Typography variant="subtitle1" fontWeight="bold">{result.titulo}</Typography>}
-                      secondary={result.descricao}
-                    />
-                  </ListItem>
+                  <StyledListItemText
+                    primary={result.titulo}
+                    secondary={result.descricao}
+                  />
+                </ListItem>
                 ))}
               </List>
             ) : (

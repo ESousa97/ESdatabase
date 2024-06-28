@@ -43,7 +43,7 @@ export const StyledCard = styled(Card)(({ theme }) => ({
   },
   '&:hover': {
     boxShadow: '0px 10px 20px rgba(0,0,0,0.2)', // Sombra mais forte ao passar o mouse
-    transform: 'scale(1.05)', // Efeito de escala ao passar o mouse
+    transform: 'scale(1.02)', // Efeito de escala ao passar o mouse
   },
 }));
 

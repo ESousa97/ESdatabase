@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -20,14 +20,64 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Head from 'next/head';
+import Brightness4Icon from '@mui/icons-material/Brightness4'; // ícone para modo escuro
+import Brightness7Icon from '@mui/icons-material/Brightness7'; // ícone para modo claro
 
 const drawerWidth = 320; // Valor em pixels, ajuste conforme necessário
 
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+    background: {
+      default: '#f4f4f4',
+      paper: '#ffffff',
+    },
+    text: {
+      primary: '#000000',
+      secondary: '#555555',
+    },
+  },
+});
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#90caf9',
+    },
+    secondary: {
+      main: '#f48fb1',
+    },
+    background: {
+      default: '#121212',
+      paper: '#040d15',
+    },
+    text: {
+      primary: '#ffffff',
+      secondary: '#aaaaaa',
+    },
+  },
+});
+
 const MainLayout = ({ children }) => {
   const [open, setOpen] = useState(false);
-  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false); // Estado para controlar a abertura do diálogo de logout
+  const [themeMode, setThemeMode] = useState(() => localStorage.getItem('theme') || 'light'); // Inicialização direta do estado com Local Storage
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
   const theme = useTheme();
   const router = useRouter();
+
+  // Alterna entre tema claro e escuro e salva no Local Storage
+  const toggleTheme = () => {
+    const newTheme = themeMode === 'light' ? 'dark' : 'light';
+    setThemeMode(newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
 
   const handleDrawerToggle = () => {
     setOpen(!open);
@@ -38,7 +88,7 @@ const MainLayout = ({ children }) => {
   };
 
   const handleLogout = () => {
-    setLogoutDialogOpen(true); // Abrir o diálogo de logout
+    setLogoutDialogOpen(true);
   };
 
   const handleConfirmLogout = async () => {
@@ -59,7 +109,7 @@ const MainLayout = ({ children }) => {
       <Head>
         <meta name="google-site-verification" content="UvuKX1cPOo1fakawbq5Ry3zxnRuJdHQPdfHTLn4pXGY" />
       </Head>
-      <ThemeProvider theme={createTheme()}>
+      <ThemeProvider theme={themeMode === 'dark' ? darkTheme : lightTheme}>
         <CssBaseline />
         <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1 }}>
           <Toolbar>
@@ -79,25 +129,31 @@ const MainLayout = ({ children }) => {
             >
               <HomeIcon />
             </IconButton>
-            {/* Botão de logout */}
             <IconButton
               color="inherit"
               aria-label="logout"
               onClick={handleLogout}
               size="large"
-              style={{ transform: 'rotate(-180deg)' }} // Adiciona a rotação
+              style={{ transform: 'rotate(-180deg)' }}
             >
               <LogoutIcon />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              aria-label="toggle theme"
+              onClick={toggleTheme}
+              size="large"
+            >
+              {themeMode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
             <Typography variant="h6" noWrap style={{ flexGrow: 1, marginLeft: '12px' }}>
               Data Base
             </Typography>
-            {/* Spacer para espaço antes do título */}
             <div style={{ flexGrow: 1 }} />
             <SearchBox />
           </Toolbar>
         </AppBar>
-        
+
         <Drawer
           variant="persistent"
           anchor="left"
@@ -132,8 +188,7 @@ const MainLayout = ({ children }) => {
         >
           {children}
         </main>
-        
-        {/* Diálogo de confirmação de logout */}
+
         <Dialog
           open={logoutDialogOpen}
           onClose={handleCloseLogoutDialog}

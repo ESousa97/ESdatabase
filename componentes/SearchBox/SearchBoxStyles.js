@@ -2,6 +2,7 @@ import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import Paper from '@mui/material/Paper';
+import ListItemText from '@mui/material/ListItemText';
 
 export const StyledIconButton = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -17,7 +18,6 @@ export const SearchBoxWrapper = styled('div')(({ theme, isExpanded }) => ({
   alignItems: 'center',
   borderRadius: '20px',
   backgroundColor: theme.palette.background.default,
-  backgroundImage: 'linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)', // Gradiente sutil
   border: '1px solid',
   borderColor: theme.palette.divider,
   boxShadow: theme.shadows[2],
@@ -46,6 +46,16 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
       },
     },
   },
+}));
+
+export const StyledListItemText = styled(ListItemText)(({ theme }) => ({
+  primary: {
+    fontWeight: 'bold',
+    color: theme.palette.text.primary,
+  },
+  secondary: {
+    color: theme.palette.text.secondary,
+  }
 }));
 
 export const SearchResults = styled(Paper)(({ theme }) => ({
