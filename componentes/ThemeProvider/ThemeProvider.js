@@ -9,14 +9,14 @@ const getDesignTokens = (mode) => ({
   palette: {
     mode,
     primary: {
-      main: mode === 'dark' ? '#0a43ff' : '#1976d2',
+      main: mode === 'dark' ? '#1976d2' : '#1976d2',
     },
     secondary: {
       main: mode === 'dark' ? '#f48fb1' : '#dc004e',
     },
     background: {
-      default: mode === 'dark' ? '#0a43ff' : '#f0f0f0',
-      paper: mode === 'dark' ? '#112240' : '#ffffff',
+      default: mode === 'dark' ? '#1976d2' : '#f0f0f0',
+      paper: mode === 'dark' ? '#030c1b' : '#ffffff',
     },
     text: {
       primary: mode === 'dark' ? '#ffffff' : '#333333',

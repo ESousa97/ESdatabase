@@ -18,14 +18,14 @@ const getDesignTokens = (mode) => ({
   palette: {
     mode,
     primary: {
-      main: mode === 'dark' ? '#1e40af' : '#1976d2', // Azul mais claro para o modo escuro, e azul adequado para o claro
+      main: mode === 'dark' ? '#1976d2' : '#1976d2', // Azul mais claro para o modo escuro, e azul adequado para o claro
     },
     secondary: {
       main: mode === 'dark' ? '#ec407a' : '#d32f2f', // Rosa brilhante para o escuro, vermelho mais escuro para o claro
     },
     background: {
       default: mode === 'dark' ? '#121212' : '#f0f0f0', // Fundo mais escuro para o modo escuro
-      paper: mode === 'dark' ? '#112240' : '#ffffff', // cor dos cards, letras e toolbar
+      paper: mode === 'dark' ? '#101010' : '#ffffff', // cor dos cards, letras e toolbar
     },
     text: {
       primary: mode === 'dark' ? '#ffffff' : '#1e1e1e', // Branco para o escuro, preto para o claro
