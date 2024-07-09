@@ -76,11 +76,10 @@ function ProcedureDetails({ procedure }) {
         display: 'flex', 
         justifyContent: 'left', 
         alignItems: 'left', 
-        height: '10vh' // Ajusta o contêiner para preencher a altura da viewport
+        height: '4vh' // Ajusta o contêiner para preencher a altura da viewport
       }}>
         <Button variant="outlined" onClick={() => handleLoadVideo(videoId)} style={{
-          marginTop: '20px',
-          padding: '10px 20px',
+          padding: '5px 10px',
           fontSize: '16px', // Tamanho de fonte maior para melhor legibilidade
           boxShadow: '0 2px 5px rgba(0,0,0,0.5)' // Sombra sutil para destaque
         }}>
