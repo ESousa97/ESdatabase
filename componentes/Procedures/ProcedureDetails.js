@@ -34,18 +34,18 @@ function ProcedureDetails({ procedure }) {
     videoLoaded === videoId ? (
       <div style={{
         position: 'relative',
-        height: isExpanded ? '100vh' : '30vh',
-        transition: 'height 0.5s ease', // Suaviza a transição de altura
-        boxShadow: '0 4px 8px rgba(0,0,0,0.1)', // Adiciona sombra para dar profundidade
+        height: isExpanded ? '85vh' : '30vh',
+        transition: 'height 0.8s ease', // Suaviza a transição de altura
+        boxShadow: '0 10px 10px rgba(0,0,0,0.1)', // Adiciona sombra para dar profundidade
         margin: '10px', // Margem para não colar nas bordas da tela
-        borderRadius: '8px', // Borda arredondada para estética moderna
+        borderRadius: '10px', // Borda arredondada para estética moderna
       }}>
         <iframe
           style={{
             width: "100%",
             height: "100%",
             border: "none",
-            borderRadius: '8px', // Borda arredondada no iframe também
+            borderRadius: '10px', // Borda arredondada no iframe também
           }}
           src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&showinfo=0&vq=hd1080`}
           frameBorder="0"
@@ -72,9 +72,21 @@ function ProcedureDetails({ procedure }) {
         </Button>
       </div>
     ) : (
-      <Button variant="outlined" onClick={() => handleLoadVideo(videoId)} style={{marginTop: '20px'}}>
-        Carregar Vídeo
-      </Button>
+      <div style={{
+        display: 'flex', 
+        justifyContent: 'left', 
+        alignItems: 'left', 
+        height: '10vh' // Ajusta o contêiner para preencher a altura da viewport
+      }}>
+        <Button variant="outlined" onClick={() => handleLoadVideo(videoId)} style={{
+          marginTop: '20px',
+          padding: '10px 20px',
+          fontSize: '16px', // Tamanho de fonte maior para melhor legibilidade
+          boxShadow: '0 2px 5px rgba(0,0,0,0.5)' // Sombra sutil para destaque
+        }}>
+          Carregar Vídeo
+        </Button>
+      </div>
     )
   );
 

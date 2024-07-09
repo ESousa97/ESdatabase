@@ -7,6 +7,7 @@ const commonButtonStyles = {
   padding: '5px 5px',
   margin: '3px',
   transition: 'background-color 0.3s, color 0.3s',
+  textTransform: 'none', // Remove a transformação de texto em maiúsculas
 };
 
 // Função para aplicar cores e estados de hover
