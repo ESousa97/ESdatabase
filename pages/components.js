@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import ThemeProvider, { useTheme } from "../componentes/ThemeProvider/ThemeProvider";
+import { useTheme } from "../componentes/ThemeProvider/ThemeProvider";
 import SearchBox from "../componentes/SearchBox/SearchBox";
 import { useRouter } from 'next/router';
 import { signOut, getSession } from 'next-auth/react';
@@ -89,42 +89,40 @@ export default function ComponentsLayout() {
   };
 
   return (
-    <ThemeProvider>
-      <div style={{ display: "flex" }}>
-        <AppBar position="fixed" style={{ zIndex: 1201 }}>
-          <Toolbar>
-            <SearchBox />
-            <IconButton color="primary" onClick={toggleDarkMode}>
-              {darkMode ? "Light Mode" : "Dark Mode"}
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <main style={{ flexGrow: 1, padding: '24px', marginTop: '64px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Box sx={{ marginBottom: '10px', '& > *': { margin: 1 } }}>
-            <IconButton color="primary" onClick={() => setViewMode('cards')}><ViewModuleIcon /></IconButton>
-            <IconButton color="primary" onClick={() => setViewMode('detailed')}><ViewListIcon /></IconButton>
-            <IconButton color="primary" onClick={() => setViewMode('compact')}><ViewCompactIcon /></IconButton>
-            <IconButton color="primary" onClick={handleMenuClick}><MoreVertIcon /></IconButton>
-            <Menu
-              id="filter-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={() => handleSortCriteriaChange('date')}>Data Criação</MenuItem>
-              <MenuItem onClick={() => handleSortCriteriaChange('alphabetical')}>Ordem Alfabética</MenuItem>
-              <MenuItem onClick={() => handleSortCriteriaChange('updateDate')}>Data de Atualização</MenuItem>
-              <MenuItem onClick={toggleSortDirection}>Direção: {sortDirection === 'asc' ? 'Ascendente' : 'Descendente'}</MenuItem>
-            </Menu>
-          </Box>
-          <ListViewWrapper
-            viewMode={viewMode}
-            sortCriteria={sortCriteria}
-            sortDirection={sortDirection}
-          />
-        </main>
-      </div>
+    <div style={{ display: "flex" }}>
+      <AppBar position="fixed" style={{ zIndex: 1201 }}>
+        <Toolbar>
+          <SearchBox />
+          <IconButton color="primary" onClick={toggleDarkMode}>
+            {darkMode ? "Light Mode" : "Dark Mode"}
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <main style={{ flexGrow: 1, padding: '24px', marginTop: '64px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Box sx={{ marginBottom: '10px', '& > *': { margin: 1 } }}>
+          <IconButton color="primary" onClick={() => setViewMode('cards')}><ViewModuleIcon /></IconButton>
+          <IconButton color="primary" onClick={() => setViewMode('detailed')}><ViewListIcon /></IconButton>
+          <IconButton color="primary" onClick={() => setViewMode('compact')}><ViewCompactIcon /></IconButton>
+          <IconButton color="primary" onClick={handleMenuClick}><MoreVertIcon /></IconButton>
+          <Menu
+            id="filter-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={() => handleSortCriteriaChange('date')}>Data Criação</MenuItem>
+            <MenuItem onClick={() => handleSortCriteriaChange('alphabetical')}>Ordem Alfabética</MenuItem>
+            <MenuItem onClick={() => handleSortCriteriaChange('updateDate')}>Data de Atualização</MenuItem>
+            <MenuItem onClick={toggleSortDirection}>Direção: {sortDirection === 'asc' ? 'Ascendente' : 'Descendente'}</MenuItem>
+          </Menu>
+        </Box>
+        <ListViewWrapper
+          viewMode={viewMode}
+          sortCriteria={sortCriteria}
+          sortDirection={sortDirection}
+        />
+      </main>
       {sessionExpired && (
         <Dialog
           open={true}
@@ -145,7 +143,7 @@ export default function ComponentsLayout() {
           </DialogActions>
         </Dialog>
       )}
-    </ThemeProvider>
+    </div>
   );
 }
 
