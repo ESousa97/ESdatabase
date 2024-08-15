@@ -1,4 +1,3 @@
-// pages/_app.js
 import React from 'react';
 import ThemeProvider from '../componentes/ThemeProvider/ThemeProvider';
 

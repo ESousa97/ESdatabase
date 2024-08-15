@@ -51,16 +51,20 @@ const ThemeProvider = ({ children }) => {
 
   const toggleDarkMode = () => setDarkMode((prevMode) => !prevMode);
 
-  if (router.pathname === '/login') {
-    return <>{children}</>;
+  if (!mounted) {
+    return null; // Aguarda até que o estado esteja montado
   }
 
   return (
     <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        {mounted && children}
-      </MuiThemeProvider>
+      {router.pathname === '/login' ? (
+        children
+      ) : (
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </MuiThemeProvider>
+      )}
     </ThemeContext.Provider>
   );
 };

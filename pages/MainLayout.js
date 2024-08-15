@@ -1,4 +1,3 @@
-// componentes/MainLayout.js
 import React, { useState } from 'react';
 import { CssBaseline } from '@mui/material';
 import { useRouter } from 'next/router';

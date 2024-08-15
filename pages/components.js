@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import CustomThemeProvider from "../componentes/ThemeProvider/ThemeProvider";
+import ThemeProvider, { useTheme } from "../componentes/ThemeProvider/ThemeProvider";
 import SearchBox from "../componentes/SearchBox/SearchBox";
-// As importações de CardList, DetailedList, e CompactList podem ser removidas se não estão sendo usadas em outro lugar
 import { useRouter } from 'next/router';
 import { signOut, getSession } from 'next-auth/react';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
@@ -24,14 +23,15 @@ import ListViewWrapper from '../componentes/ListViewWrapper/ListViewWrapper';
 
 const TIMEOUT = 60 * 60 * 1000; // 1 hora em milissegundos
 
-export default function MainLayout() {
+export default function ComponentsLayout() {
   const [viewMode, setViewMode] = useState('cards');
   const [sessionExpired, setSessionExpired] = useState(false);
   const [sortCriteria, setSortCriteria] = useState('date');
   const [sortDirection, setSortDirection] = useState('asc');
   const [anchorEl, setAnchorEl] = useState(null);
-  const [data, setData] = useState([]);
   const router = useRouter();
+
+  const { darkMode, toggleDarkMode } = useTheme();
 
   useEffect(() => {
     let timeoutId;
@@ -89,11 +89,14 @@ export default function MainLayout() {
   };
 
   return (
-    <CustomThemeProvider>
+    <ThemeProvider>
       <div style={{ display: "flex" }}>
         <AppBar position="fixed" style={{ zIndex: 1201 }}>
           <Toolbar>
             <SearchBox />
+            <IconButton color="primary" onClick={toggleDarkMode}>
+              {darkMode ? "Light Mode" : "Dark Mode"}
+            </IconButton>
           </Toolbar>
         </AppBar>
         <main style={{ flexGrow: 1, padding: '24px', marginTop: '64px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -115,35 +118,34 @@ export default function MainLayout() {
               <MenuItem onClick={toggleSortDirection}>Direção: {sortDirection === 'asc' ? 'Ascendente' : 'Descendente'}</MenuItem>
             </Menu>
           </Box>
-          {/* Renderize somente o ListViewWrapper para mostrar a lista baseada no viewMode */}
           <ListViewWrapper
-              viewMode={viewMode}
-              sortCriteria={sortCriteria}
-              sortDirection={sortDirection}
-            />
+            viewMode={viewMode}
+            sortCriteria={sortCriteria}
+            sortDirection={sortDirection}
+          />
         </main>
       </div>
       {sessionExpired && (
-      <Dialog
-        open={true}
-        onClose={redirectToLogin} // Modificado para chamar redirectToLogin ao fechar
-        aria-labelledby="session-expired-dialog-title"
-        aria-describedby="session-expired-dialog-description"
-      >
-        <DialogTitle id="session-expired-dialog-title">{"Sessão Expirada"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="session-expired-dialog-description">
-            Sua sessão expirou devido à inatividade (inativo por mais de 40min). Por favor, faça login novamente.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={redirectToLogin} color="primary">
-            Fazer login novamente
-          </Button>
-        </DialogActions>
-      </Dialog>
-    )}
-    </CustomThemeProvider>
+        <Dialog
+          open={true}
+          onClose={redirectToLogin} // Modificado para chamar redirectToLogin ao fechar
+          aria-labelledby="session-expired-dialog-title"
+          aria-describedby="session-expired-dialog-description"
+        >
+          <DialogTitle id="session-expired-dialog-title">{"Sessão Expirada"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="session-expired-dialog-description">
+              Sua sessão expirou devido à inatividade (inativo por mais de 40min). Por favor, faça login novamente.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={redirectToLogin} color="primary">
+              Fazer login novamente
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
+    </ThemeProvider>
   );
 }
 
