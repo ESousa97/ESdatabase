@@ -1,8 +1,8 @@
 // ListViewWrapper.js
 import React from 'react';
-import CardList from './CardList/CardList';
-import DetailedList from './DetailedList/DetailedList';
-import CompactList from './CompactList/CompactList';
+import CardList from '../CardList/CardList';
+import DetailedList from '../DetailedList/DetailedList';
+import CompactList from '../CompactList/CompactList';
 
 // Adicione sortCriteria e sortDirection aos parâmetros do componente
 const ListViewWrapper = ({ viewMode, sortCriteria, sortDirection }) => {

@@ -1,26 +1,25 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React, { createContext, useState, useEffect, useMemo, useContext } from 'react';
+import { createTheme, ThemeProvider as MuiThemeProvider, CssBaseline } from '@mui/material';
+import { useRouter } from 'next/router';
 
 const ThemeContext = createContext();
-
-export const useCustomTheme = () => useContext(ThemeContext);
 
 const getDesignTokens = (mode) => ({
   palette: {
     mode,
     primary: {
-      main: mode === 'dark' ? '#1976d2' : '#1976d2',
+      main: '#1976d2',
     },
     secondary: {
-      main: mode === 'dark' ? '#f48fb1' : '#dc004e',
+      main: mode === 'dark' ? '#ec407a' : '#d32f2f',
     },
     background: {
-      default: mode === 'dark' ? '#1976d2' : '#f0f0f0',
-      paper: mode === 'dark' ? '#030c1b' : '#ffffff',
+      default: mode === 'dark' ? '#121212' : '#f0f0f0',
+      paper: mode === 'dark' ? '#101010' : '#ffffff',
     },
     text: {
-      primary: mode === 'dark' ? '#ffffff' : '#333333',
-      secondary: mode === 'dark' ? '#cccccc' : '#666666',
+      primary: mode === 'dark' ? '#ffffff' : '#1e1e1e',
+      secondary: mode === 'dark' ? '#b3b3b3' : '#4f4f4f',
     },
   },
   typography: {
@@ -29,32 +28,43 @@ const getDesignTokens = (mode) => ({
   },
 });
 
-const CustomThemeProvider = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedMode = localStorage.getItem('darkMode');
-      return savedMode ? savedMode === 'true' : true; // default to dark mode
-    }
-    return true; // Um valor padrão para quando estiver no lado do servidor
-  });
+const ThemeProvider = ({ children }) => {
+  const router = useRouter();
+  const [darkMode, setDarkMode] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('darkMode', darkMode.toString());
-  }, [darkMode]);
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode !== null) {
+      setDarkMode(JSON.parse(savedMode));
+    }
+    setMounted(true);
+  }, []);
 
-  const theme = createTheme(getDesignTokens(darkMode ? 'dark' : 'light'));
+  useEffect(() => {
+    if (mounted) {
+      localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    }
+  }, [darkMode, mounted]);
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
+  const theme = useMemo(() => createTheme(getDesignTokens(darkMode ? 'dark' : 'light')), [darkMode]);
+
+  const toggleDarkMode = () => setDarkMode((prevMode) => !prevMode);
+
+  if (router.pathname === '/login') {
+    return <>{children}</>;
+  }
 
   return (
-    <ThemeContext.Provider value={{ toggleDarkMode }}>
-      <ThemeProvider theme={theme}>
-        {children}
-      </ThemeProvider>
+    <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        {mounted && children}
+      </MuiThemeProvider>
     </ThemeContext.Provider>
   );
 };
 
-export default CustomThemeProvider;
+export const useTheme = () => useContext(ThemeContext);
+
+export default ThemeProvider;
