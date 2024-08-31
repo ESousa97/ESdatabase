@@ -1,3 +1,4 @@
+// pages/MainLayout.js
 import React, { useState } from 'react';
 import { CssBaseline } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -29,11 +30,11 @@ const MainLayout = ({ children }) => {
         <meta name="google-site-verification" content="UvuKX1cPOo1fakawbq5Ry3zxnRuJdHQPdfHTLn4pXGY" />
       </Head>
       <CssBaseline />
-      <MainLayoutContent 
-        open={open} 
-        onDrawerToggle={handleDrawerToggle} 
-        onLogout={handleLogout} 
-        onCloseLogoutDialog={handleCloseLogoutDialog} 
+      <MainLayoutContent
+        open={open}
+        onDrawerToggle={handleDrawerToggle}
+        onLogout={handleLogout}
+        onCloseLogoutDialog={handleCloseLogoutDialog}
         logoutDialogOpen={logoutDialogOpen}
         handleConfirmLogout={handleConfirmLogout}
       >
@@ -43,7 +44,15 @@ const MainLayout = ({ children }) => {
   );
 };
 
-const MainLayoutContent = ({ children, open, onDrawerToggle, onLogout, onCloseLogoutDialog, logoutDialogOpen, handleConfirmLogout }) => {
+const MainLayoutContent = ({
+  children,
+  open,
+  onDrawerToggle,
+  onLogout,
+  onCloseLogoutDialog,
+  logoutDialogOpen,
+  handleConfirmLogout,
+}) => {
   const { darkMode, toggleDarkMode } = useTheme();
 
   return (
@@ -55,7 +64,14 @@ const MainLayoutContent = ({ children, open, onDrawerToggle, onLogout, onCloseLo
         darkMode={darkMode}
       />
       <Drawer open={open} onClose={onDrawerToggle} />
-      <main style={{ flexGrow: 1, padding: 16, marginLeft: open ? drawerWidth : 0, paddingTop: '44px' }}>
+      <main
+        style={{
+          flexGrow: 1,
+          padding: 16,
+          marginLeft: open ? drawerWidth : 0,
+          paddingTop: '44px',
+        }}
+      >
         {children}
       </main>
       <Dialog open={logoutDialogOpen} onClose={onCloseLogoutDialog} onConfirm={handleConfirmLogout} />
