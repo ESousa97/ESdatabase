@@ -147,3 +147,22 @@ export default function ComponentsLayout() {
   );
 }
 
+export async function getServerSideProps(context) {
+  const session = await getSession(context); // Obtém o estado de autenticação do usuário
+
+  // Redireciona para a página de login se o usuário não estiver autenticado
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
+}
