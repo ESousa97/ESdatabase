@@ -9,6 +9,7 @@ import GoogleIcon from '../componentes/Login/GoogleIcon';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import NextLink from 'next/link';
+import Head from 'next/head'; // Importando o Head
 
 const StyledContainer = styled(Container)({
   display: 'flex',
@@ -174,6 +175,10 @@ export default function Login() {
   }, []);
 
   return (
+    <>
+      <Head>
+        <meta name="google-site-verification" content="UvuKX1cPOo1fakawbq5Ry3zxnRuJdHQpdFHTLn4pXGY" />
+      </Head>
     <StyledContainer maxWidth="xl">
       <WelcomeText variant="h2" sx={{ mb: 15 }}>
         Sejam bem vindo à Data Base
@@ -250,6 +255,7 @@ export default function Login() {
 </Box>
       </RightBox>
     </StyledContainer>
+    </>
   );
 }
 
