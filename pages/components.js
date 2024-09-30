@@ -21,7 +21,7 @@ import Button from "@mui/material/Button";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ListViewWrapper from '../componentes/ListViewWrapper/ListViewWrapper';
 
-const TIMEOUT = 60 * 60 * 1000; // 1 hora em milissegundos
+const TIMEOUT = 60 * 60 * 4000; // 4 horas em milissegundos
 
 export default function ComponentsLayout() {
   const [viewMode, setViewMode] = useState('cards');
