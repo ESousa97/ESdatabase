@@ -129,14 +129,14 @@ function ProcedureDetails({ procedure }) {
     }
 
     // Handle images
-    const imageMatch = part.match(/(IMC\d+__\d+\.png)/);
+    const imageMatch = part.match(/(IMC\d+__\d+\.(png|jpg|jpeg))/i);
     if (imageMatch) {
-      const imagePath = getImagePath(imageMatch[0]);
+     const imagePath = getImagePath(imageMatch[0]);
       return (
         <ImageContainer key={index}>
           <img src={imagePath} alt={`Imagem ${imageMatch[0]}`} style={{ maxWidth: '100%', height: 'auto', display: 'block', marginLeft: 'auto', marginRight: 'auto' }} />
         </ImageContainer>
-      );
+     );
     }
 
     // Handle links
