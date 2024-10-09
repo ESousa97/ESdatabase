@@ -129,15 +129,16 @@ function ProcedureDetails({ procedure }) {
     }
 
     // Handle images
-    const imageMatch = part.match(/(IMC\d+__\d+\.(png|jpg|jpeg))/i);
-    if (imageMatch) {
-     const imagePath = getImagePath(imageMatch[0]);
-      return (
-        <ImageContainer key={index}>
-          <img src={imagePath} alt={`Imagem ${imageMatch[0]}`} style={{ maxWidth: '100%', height: 'auto', display: 'block', marginLeft: 'auto', marginRight: 'auto' }} />
-        </ImageContainer>
-     );
-    }
+const imageMatch = part.match(/(IMC\d+__\d+\.png)/i);
+if (imageMatch) {
+  const imagePath = getImagePath(imageMatch[0]);
+  return (
+    <ImageContainer key={index}>
+      <img src={imagePath} alt={`Imagem ${imageMatch[0]}`} style={{ maxWidth: '100%', height: 'auto', display: 'block', marginLeft: 'auto', marginRight: 'auto' }} />
+    </ImageContainer>
+  );
+}
+
 
     // Handle links
     const linkMatch = part.match(/\[([^\]]+)\]\((http[^)]+)\)/);
