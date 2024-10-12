@@ -169,7 +169,7 @@ Este projeto foi oficialmente descontinuado em **08 de outubro de 2024**. Ele es
 
 - A coleta de dados e qualquer integração com serviços externos foram desativadas.
 
-- O uso deste código é de sua inteira responsabilidade. Para detalhes adicionais, consulte os [Termos de Uso](https://www.esdatabase.com.br/terms.html) e a [Política de Privacidade](https://www.esdatabase.com.br/privacy.html).
+- O uso deste código é de sua inteira responsabilidade. Para detalhes adicionais, Consulte os <a href="https://www.esdatabase.com.br/terms.html" target="_blank">Termos de Uso</a> e a <a href="https://www.esdatabase.com.br/privacy.html" target="_blank">Política de Privacidade</a>.
 
 ---
 
