@@ -12,7 +12,7 @@ function ProcedurePages() {
 
   useEffect(() => {
     if (id) {
-      axios.get(`https://server-json-eight.vercel.app/api/procedure.js?id=${id}`)
+      axios.get(`Url of your api`)
         .then(response => {
           setProcedure(response.data);
         })

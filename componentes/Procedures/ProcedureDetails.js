@@ -47,7 +47,7 @@ function ProcedureDetails({ procedure }) {
             border: "none",
             borderRadius: '10px', // Borda arredondada no iframe também
           }}
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&showinfo=0&vq=hd1080`}
+          src={`Url of your video`}
           frameBorder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
