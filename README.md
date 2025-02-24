@@ -1,5 +1,3 @@
-# EsDataBase
-
 <h1 align="center">🚀 Projeto de Back-End e Front-End Escalável</h1>
 
 <p align="center">
@@ -57,6 +55,38 @@ Este projeto combina um **back-end robusto** com um **front-end moderno** para a
 
 ---
 
+## 📦 Instalação e Configuração
+
+### Pré-requisitos
+
+- **Node.js** (v14 ou superior)
+- **PostgreSQL** (v12 ou superior)
+- **Vercel CLI** (para deploy contínuo)
+
+### Passos de Instalação
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/seu-projeto.git
+   cd seu-projeto
+    ```
+2. Instale as dependências:
+    ```bash
+    npm install
+    ```
+3. Configure as variáveis de ambiente: Crie um arquivo `.env.local` com as seguintes chaves:
+    ```env
+    DATABASE_URL=postgresql://usuario:senha@localhost:5432/banco
+    NEXTAUTH_URL=http://localhost:3000
+    ```
+4. Execute o projeto em ambiente de desenvolvimento:
+    ```bash
+    npm run dev
+    ```
+5. Para deploy, utilize a Vercel CLI:
+    ```bash
+    vercel
+    ```
 
 ## Estrutura
 
@@ -157,31 +187,4 @@ subdiretórios.
 
 # 📝 Licença
 
-Este projeto está licenciado sob os termos da MIT License. Para mais detalhes, consulte o arquivo [LICENSE](./LICENSE.md).
-
-## 🚨 Projeto Descontinuado
-
-Este projeto foi oficialmente descontinuado em **08 de outubro de 2024**. Ele está sendo mantido publicamente no GitHub apenas para fins de consulta e visualização do código fonte. Não haverá atualizações futuras, suporte técnico ou correções de segurança.
-
-**Importante:**
-
-- Não recomendamos o uso deste código em produção, pois ele pode conter vulnerabilidades ou funcionalidades desatualizadas.
-
-- A coleta de dados e qualquer integração com serviços externos foram desativadas.
-
-- O uso deste código é de sua inteira responsabilidade. Para detalhes adicionais, Consulte os <a href="https://www.esdatabase.com.br/pages/terms/terms.html" target="_blank">Termos de Uso</a> e a <a href="https://www.esdatabase.com.br/pages/privacy/privacy.html" target="_blank">Política de Privacidade</a>.
-
----
-
-## Backend do Projeto
-
-O código-fonte completo do backend deste projeto pode ser acessado no repositório abaixo:
-
-<p align="center">
-  <a href="https://github.com/ESousa97/server.json" target="_blank">
-    <img alt="Backend" src="https://img.shields.io/badge/GitHub-Backend-blue?style=for-the-badge&logo=github">
-  </a>
-</p>
-
----
-
+Este projeto está licenciado sob os termos da MIT License. Para mais detalhes, consulte o arquivo LICENSE.

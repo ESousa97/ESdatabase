@@ -1,6 +1,8 @@
+// pages/terms.js
+
 import * as React from 'react';
 import Head from 'next/head';
-import { Container, Typography, Box } from '@mui/material';
+import { Container, Typography, Box, Button } from '@mui/material';
 
 export default function TermsOfService() {
   return (
@@ -13,49 +15,55 @@ export default function TermsOfService() {
           Termos de Uso e Serviço
         </Typography>
         <Typography paragraph>
-          Última Atualização: 08.10.2024
+          Última Atualização: 05.04.2024
         </Typography>
         <Typography paragraph>
-          Bem-vindo ao Data Base, uma plataforma criada para a consulta e gestão de procedimentos operacionais para sistemas e tecnologias relacionadas. Este documento descreve os Termos de Uso e Serviço aplicáveis a todos os usuários que acessarem o Data Base.
-        </Typography>
-
-        <Typography paragraph>
-          Este projeto foi descontinuado em **08 de outubro de 2024**. Embora tenha sido amplamente utilizado por empresas como **Positivo Brasil** e **International Meal Company (IMC)** durante seu período ativo, o serviço não está mais em operação, e não há garantias de funcionalidade contínua ou suporte técnico. Este documento serve apenas para referência sobre os termos que se aplicavam durante o período de atividade do projeto.
-        </Typography>
-
-        <Typography variant="h6" component="h2" gutterBottom>
-          Aceitação dos Termos
+          Bem-vindo ao Data Base, a sua plataforma confiável para consulta e gestão de procedimentos operacionais para sistemas e tecnologias relacionadas. Este documento detalha os Termos de Uso e Serviço aplicáveis a todos os usuários, incluindo parceiros estratégicos como a Positivo e a International Meal Company (IMC), ao acessarem ou usarem os serviços do Data Base.
         </Typography>
         <Typography paragraph>
-          Durante o período ativo, ao acessar ou utilizar o Data Base, os usuários, incluindo representantes de empresas como a **Positivo** e a **IMC**, aceitavam integralmente os Termos de Uso. Com a descontinuação do projeto, os usuários são informados de que o sistema não está mais sob manutenção ou atualização, e qualquer acesso residual é feito por conta e risco dos usuários.
-        </Typography>
-
-        <Typography variant="h6" component="h2" gutterBottom>
-          Uso Anterior
+          <strong>Aceitação dos Termos</strong>
+          <br />
+          Ao acessar ou utilizar o Data Base, você, incluindo representantes e afiliados da Positivo e da IMC, confirma ter lido, compreendido e aceitado estes Termos de Uso e Serviço integralmente. Caso não concorde com os termos aqui estabelecidos, não é permitido o acesso ou uso dos serviços.
         </Typography>
         <Typography paragraph>
-          Durante o período em que o projeto estava ativo, empresas como **Positivo** e **IMC** fizeram uso da plataforma por meio de contas corporativas, especificamente designadas para a gestão de seus procedimentos operacionais. O uso do serviço estava em conformidade com as leis aplicáveis, incluindo a LGPD e o Marco Civil da Internet.
-        </Typography>
-
-        <Typography variant="h6" component="h2" gutterBottom>
-          Descontinuação do Serviço
+          <strong>Alterações nos Termos</strong>
+          <br />
+          O Data Base reserva-se o direito de modificar estes Termos a qualquer momento. Tais modificações serão comunicadas com antecedência e o uso continuado do serviço indica a aceitação dos Termos atualizados.
         </Typography>
         <Typography paragraph>
-          O Data Base foi oficialmente descontinuado em **08 de outubro de 2024**. A partir desta data, a plataforma não recebe mais atualizações ou suporte técnico, e funcionalidades previamente oferecidas podem não estar mais acessíveis ou funcionais. O projeto foi mantido publicamente apenas para fins de consulta e visualização, sem a garantia de que os dados ou funcionalidades estejam operacionais.
-        </Typography>
-
-        <Typography variant="h6" component="h2" gutterBottom>
-          Isenção de Garantias e Limitação de Responsabilidade
+          <strong>Acesso Corporativo</strong>
+          <br />
+          Parceiros estratégicos, como a Positivo e a IMC, podem acessar o Data Base através de contas corporativas especificamente designadas para tal. O uso dessas contas está sujeito a estes Termos e a quaisquer acordos adicionais entre o Data Base e as empresas parceiras.
         </Typography>
         <Typography paragraph>
-          O Data Base é fornecido "como está", sem qualquer garantia quanto à sua funcionalidade ou continuidade. Não há garantias de segurança, desempenho ou precisão dos dados após a descontinuação. O Data Base, seus autores e colaboradores não serão responsáveis por quaisquer danos, diretos ou indiretos, decorrentes do uso ou incapacidade de uso do serviço, mesmo quando este estava ativo.
-        </Typography>
-
-        <Typography variant="h6" component="h2" gutterBottom>
-          Jurisdição e Lei Aplicável
+          <strong>Segurança e Confidencialidade</strong>
+          <br />
+          Todos os usuários, incluindo parceiros corporativos, comprometem-se a manter a segurança das suas credenciais de acesso e a tratar todas as informações obtidas através do Data Base como confidenciais, não divulgando tais informações sem consentimento expresso. Importante destacar que o Data Base não armazena logins ou senhas de usuários, utilizando serviços 2FA da Microsoft e Google para autenticação por filtro de e-mail.
         </Typography>
         <Typography paragraph>
-          Estes Termos de Uso são regidos pelas leis do Brasil, especificamente do estado de São Paulo, município de São Bernardo do Campo. Qualquer litígio relacionado ao uso do serviço durante o seu período ativo deve ser resolvido nessa jurisdição.
+          <strong>Uso Permitido</strong>
+          <br />
+          O serviço é destinado ao uso legítimo em conformidade com os Termos aqui apresentados, leis aplicáveis, direitos de terceiros, e não deve ser utilizado para qualquer atividade ilegal ou não autorizada.
+        </Typography>
+        <Typography paragraph>
+          <strong>Propriedade Intelectual</strong>
+          <br />
+          O Data Base e todo o seu conteúdo, funcionalidades e recursos são protegidos por direitos de propriedade intelectual, sendo de propriedade exclusiva do Data Base e seus licenciantes. O uso do serviço não transfere esses direitos a nenhum usuário, incluindo parceiros.
+        </Typography>
+        <Typography paragraph>
+          <strong>Responsabilidades dos Parceiros</strong>
+          <br />
+          Parceiros como a Positivo e a IMC assumem a responsabilidade pelo uso do serviço por seus representantes, garantindo a conformidade com estes Termos.
+        </Typography>
+        <Typography paragraph>
+          <strong>Isenção de Garantias e Limitação de Responsabilidade</strong>
+          <br />
+          O Data Base é fornecido "como está", sem garantias. A responsabilidade do Data Base por quaisquer questões decorrentes do uso do serviço é limitada nos termos mais amplos permitidos por lei.
+        </Typography>
+        <Typography paragraph>
+          <strong>Jurisdição e Lei Aplicável</strong>
+          <br />
+          Estes Termos são regidos pelas leis do Brasil, especificamente do estado de São Paulo, município de São Bernardo do Campo. Quaisquer disputas relacionadas ao serviço serão resolvidas na jurisdição local, observando as seguintes legislações aplicáveis:
         </Typography>
         <ul>
           <li>Lei Geral de Proteção de Dados Pessoais (LGPD), Lei nº 13.709/2018;</li>
@@ -64,16 +72,13 @@ export default function TermsOfService() {
           <li>Lei de Direitos Autorais, Lei nº 9.610/1998;</li>
           <li>Lei do Software, Lei nº 9.609/1998.</li>
         </ul>
-
-        <Typography variant="h6" component="h2" gutterBottom>
-          Contato
+        <Typography paragraph>
+          <strong>Contato</strong>
+          <br />
+          Em caso de dúvidas, entre em contato pelo e-mail <a href="mailto:sousa3086@outlook.com" target='_blank'>sousa3086@outlook.com</a>.
         </Typography>
         <Typography paragraph>
-          Para quaisquer questões relacionadas a estes Termos de Uso ou ao projeto, entre em contato pelo e-mail <a href="mailto:sousa3086@outlook.com" target='_blank'>sousa3086@outlook.com</a>.
-        </Typography>
-
-        <Typography paragraph>
-          Estes Termos de Uso refletem as condições durante o período de operação do Data Base e servem como referência para as empresas e usuários que utilizaram o serviço anteriormente. Após a descontinuação, o uso do serviço é realizado por conta e risco do usuário, sem qualquer garantia de suporte ou funcionalidade.
+          Estes Termos de Uso e Serviço representam o acordo completo entre todos os usuários, incluindo parceiros estratégicos como a Positivo e a IMC, e o Data Base, relativo ao uso do serviço. A aceitação destes Termos é obrigatória para o acesso e uso do Data Base.
         </Typography>
       </Box>
     </Container>

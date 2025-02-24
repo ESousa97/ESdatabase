@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import { useTheme } from "../componentes/ThemeProvider/ThemeProvider";
 import SearchBox from "../componentes/SearchBox/SearchBox";
 import { useRouter } from 'next/router';
-import { signOut, getSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewCompactIcon from '@mui/icons-material/ViewCompact';
@@ -62,7 +62,7 @@ export default function ComponentsLayout() {
     };
   }, [router]);
 
-  // Função para redirecionar para a tela de login
+  // Função para redirecionar para a tela de login (caso queira manter essa funcionalidade para usuários logados)
   const redirectToLogin = () => {
     setSessionExpired(false);
     router.push('/login');
@@ -126,7 +126,7 @@ export default function ComponentsLayout() {
       {sessionExpired && (
         <Dialog
           open={true}
-          onClose={redirectToLogin} // Modificado para chamar redirectToLogin ao fechar
+          onClose={redirectToLogin}
           aria-labelledby="session-expired-dialog-title"
           aria-describedby="session-expired-dialog-description"
         >
@@ -148,21 +148,8 @@ export default function ComponentsLayout() {
 }
 
 export async function getServerSideProps(context) {
-  const session = await getSession(context); // Obtém o estado de autenticação do usuário
-
-  // Redireciona para a página de login se o usuário não estiver autenticado
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
-
+  // Acesso público: não há verificação de sessão
   return {
-    props: {
-      session,
-    },
+    props: {},
   };
 }

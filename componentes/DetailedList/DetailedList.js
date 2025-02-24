@@ -18,7 +18,7 @@ const DetailedList = ({ sortCriteria, sortDirection }) => {
 
   useEffect(() => {
     setLoading(true); // Inicie o carregamento
-    axios.get('Url of your api')
+    axios.get('https://server-json-eight.vercel.app/api/cardlist')
       .then(response => {
         const sortedData = response.data.sort((a, b) => {
           let itemA, itemB;
