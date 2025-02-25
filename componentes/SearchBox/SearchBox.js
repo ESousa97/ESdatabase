@@ -29,7 +29,7 @@ const SearchBox = () => {
     const fetchResults = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`https://server-json-eight.vercel.app/api/search?query=${encodeURIComponent(searchTerm)}`);
+        const response = await fetch(`https://serverdatabase.vercel.app/api/search?query=${encodeURIComponent(searchTerm)}`);
         const data = await response.json();
         setResults(data);
       } catch (error) {
