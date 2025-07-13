@@ -12,7 +12,8 @@ function ProcedurePages() {
 
   useEffect(() => {
     if (id) {
-      axios.get(`http://localhost:3000/api/procedure.js?id=${id}`)
+      // URL corrigida:
+      axios.get(`http://localhost:3000/api/procedure?id=${id}`)
         .then(response => {
           setProcedure(response.data);
         })
@@ -22,7 +23,6 @@ function ProcedurePages() {
     }
   }, [id]);
 
-  // Envolver o conteúdo com o MainLayout
   return (
     <MainLayout>
       <ProcedureDetails procedure={procedure} />
