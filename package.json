@@ -1,13 +1,13 @@
 {
-  "name": "next-material-kit",
+  "name": "next-material-kit-local",
   "version": "1.2.2",
-  "description": "NextJS Version of Material Kit React by Creative Tim",
+  "description": "NextJS Version of Material Kit React - Local Version",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "next",
+    "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "start http://localhost:3000 && next start",
+    "start": "next start -p 3001",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && rm -rf .next/ && npm install && npm run dev"
   },
   "repository": {
@@ -33,14 +33,12 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.14",
-    "auth": "^1.0.2",
     "axios": "^1.6.8",
     "classnames": "2.3.2",
     "date-fns": "^3.6.0",
     "dompurify": "^3.0.11",
     "moment": "2.29.4",
     "next": "^14.1.4",
-    "next-auth": "^4.24.7",
     "nouislider": "14.7.0",
     "pg": "^8.11.3",
     "prop-types": "15.8.1",
