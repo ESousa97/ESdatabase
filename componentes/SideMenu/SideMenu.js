@@ -16,7 +16,7 @@ const SideMenu = ({ open, onClose }) => {
   const router = useRouter();
 
   useEffect(() => {
-    axios.get('https://serverdatabase.vercel.app/api/categories')
+    axios.get('https://server-json-eight.vercel.app/api/categories')
       .then(response => {
         const fetchedCategories = response.data.reduce((acc, item) => {
           if (!acc[item.categoria]) {

@@ -1,12 +1,26 @@
 import ProcedurePages from '../../componentes/Procedures/ProcedurePages';
+import { getSession } from 'next-auth/react';
 
 export default function ProcedurePage() {
   return <ProcedurePages />;
 }
 
 export async function getServerSideProps(context) {
-  // Acesso público: não há verificação de sessão
+  const session = await getSession(context);
+
+  // Redireciona para a página de login se o usuário não estiver autenticado
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
   return {
-    props: {},
+    props: {
+      session,
+    },
   };
 }

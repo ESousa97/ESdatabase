@@ -40,7 +40,7 @@ const useCardList = (sortCriteria, sortDirection) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://serverdatabase.vercel.app/api/cardlist');
+        const response = await axios.get('https://server-json-eight.vercel.app/api/cardlist');
         setCards(sortData(response.data, sortCriteria, sortDirection));
       } catch (err) {
         console.error('Error fetching card list:', err);

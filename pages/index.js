@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import { useTheme } from "../componentes/ThemeProvider/ThemeProvider";
 
 const Index = () => {
+  const router = useRouter();
   const { darkMode, toggleDarkMode } = useTheme();
+
+  useEffect(() => {
+    router.push("/login");
+  }, [router]);
 
   return (
     <>
