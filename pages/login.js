@@ -86,7 +86,7 @@ export default function Login() {
   return (
     <>
       <Head>
-        <meta name="google-site-verification" content="UvuKX1cPOo1fakawbq5Ry3zxnRuJdHQpdFHTLn4pXGY" />
+        <meta name="google-site-verification" content="chave aqui" />
       </Head>
       <StyledContainer maxWidth="xl">
         <WelcomeText variant="h2" sx={{ mb: 15 }}>
@@ -99,7 +99,7 @@ export default function Login() {
         </ImageContainer>
         <RightBox>
           <Alert severity="info" sx={{ width: '100%', mb: 2 }}>
-            <b>Esta é apenas uma demonstração.</b> O login não é real — ao clicar, você será redirecionado diretamente.
+            <b>Esta é apenas uma demonstração.</b> O login não é real — ao clicar, você será redirecionado diretamente para página principal.
           </Alert>
           <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
             Login
