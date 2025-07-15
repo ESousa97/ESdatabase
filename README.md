@@ -495,6 +495,8 @@ Este projeto não existiria sem o incrível ecossistema open source e os recurso
 *De uma ideia para resolver um problema simples, a um sistema em produção atendendo milhares de usuários, até uma contribuição open source para a comunidade.*
 
 </div>
-```
+
+---
+[![BackEnd](https://img.shields.io/badge/BackEnd-orange?style=for-the-badge)](https://github.com/ESousa97/server.json)
 
 > ✨ **Criado em:** 13 de mar. de 2024 às 21:11
