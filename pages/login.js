@@ -86,7 +86,29 @@ export default function Login() {
   return (
     <>
       <Head>
+        {/* Favicon */}
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        
+        {/* Meta tags específicas da página */}
+        <title>Login - Data Base</title>
+        <meta name="description" content="Faça login no Data Base - Sistema de Gestão de Procedimentos Operacionais" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#1976d2" />
+        
+        {/* Meta tags para redes sociais */}
+        <meta property="og:title" content="Login - Data Base" />
+        <meta property="og:description" content="Acesse o Data Base - Sistema de Gestão de Procedimentos Operacionais" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/favicon-32x32.png" />
+        
+        {/* Verificação do Google */}
         <meta name="google-site-verification" content="chave aqui" />
+        
+        {/* Preload da imagem de background */}
+        <link rel="preload" href="/images/background.gif" as="image" />
       </Head>
       <StyledContainer maxWidth="xl">
         <WelcomeText variant="h2" sx={{ mb: 15 }}>
