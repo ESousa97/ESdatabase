@@ -1,15 +1,16 @@
-import React, { useState, useEffect, memo } from 'react';
+// componentes/CardList/CardList.js
+import React, { useState, memo } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-import { Typography, CircularProgress, Snackbar } from '@mui/material';
-import { Alert } from '@mui/material';
+import { Typography, Snackbar, Alert } from '@mui/material';
 import { useRouter } from 'next/router';
 import MainLayout from '../../pages/MainLayout';
 import { useTheme } from '@mui/material/styles';
 import { StyledButtonBase, StyledCard, StyledCardMedia, StyledCardContent } from './CardStyles';
+// IMPORTANTE: Troque para demoCards
+import { demoCards } from '../../data/demoCards';
 
 const sortData = (data, sortCriteria, sortDirection) => {
-  return data.sort((a, b) => {
+  return data.slice().sort((a, b) => {
     let itemA, itemB;
     switch (sortCriteria) {
       case 'date':
@@ -17,8 +18,8 @@ const sortData = (data, sortCriteria, sortDirection) => {
         itemB = new Date(b.created_at);
         break;
       case 'alphabetical':
-        itemA = a.title.toLowerCase();
-        itemB = b.title.toLowerCase();
+        itemA = (a.title || '').toLowerCase();
+        itemB = (b.title || '').toLowerCase();
         break;
       case 'updateDate':
         itemA = new Date(a.data_modificacao);
@@ -32,52 +33,23 @@ const sortData = (data, sortCriteria, sortDirection) => {
   });
 };
 
-const useCardList = (sortCriteria, sortDirection) => {
-  const [cards, setCards] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/api/cardlist');
-        setCards(sortData(response.data, sortCriteria, sortDirection));
-      } catch (err) {
-        console.error('Error fetching card list:', err);
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [sortCriteria, sortDirection]);
-
-  return { cards, loading, error };
-};
-
 const CardList = memo(({ sortCriteria, sortDirection }) => {
-  const { cards, loading, error } = useCardList(sortCriteria, sortDirection);
-  const [hoveredCard, setHoveredCard] = useState(null);  // Aqui está definido o hoveredCard
+  const [hoveredCard, setHoveredCard] = useState(null);
   const router = useRouter();
   const theme = useTheme();
+
+  // Use os cards de demoCards
+  const cards = sortData(demoCards, sortCriteria, sortDirection);
 
   const handleCardClick = (id) => {
     router.push(`/procedimentos/${id}`);
   };
 
-  if (loading) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
-        <CircularProgress />
-      </div>
-    );
-  }
-
-  if (error) {
+  if (!cards.length) {
     return (
       <Snackbar open={true} autoHideDuration={6000}>
-        <Alert severity="error" variant="filled">
-          Error loading cards!
+        <Alert severity="warning" variant="filled">
+          Nenhum card encontrado!
         </Alert>
       </Snackbar>
     );

@@ -10,7 +10,7 @@ function ProcedureDetails({ procedure }) {
   const [videoLoaded, setVideoLoaded] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const IMG_WIDTH = 640; // Todas as imagens ficam no mesmo tamanho
+  const IMG_WIDTH = 640;
 
   useEffect(() => {
     if (procedure) setLoading(false);
@@ -97,50 +97,41 @@ function ProcedureDetails({ procedure }) {
     return { __html: DOMPurify.sanitize(modifiedHtml) };
   };
 
-  // Para imagem do tipo IMC0001__1.png → /Assets/IMC0001/IMC0001__1.png
-  const getImagePath = (imageFileName) => {
-    const [folder] = imageFileName.split('__');
-    return `/Assets/${folder}/${imageFileName}`;
-  };
-
   function processLine(part, index) {
-    // 1. Ignora diretórios puros (com ou sem barra, com ou sem public)
-    if (/^(public\/)?Assets\/IMC\d{4}\/?$/i.test(part.trim())) {
-      return null;
-    }
+    if (/^(public\/)?Assets\/IMC\d{4}\/?$/i.test(part.trim())) return null;
 
-    // 2. Ignora caminho puro de imagem (para evitar exibir como texto)
-    if (/^(public\/)?Assets\/IMC\d{4}\/IMC\d{4}__\d+\.png$/i.test(part.trim())) {
-      return null;
-    }
-
-    // 3. Tokeniza cada linha, pegando imagens (absoluto ou só nome), cópia, vídeo, links
-    const tokens = [];
-    let line = part;
-    let match, lastIndex = 0;
     const pattern = [
-      /(public\/Assets\/IMC\d{4}\/IMC\d{4}__\d+\.png)/i.source, // Caminho absoluto
-      /(IMC\d{4}__\d+\.png)/i.source,                          // Apenas nome
-      /@@(.*?)@@/.source,
+      /(public\/Assets\/[^\s)]+\.png)/i.source,
+      /(Assets\/[^\s)]+\.png)/i.source,
+      /(IMC\d{4}__\d+\.png)/i.source,
+      /@@(.+?)@@/.source,
       /https?:\/\/(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/.source,
+      /https?:\/\/(?:youtu\.be)\/([a-zA-Z0-9_-]+)/.source,
       /\[([^\]]+)\]\((http[^\)]+)\)/.source
     ].join('|');
     const globalPattern = new RegExp(pattern, 'gi');
 
+    let tokens = [];
+    let line = part;
+    let match, lastIndex = 0;
     while ((match = globalPattern.exec(line)) !== null) {
       if (match.index > lastIndex) {
         tokens.push({ type: 'text', value: line.substring(lastIndex, match.index) });
       }
-      if (match[1]) { // Caminho absoluto imagem
-        tokens.push({ type: 'imageAbs', value: match[1] });
-      } else if (match[2]) { // Nome imagem
+      if (match[1]) {
+        tokens.push({ type: 'image', value: match[1] });
+      } else if (match[2]) {
         tokens.push({ type: 'image', value: match[2] });
-      } else if (match[3] !== undefined) { // @@copy@@
-        tokens.push({ type: 'copy', value: match[3] });
-      } else if (match[4]) { // YouTube
-        tokens.push({ type: 'video', value: match[4] });
-      } else if (match[5] && match[6]) { // Markdown link
-        tokens.push({ type: 'link', text: match[5], href: match[6] });
+      } else if (match[3]) {
+        tokens.push({ type: 'image', value: `/Assets/${match[3].split('__')[0]}/${match[3]}` });
+      } else if (match[4] !== undefined) {
+        tokens.push({ type: 'copy', value: match[4] });
+      } else if (match[5]) {
+        tokens.push({ type: 'video', value: match[5] });
+      } else if (match[6]) {
+        tokens.push({ type: 'video', value: match[6] });
+      } else if (match[7] && match[8]) {
+        tokens.push({ type: 'link', text: match[7], href: match[8] });
       }
       lastIndex = globalPattern.lastIndex;
     }
@@ -151,29 +142,9 @@ function ProcedureDetails({ procedure }) {
     return (
       <ContentContainer key={index}>
         {tokens.map((token, i) => {
-          if (token.type === 'imageAbs') {
-            const imagePath = '/' + token.value.replace(/^public\//, '');
-            return (
-              <ImageContainer key={i}>
-                <img
-                  src={imagePath}
-                  alt={`Imagem ${imagePath}`}
-                  style={{
-                    width: IMG_WIDTH,
-                    maxWidth: '100%',
-                    height: 'auto',
-                    display: 'block',
-                    margin: '24px auto',
-                    borderRadius: 12,
-                    boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
-                    objectFit: 'contain'
-                  }}
-                />
-              </ImageContainer>
-            );
-          }
           if (token.type === 'image') {
-            const imagePath = getImagePath(token.value);
+            let imagePath = token.value.replace(/^public\//, '');
+            if (!imagePath.startsWith('/')) imagePath = '/' + imagePath;
             return (
               <ImageContainer key={i}>
                 <img
@@ -212,12 +183,21 @@ function ProcedureDetails({ procedure }) {
             );
           }
           if (token.type === 'text') {
-            // Garante que caminho puro de imagem não seja exibido nem como texto, em caso de erro de tokenização
-            if (/^(public\/)?Assets\/IMC\d{4}\/IMC\d{4}__\d+\.png$/i.test(token.value.trim())) {
-              return null;
-            }
+            if (/^(public\/)?Assets\/[^\s)]+\.png$/i.test(token.value.trim())) return null;
             return token.value.trim() !== ''
-              ? <span key={i} dangerouslySetInnerHTML={createMarkup(token.value)} />
+              ? <span
+                  key={i}
+                  dangerouslySetInnerHTML={createMarkup(token.value)}
+                  style={{
+                    display: 'block',
+                    paddingLeft: 16,
+                    paddingRight: 16,
+                    marginBottom: 6,
+                    fontSize: '1.08rem',
+                    lineHeight: 1.85,
+                    color: '#ededed'
+                  }}
+                />
               : null;
           }
           return null;
@@ -226,16 +206,18 @@ function ProcedureDetails({ procedure }) {
     );
   }
 
-  const processedContent = procedure?.conteudo.split('\n').map(processLine);
+  const processedContent = procedure?.conteudo
+    ? procedure.conteudo.split('\n').map(processLine)
+    : null;
 
   if (loading) {
     return <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}><CircularProgress /></Box>;
   }
 
   return (
-    <div>
+    <div style={{ maxWidth: 1800, margin: '0 auto', padding: '12px 0' }}>
       <ToastContainer autoClose={5000} />
-      <h1>{procedure.titulo}</h1>
+      <h1 style={{ marginLeft: 24 }}>{procedure.titulo}</h1>
       {processedContent}
     </div>
   );

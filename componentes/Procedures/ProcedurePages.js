@@ -1,33 +1,35 @@
-// components/Procedures/ProcedurePages.js
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import MainLayout from '../../pages/MainLayout'; // Certifique-se de que o caminho está correto
-import ProcedureDetails from './ProcedureDetails'; // Confirme o caminho
+import MainLayout from '../../pages/MainLayout';
+import ProcedureDetails from './ProcedureDetails';
+import { demoProjects } from '../../data/demoProjects'; // ajuste se usar outro mock
 
-function ProcedurePages() {
+function ProcedurePage() {
   const [procedure, setProcedure] = useState(null);
+  const [notFound, setNotFound] = useState(false);
   const router = useRouter();
   const { id } = router.query;
 
   useEffect(() => {
-    if (id) {
-      // URL corrigida:
-      axios.get(`http://localhost:3000/api/procedure?id=${id}`)
-        .then(response => {
-          setProcedure(response.data);
-        })
-        .catch(error => {
-          console.error('Erro ao buscar procedimento:', error);
-        });
-    }
+    if (!id) return;
+    const proc = demoProjects.find(item => String(item.id) === String(id)); // força string por precaução
+    setProcedure(proc || null);
+    setNotFound(!proc);
   }, [id]);
 
   return (
     <MainLayout>
-      <ProcedureDetails procedure={procedure} />
+      {!id ? (
+        <div style={{ padding: 32 }}>Carregando...</div>
+      ) : notFound ? (
+        <div style={{ padding: 32, color: 'crimson', fontWeight: 'bold' }}>
+          Procedimento não encontrado 😥
+        </div>
+      ) : (
+        <ProcedureDetails procedure={procedure} />
+      )}
     </MainLayout>
   );
 }
 
-export default ProcedurePages;
+export default ProcedurePage;

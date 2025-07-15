@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import List from '@mui/material/List';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -9,6 +8,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Typography } from '@mui/material';
 import { StyledDrawer, StyledListItemButton, CustomListItemIcon } from './SideMenuStyles';
+import { demoProjects } from '../../data/demoProjects';
 
 const SideMenu = ({ open, onClose }) => {
   const [categories, setCategories] = useState({});
@@ -16,41 +16,43 @@ const SideMenu = ({ open, onClose }) => {
   const router = useRouter();
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/categories')
-      .then(response => {
-        const fetchedCategories = response.data.reduce((acc, item) => {
-          if (!acc[item.categoria]) {
-            acc[item.categoria] = [];
-          }
-          acc[item.categoria].push(item);
-          return acc;
-        }, {});
-        setCategories(fetchedCategories);
-      })
-      .catch(error => {
-        console.error('Erro ao buscar itens do menu lateral:', error);
-      });
+    // Agrupar projetos por categoria
+    const grouped = demoProjects.reduce((acc, item) => {
+      const category = item.categoria || 'Outros';
+      if (!acc[category]) acc[category] = [];
+      acc[category].push(item);
+      return acc;
+    }, {});
+    setCategories(grouped);
   }, []);
 
   const handleToggle = (category, event) => {
     event.stopPropagation();
-    setOpenSubmenus(prev => ({ ...prev, [category]: !prev[category] }));
+    setOpenSubmenus(prev => ({
+      ...prev,
+      [category]: !prev[category]
+    }));
   };
 
   const handleMenuItemClick = (id, event) => {
     event.stopPropagation();
     router.push(`/procedimentos/${id}`);
-    onClose();
+    if (onClose) onClose();
   };
 
   return (
     <StyledDrawer variant="persistent" anchor="left" open={open} onClose={onClose}>
-      <Typography variant="h6" align="center" gutterBottom sx={{ paddingTop: '10px', fontWeight: 'bold' }}>
+      <Typography
+        variant="h6"
+        align="center"
+        gutterBottom
+        sx={{ paddingTop: '10px', fontWeight: 'bold' }}
+      >
         Conteúdo
       </Typography>
-      {Object.keys(categories).map((category) => (
+      {Object.keys(categories).map(category => (
         <List component="nav" key={category} sx={{ paddingX: '16px' }}>
-          <StyledListItemButton onClick={(event) => handleToggle(category, event)}>
+          <StyledListItemButton onClick={event => handleToggle(category, event)}>
             <ListItemIcon>
               <FiberManualRecordIcon sx={{ color: 'primary.main', fontSize: 'small' }} />
             </ListItemIcon>
@@ -58,13 +60,18 @@ const SideMenu = ({ open, onClose }) => {
             {openSubmenus[category] ? <ExpandLess /> : <ExpandMore />}
           </StyledListItemButton>
           <Collapse in={openSubmenus[category]} timeout="auto" unmountOnExit>
-            {categories[category].map((item) => (
+            {categories[category].map(item => (
               <List component="div" disablePadding key={item.id}>
-                <StyledListItemButton sx={{ pl: 2 }} onClick={(event) => handleMenuItemClick(item.id, event)}>
+                <StyledListItemButton
+                  sx={{ pl: 2 }}
+                  onClick={event => handleMenuItemClick(item.id, event)}
+                >
                   <ListItemIcon>
-                    <CustomListItemIcon variant="body1" component="span">➤</CustomListItemIcon>
+                    <CustomListItemIcon variant="body1" component="span">
+                      ➤
+                    </CustomListItemIcon>
                   </ListItemIcon>
-                  <ListItemText primary={item.titulo} />
+                  <ListItemText primary={item.titulo || item.title} />
                 </StyledListItemButton>
               </List>
             ))}
@@ -76,4 +83,3 @@ const SideMenu = ({ open, onClose }) => {
 };
 
 export default SideMenu;
-
