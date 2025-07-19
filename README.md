@@ -500,3 +500,4 @@ Este projeto não existiria sem o incrível ecossistema open source e os recurso
 [![BackEnd](https://img.shields.io/badge/BackEnd-orange?style=for-the-badge)](https://github.com/ESousa97/server.json)
 
 > ✨ **Criado em:** 13 de mar. de 2024 às 21:11
+
