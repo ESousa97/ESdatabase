@@ -16,11 +16,6 @@
   <strong>🛠️ <a href="#-stack-tecnológica">Stack Tecnológica</a></strong>
 </p>
 
-<p align="center">
-  <img src="/video/1EsDataBase.gif" alt="Demonstração 1" width="320" style="margin-right: 20px;">
-  <img src="/video/2EsDataBase.gif" alt="Demonstração 2" width="320">
-</p>
-
 ---
 
 ## 📋 Sumário
