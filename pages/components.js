@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import { useTheme } from "../componentes/ThemeProvider/ThemeProvider";
-import SearchBox from "../componentes/SearchBox/SearchBox";
+import React, { useState } from 'react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import { useTheme } from '../componentes/ThemeProvider/ThemeProvider';
+import SearchBox from '../componentes/SearchBox/SearchBox';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewCompactIcon from '@mui/icons-material/ViewCompact';
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ListViewWrapper from '../componentes/ListViewWrapper/ListViewWrapper';
 
@@ -32,21 +32,38 @@ export default function ComponentsLayout() {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: 'flex' }}>
       <AppBar position="fixed" style={{ zIndex: 1201 }}>
         <Toolbar>
           <SearchBox />
           <IconButton color="primary" onClick={toggleDarkMode}>
-            {darkMode ? "Light Mode" : "Dark Mode"}
+            {darkMode ? 'Light Mode' : 'Dark Mode'}
           </IconButton>
         </Toolbar>
       </AppBar>
-      <main style={{ flexGrow: 1, padding: '24px', marginTop: '64px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <main
+        style={{
+          flexGrow: 1,
+          padding: '24px',
+          marginTop: '64px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
         <Box sx={{ marginBottom: '10px', '& > *': { margin: 1 } }}>
-          <IconButton color="primary" onClick={() => setViewMode('cards')}><ViewModuleIcon /></IconButton>
-          <IconButton color="primary" onClick={() => setViewMode('detailed')}><ViewListIcon /></IconButton>
-          <IconButton color="primary" onClick={() => setViewMode('compact')}><ViewCompactIcon /></IconButton>
-          <IconButton color="primary" onClick={handleMenuClick}><MoreVertIcon /></IconButton>
+          <IconButton color="primary" onClick={() => setViewMode('cards')}>
+            <ViewModuleIcon />
+          </IconButton>
+          <IconButton color="primary" onClick={() => setViewMode('detailed')}>
+            <ViewListIcon />
+          </IconButton>
+          <IconButton color="primary" onClick={() => setViewMode('compact')}>
+            <ViewCompactIcon />
+          </IconButton>
+          <IconButton color="primary" onClick={handleMenuClick}>
+            <MoreVertIcon />
+          </IconButton>
           <Menu
             id="filter-menu"
             anchorEl={anchorEl}
@@ -55,9 +72,15 @@ export default function ComponentsLayout() {
             onClose={handleClose}
           >
             <MenuItem onClick={() => handleSortCriteriaChange('date')}>Data Criação</MenuItem>
-            <MenuItem onClick={() => handleSortCriteriaChange('alphabetical')}>Ordem Alfabética</MenuItem>
-            <MenuItem onClick={() => handleSortCriteriaChange('updateDate')}>Data de Atualização</MenuItem>
-            <MenuItem onClick={toggleSortDirection}>Direção: {sortDirection === 'asc' ? 'Ascendente' : 'Descendente'}</MenuItem>
+            <MenuItem onClick={() => handleSortCriteriaChange('alphabetical')}>
+              Ordem Alfabética
+            </MenuItem>
+            <MenuItem onClick={() => handleSortCriteriaChange('updateDate')}>
+              Data de Atualização
+            </MenuItem>
+            <MenuItem onClick={toggleSortDirection}>
+              Direção: {sortDirection === 'asc' ? 'Ascendente' : 'Descendente'}
+            </MenuItem>
           </Menu>
         </Box>
         <ListViewWrapper

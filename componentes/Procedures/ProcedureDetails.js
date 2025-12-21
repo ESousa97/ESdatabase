@@ -2,29 +2,34 @@ import React, { useState, useEffect } from 'react';
 import DOMPurify from 'dompurify';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { 
-  CircularProgress, 
-  Box, 
-  Button, 
-  Chip, 
-  Typography, 
-  Card, 
+import {
+  CircularProgress,
+  Box,
+  Button,
+  Chip,
+  Typography,
+  Card,
   CardContent,
   Divider,
   Accordion,
   AccordionSummary,
-  AccordionDetails
+  AccordionDetails,
 } from '@mui/material';
-import { 
-  Code as CodeIcon, 
-  ContentCopy as CopyIcon, 
+import {
+  Code as CodeIcon,
+  ContentCopy as CopyIcon,
   ExpandMore as ExpandMoreIcon,
   PlayArrow as PlayIcon,
   Link as LinkIcon,
   Category as CategoryIcon,
-  Schedule as ScheduleIcon
+  Schedule as ScheduleIcon,
 } from '@mui/icons-material';
-import { StyledButton, StyledCopyButton, ImageContainer, ContentContainer } from './ProcedureDetailsStyles';
+import {
+  StyledButton,
+  StyledCopyButton,
+  ImageContainer,
+  ContentContainer,
+} from './ProcedureDetailsStyles';
 
 function ProcedureDetails({ procedure }) {
   const [loading, setLoading] = useState(true);
@@ -42,10 +47,13 @@ function ProcedureDetails({ procedure }) {
   const toggleExpand = () => setIsExpanded(!isExpanded);
 
   const handleCopy = (text) => {
-    navigator.clipboard.writeText(text)
-      .then(() => toast.success('Código copiado para a área de transferência!', {
-        position: "bottom-right"
-      }))
+    navigator.clipboard
+      .writeText(text)
+      .then(() =>
+        toast.success('Código copiado para a área de transferência!', {
+          position: 'bottom-right',
+        }),
+      )
       .catch((error) => console.error('Erro ao copiar o conteúdo:', error));
   };
 
@@ -59,19 +67,21 @@ function ProcedureDetails({ procedure }) {
     setExpandedSections(newExpanded);
   };
 
-  const renderVideo = (videoId) => (
+  const renderVideo = (videoId) =>
     videoLoaded === videoId ? (
       <Card elevation={4} sx={{ margin: '20px 0', borderRadius: 2, overflow: 'hidden' }}>
-        <div style={{
-          position: 'relative',
-          height: isExpanded ? '85vh' : '400px',
-          transition: 'height 0.8s ease',
-        }}>
+        <div
+          style={{
+            position: 'relative',
+            height: isExpanded ? '85vh' : '400px',
+            transition: 'height 0.8s ease',
+          }}
+        >
           <iframe
             style={{
-              width: "100%",
-              height: "100%",
-              border: "none",
+              width: '100%',
+              height: '100%',
+              border: 'none',
             }}
             src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&showinfo=0&vq=hd1080`}
             frameBorder="0"
@@ -97,8 +107,8 @@ function ProcedureDetails({ procedure }) {
       </Card>
     ) : (
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', my: 2 }}>
-        <Button 
-          variant="outlined" 
+        <Button
+          variant="outlined"
           color="primary"
           startIcon={<PlayIcon />}
           onClick={() => handleLoadVideo(videoId)}
@@ -106,34 +116,35 @@ function ProcedureDetails({ procedure }) {
             textTransform: 'none',
             fontWeight: 600,
             px: 3,
-            py: 1
+            py: 1,
           }}
         >
           Carregar Vídeo Tutorial
         </Button>
       </Box>
-    )
-  );
+    );
 
   const renderCodeBlock = (code) => (
-    <Card 
-      elevation={2} 
-      sx={{ 
-        margin: '16px 0', 
+    <Card
+      elevation={2}
+      sx={{
+        margin: '16px 0',
         bgcolor: 'grey.900',
         borderRadius: 2,
-        overflow: 'hidden'
+        overflow: 'hidden',
       }}
     >
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
-        p: 2,
-        bgcolor: 'grey.800',
-        borderBottom: 1,
-        borderColor: 'grey.700'
-      }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          p: 2,
+          bgcolor: 'grey.800',
+          borderBottom: 1,
+          borderColor: 'grey.700',
+        }}
+      >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <CodeIcon color="success" sx={{ fontSize: 20 }} />
           <Typography variant="body2" color="success.main" sx={{ fontWeight: 600 }}>
@@ -163,7 +174,7 @@ function ProcedureDetails({ procedure }) {
             color: 'grey.100',
             margin: 0,
             whiteSpace: 'pre-wrap',
-            wordBreak: 'break-word'
+            wordBreak: 'break-word',
           }}
         >
           {code}
@@ -179,10 +190,16 @@ function ProcedureDetails({ procedure }) {
       .replace(/●/g, '<span style="color: #1976d2; font-weight: bold;">●</span>')
       .replace(/➤/g, '<span style="color: #ed6c02; font-size: 1.2em; font-weight: bold;">➤</span>')
       .replace(/\\n/g, '<br />')
-      .replace(/<table>/g, '<table class="table" style="width: 100%; border-collapse: collapse; margin: 16px 0;">')
+      .replace(
+        /<table>/g,
+        '<table class="table" style="width: 100%; border-collapse: collapse; margin: 16px 0;">',
+      )
       .replace(/<thead>/g, '<thead class="thead" style="background: #f5f5f5;">')
       .replace(/<tr>/g, '<tr class="tr" style="border-bottom: 1px solid #ddd;">')
-      .replace(/<th>/g, '<th class="th" style="padding: 12px; text-align: left; font-weight: 600;">')
+      .replace(
+        /<th>/g,
+        '<th class="th" style="padding: 12px; text-align: left; font-weight: 600;">',
+      )
       .replace(/<td>/g, '<td class="td" style="padding: 12px;">');
     return { __html: DOMPurify.sanitize(modifiedHtml) };
   };
@@ -194,24 +211,24 @@ function ProcedureDetails({ procedure }) {
     if (part.trim().startsWith('➤ **') && part.includes('**:')) {
       const sectionTitle = part.replace('➤ **', '').replace('**:', '').trim();
       const isExpanded = expandedSections.has(index);
-      
+
       return (
-        <Accordion 
-          key={index} 
-          expanded={isExpanded} 
+        <Accordion
+          key={index}
+          expanded={isExpanded}
           onChange={() => toggleSection(index)}
-          sx={{ 
-            margin: '16px 0', 
+          sx={{
+            margin: '16px 0',
             bgcolor: 'primary.main',
             color: 'primary.contrastText',
             '&:before': { display: 'none' },
             borderRadius: 2,
           }}
         >
-          <AccordionSummary 
+          <AccordionSummary
             expandIcon={<ExpandMoreIcon sx={{ color: 'primary.contrastText' }} />}
-            sx={{ 
-              '& .MuiAccordionSummary-content': { margin: '16px 0' }
+            sx={{
+              '& .MuiAccordionSummary-content': { margin: '16px 0' },
             }}
           >
             <Typography variant="h6" sx={{ fontWeight: 700, fontSize: '1.1rem' }}>
@@ -233,13 +250,14 @@ function ProcedureDetails({ procedure }) {
       /@@(.+?)@@/.source,
       /https?:\/\/(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/.source,
       /https?:\/\/(?:youtu\.be)\/([a-zA-Z0-9_-]+)/.source,
-      /\[([^\]]+)\]\((http[^\)]+)\)/.source
+      /\[([^\]]+)\]\((http[^\)]+)\)/.source,
     ].join('|');
     const globalPattern = new RegExp(pattern, 'gi');
 
     let tokens = [];
     let line = part;
-    let match, lastIndex = 0;
+    let match,
+      lastIndex = 0;
     while ((match = globalPattern.exec(line)) !== null) {
       if (match.index > lastIndex) {
         tokens.push({ type: 'text', value: line.substring(lastIndex, match.index) });
@@ -272,7 +290,11 @@ function ProcedureDetails({ procedure }) {
         {tokens.map((token, i) => {
           if (token.type === 'unsplash') {
             return (
-              <Card key={i} elevation={3} sx={{ margin: '24px 0', borderRadius: 2, overflow: 'hidden' }}>
+              <Card
+                key={i}
+                elevation={3}
+                sx={{ margin: '24px 0', borderRadius: 2, overflow: 'hidden' }}
+              >
                 <img
                   src={token.value}
                   alt="Imagem do projeto"
@@ -282,7 +304,7 @@ function ProcedureDetails({ procedure }) {
                     height: 'auto',
                     display: 'block',
                     margin: '0 auto',
-                    objectFit: 'cover'
+                    objectFit: 'cover',
                   }}
                 />
               </Card>
@@ -304,7 +326,7 @@ function ProcedureDetails({ procedure }) {
                     margin: '24px auto',
                     borderRadius: 8,
                     boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-                    objectFit: 'contain'
+                    objectFit: 'contain',
                   }}
                 />
               </ImageContainer>
@@ -337,22 +359,22 @@ function ProcedureDetails({ procedure }) {
           }
           if (token.type === 'text') {
             if (/^(public\/)?Assets\/[^\s)]+\.png$/i.test(token.value.trim())) return null;
-            return token.value.trim() !== ''
-              ? <Typography
-                  key={i}
-                  component="div"
-                  dangerouslySetInnerHTML={createMarkup(token.value)}
-                  sx={{
-                    paddingX: 2,
-                    marginBottom: 1,
-                    fontSize: '1.05rem',
-                    lineHeight: 1.8,
-                    color: 'text.primary',
-                    '& strong': { color: 'success.main' },
-                    '& span[style*="color: #1976d2"]': { marginRight: 1 }
-                  }}
-                />
-              : null;
+            return token.value.trim() !== '' ? (
+              <Typography
+                key={i}
+                component="div"
+                dangerouslySetInnerHTML={createMarkup(token.value)}
+                sx={{
+                  paddingX: 2,
+                  marginBottom: 1,
+                  fontSize: '1.05rem',
+                  lineHeight: 1.8,
+                  color: 'text.primary',
+                  '& strong': { color: 'success.main' },
+                  '& span[style*="color: #1976d2"]': { marginRight: 1 },
+                }}
+              />
+            ) : null;
           }
           return null;
         })}
@@ -366,7 +388,9 @@ function ProcedureDetails({ procedure }) {
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Box
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}
+      >
         <CircularProgress size={60} thickness={4} color="primary" />
       </Box>
     );
@@ -375,27 +399,37 @@ function ProcedureDetails({ procedure }) {
   return (
     <Box sx={{ maxWidth: 1200, margin: '0 auto', padding: 3 }}>
       <ToastContainer autoClose={3000} position="bottom-right" />
-      
+
       {/* Header do Projeto */}
-      <Card elevation={4} sx={{ 
-        marginBottom: 4, 
-        bgcolor: 'primary.main',
-        color: 'primary.contrastText'
-      }}>
+      <Card
+        elevation={4}
+        sx={{
+          marginBottom: 4,
+          bgcolor: 'primary.main',
+          color: 'primary.contrastText',
+        }}
+      >
         <CardContent sx={{ padding: 4 }}>
-          <Typography variant="h3" component="h1" sx={{ 
-            fontWeight: 700, 
-            marginBottom: 2,
-            fontSize: { xs: '2rem', md: '2.5rem' }
-          }}>
+          <Typography
+            variant="h3"
+            component="h1"
+            sx={{
+              fontWeight: 700,
+              marginBottom: 2,
+              fontSize: { xs: '2rem', md: '2.5rem' },
+            }}
+          >
             {procedure.titulo}
           </Typography>
-          
-          <Typography variant="h6" sx={{ 
-            opacity: 0.9, 
-            marginBottom: 3,
-            lineHeight: 1.6
-          }}>
+
+          <Typography
+            variant="h6"
+            sx={{
+              opacity: 0.9,
+              marginBottom: 3,
+              lineHeight: 1.6,
+            }}
+          >
             {procedure.descricao}
           </Typography>
 
@@ -409,7 +443,7 @@ function ProcedureDetails({ procedure }) {
                 fontWeight: 600,
               }}
             />
-            
+
             <Chip
               icon={<ScheduleIcon />}
               label={new Date(procedure.data_criacao).toLocaleDateString('pt-BR')}
@@ -424,13 +458,14 @@ function ProcedureDetails({ procedure }) {
       </Card>
 
       {/* Conteúdo do Projeto */}
-      <Card elevation={2} sx={{ 
-        bgcolor: 'background.paper',
-        minHeight: '60vh'
-      }}>
-        <CardContent sx={{ padding: 3 }}>
-          {processedContent}
-        </CardContent>
+      <Card
+        elevation={2}
+        sx={{
+          bgcolor: 'background.paper',
+          minHeight: '60vh',
+        }}
+      >
+        <CardContent sx={{ padding: 3 }}>{processedContent}</CardContent>
       </Card>
     </Box>
   );

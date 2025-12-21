@@ -15,11 +15,11 @@ export const StyledListItem = styled(ListItem)(({ theme }) => ({
 
 export const StyledListItemText = styled(ListItemText)(({ theme }) => ({
   primary: {
-    color: theme.palette.text.primary
+    color: theme.palette.text.primary,
   },
   secondary: {
-    color: theme.palette.text.secondary
-  }
+    color: theme.palette.text.secondary,
+  },
 }));
 
 export const StyledPaper = styled(Paper)(({ theme }) => ({

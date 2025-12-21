@@ -28,9 +28,9 @@ const SideMenu = ({ open, onClose }) => {
 
   const handleToggle = (category, event) => {
     event.stopPropagation();
-    setOpenSubmenus(prev => ({
+    setOpenSubmenus((prev) => ({
       ...prev,
-      [category]: !prev[category]
+      [category]: !prev[category],
     }));
   };
 
@@ -50,9 +50,9 @@ const SideMenu = ({ open, onClose }) => {
       >
         Conteúdo
       </Typography>
-      {Object.keys(categories).map(category => (
+      {Object.keys(categories).map((category) => (
         <List component="nav" key={category} sx={{ paddingX: '16px' }}>
-          <StyledListItemButton onClick={event => handleToggle(category, event)}>
+          <StyledListItemButton onClick={(event) => handleToggle(category, event)}>
             <ListItemIcon>
               <FiberManualRecordIcon sx={{ color: 'primary.main', fontSize: 'small' }} />
             </ListItemIcon>
@@ -60,11 +60,11 @@ const SideMenu = ({ open, onClose }) => {
             {openSubmenus[category] ? <ExpandLess /> : <ExpandMore />}
           </StyledListItemButton>
           <Collapse in={openSubmenus[category]} timeout="auto" unmountOnExit>
-            {categories[category].map(item => (
+            {categories[category].map((item) => (
               <List component="div" disablePadding key={item.id}>
                 <StyledListItemButton
                   sx={{ pl: 2 }}
-                  onClick={event => handleMenuItemClick(item.id, event)}
+                  onClick={(event) => handleMenuItemClick(item.id, event)}
                 >
                   <ListItemIcon>
                     <CustomListItemIcon variant="body1" component="span">

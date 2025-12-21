@@ -3,12 +3,17 @@ import axios from 'axios';
 import List from '@mui/material/List';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import CircularProgress from '@mui/material/CircularProgress'; // Importe o CircularProgress
+import CircularProgress from '@mui/material/CircularProgress';
 import { format } from 'date-fns';
 import { useRouter } from 'next/router';
-import MainLayout from '../../pages/MainLayout';
+import MainLayout from '../Layout/MainLayout';
 import { useTheme } from '@mui/material/styles';
-import { StyledListItem, StyledPaper, StyledAvatar, StyledListItemText } from './DetailedListStyles';
+import {
+  StyledListItem,
+  StyledPaper,
+  StyledAvatar,
+  StyledListItemText,
+} from './DetailedListStyles';
 
 const DetailedList = ({ sortCriteria, sortDirection }) => {
   const [items, setItems] = useState([]);
@@ -18,8 +23,9 @@ const DetailedList = ({ sortCriteria, sortDirection }) => {
 
   useEffect(() => {
     setLoading(true); // Inicie o carregamento
-    axios.get('http://localhost:3000/api/cardlist')
-      .then(response => {
+    axios
+      .get('http://localhost:3000/api/cardlist')
+      .then((response) => {
         const sortedData = response.data.sort((a, b) => {
           let itemA, itemB;
           switch (sortCriteria) {
@@ -44,7 +50,7 @@ const DetailedList = ({ sortCriteria, sortDirection }) => {
         setItems(sortedData);
         setLoading(false); // Finalize o carregamento
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching card list:', error);
         setLoading(false); // Finalize o carregamento mesmo em caso de erro
       });
@@ -63,17 +69,10 @@ const DetailedList = ({ sortCriteria, sortDirection }) => {
           <StyledPaper elevation={0}>
             <List>
               {items.map((item) => (
-                <StyledListItem
-                  button
-                  key={item.id}
-                  onClick={() => handleCardClick(item.id)}
-                >
+                <StyledListItem button key={item.id} onClick={() => handleCardClick(item.id)}>
                   <ListItemIcon sx={{ marginRight: 2 }}>
                     {item.imageurl ? (
-                      <StyledAvatar
-                        src={item.imageurl}
-                        alt={item.title}
-                      />
+                      <StyledAvatar src={item.imageurl} alt={item.title} />
                     ) : (
                       <StyledAvatar />
                     )}

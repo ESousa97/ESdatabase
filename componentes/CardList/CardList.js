@@ -3,7 +3,7 @@ import React, { useState, memo } from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Snackbar, Alert } from '@mui/material';
 import { useRouter } from 'next/router';
-import MainLayout from '../../pages/MainLayout';
+import MainLayout from '../Layout/MainLayout';
 import { useTheme } from '@mui/material/styles';
 import { StyledButtonBase, StyledCard, StyledCardMedia, StyledCardContent } from './CardStyles';
 // IMPORTANTE: Troque para demoCards
@@ -57,13 +57,15 @@ const CardList = memo(({ sortCriteria, sortDirection }) => {
 
   return (
     <MainLayout>
-      <div style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        maxWidth: 'calc(100% - 2px)',
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+          maxWidth: 'calc(100% - 2px)',
+        }}
+      >
         {cards.map((card) => (
           <StyledButtonBase
             key={card.id}

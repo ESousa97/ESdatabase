@@ -47,7 +47,10 @@ const ThemeProvider = ({ children }) => {
     }
   }, [darkMode, mounted]);
 
-  const theme = useMemo(() => createTheme(getDesignTokens(darkMode ? 'dark' : 'light')), [darkMode]);
+  const theme = useMemo(
+    () => createTheme(getDesignTokens(darkMode ? 'dark' : 'light')),
+    [darkMode],
+  );
 
   const toggleDarkMode = () => setDarkMode((prevMode) => !prevMode);
 

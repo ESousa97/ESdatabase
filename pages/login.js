@@ -9,6 +9,7 @@ import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import NextLink from 'next/link';
 import Head from 'next/head';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Alert from '@mui/material/Alert';
 
@@ -46,15 +47,60 @@ const RightBox = styled(Box)({
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  '@media (max-width: 960px)': { width: '80%', right: '10%', bottom: '5%', transform: 'translate(6%)' },
-  '@media (max-width: 912px)': { width: '80%', right: '13%', bottom: '5%', transform: 'translate(6%)' },
-  '@media (max-width: 853px)': { width: '80%', right: '11%', bottom: '5%', transform: 'translate(6%)' },
-  '@media (max-width: 768px)': { width: '80%', right: '12%', bottom: '5%', transform: 'translate(6%)' },
-  '@media (max-width: 430px)': { width: '80%', right: '10.5%', bottom: '5%', transform: 'translate(6%)' },
-  '@media (max-width: 414px)': { width: '80%', right: '10%', bottom: '5%', transform: 'translate(6%)' },
-  '@media (max-width: 375px)': { width: '80%', right: '10%', bottom: '5%', transform: 'translate(6%)' },
-  '@media (max-width: 360px)': { width: '80%', right: '10%', bottom: '5%', transform: 'translate(6%)' },
-  '@media (max-width: 280px)': { width: '80%', right: '8%', bottom: '5%', transform: 'translate(6%)' },
+  '@media (max-width: 960px)': {
+    width: '80%',
+    right: '10%',
+    bottom: '5%',
+    transform: 'translate(6%)',
+  },
+  '@media (max-width: 912px)': {
+    width: '80%',
+    right: '13%',
+    bottom: '5%',
+    transform: 'translate(6%)',
+  },
+  '@media (max-width: 853px)': {
+    width: '80%',
+    right: '11%',
+    bottom: '5%',
+    transform: 'translate(6%)',
+  },
+  '@media (max-width: 768px)': {
+    width: '80%',
+    right: '12%',
+    bottom: '5%',
+    transform: 'translate(6%)',
+  },
+  '@media (max-width: 430px)': {
+    width: '80%',
+    right: '10.5%',
+    bottom: '5%',
+    transform: 'translate(6%)',
+  },
+  '@media (max-width: 414px)': {
+    width: '80%',
+    right: '10%',
+    bottom: '5%',
+    transform: 'translate(6%)',
+  },
+  '@media (max-width: 375px)': {
+    width: '80%',
+    right: '10%',
+    bottom: '5%',
+    transform: 'translate(6%)',
+  },
+  '@media (max-width: 360px)': {
+    width: '80%',
+    right: '10%',
+    bottom: '5%',
+    transform: 'translate(6%)',
+  },
+  '@media (max-width: 280px)': {
+    width: '80%',
+    right: '8%',
+    bottom: '5%',
+    transform: 'translate(6%)',
+  },
 });
 
 const WelcomeText = styled(Typography)({
@@ -91,22 +137,28 @@ export default function Login() {
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        
+
         {/* Meta tags específicas da página */}
         <title>Login - Data Base</title>
-        <meta name="description" content="Faça login no Data Base - Sistema de Gestão de Procedimentos Operacionais" />
+        <meta
+          name="description"
+          content="Faça login no Data Base - Sistema de Gestão de Procedimentos Operacionais"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#1976d2" />
-        
+
         {/* Meta tags para redes sociais */}
         <meta property="og:title" content="Login - Data Base" />
-        <meta property="og:description" content="Acesse o Data Base - Sistema de Gestão de Procedimentos Operacionais" />
+        <meta
+          property="og:description"
+          content="Acesse o Data Base - Sistema de Gestão de Procedimentos Operacionais"
+        />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/favicon-32x32.png" />
-        
+
         {/* Verificação do Google */}
         <meta name="google-site-verification" content="chave aqui" />
-        
+
         {/* Preload da imagem de background */}
         <link rel="preload" href="/images/background.gif" as="image" />
       </Head>
@@ -117,11 +169,19 @@ export default function Login() {
           Um novo jeito de buscar processos
         </WelcomeText>
         <ImageContainer>
-          <img src="/images/background.gif" alt="Background" style={{ width: '100%', height: 'auto' }} />
+          <Image
+            src="/images/background.gif"
+            alt="Background"
+            width={600}
+            height={400}
+            style={{ width: '100%', height: 'auto' }}
+            unoptimized
+          />
         </ImageContainer>
         <RightBox>
           <Alert severity="info" sx={{ width: '100%', mb: 2 }}>
-            <b>Esta é apenas uma demonstração.</b> O login não é real — ao clicar, você será redirecionado diretamente para página principal.
+            <b>Esta é apenas uma demonstração.</b> O login não é real — ao clicar, você será
+            redirecionado diretamente para página principal.
           </Alert>
           <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
             Login
@@ -132,7 +192,8 @@ export default function Login() {
             variant="contained"
             startIcon={<MicrosoftIcon />}
             sx={{
-              mt: 1, mb: 1,
+              mt: 1,
+              mb: 1,
               backgroundColor: '#0078D4',
               color: '#FFFFFF',
               borderRadius: '20px',
@@ -141,7 +202,9 @@ export default function Login() {
           >
             Continuar com a Microsoft
           </Button>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
+          <Box
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}
+          >
             <Typography variant="body2" sx={{ mb: 2 }}>
               Ou acesse com uma conta Google
             </Typography>
@@ -152,7 +215,8 @@ export default function Login() {
             variant="contained"
             startIcon={<GoogleIcon />}
             sx={{
-              mt: 1, mb: 1,
+              mt: 1,
+              mb: 1,
               backgroundColor: '#24262b',
               color: '#FFFFFF',
               borderRadius: '20px',
@@ -161,10 +225,10 @@ export default function Login() {
           >
             Google
           </Button>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
-            <Typography variant="body2">
-              Não tem conta? Acesse
-            </Typography>
+          <Box
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}
+          >
+            <Typography variant="body2">Não tem conta? Acesse</Typography>
             <Box>
               <IconButton onClick={handleCreateGoogleAccount} sx={{ ml: 1 }}>
                 <GoogleIcon width="24px" height="24px" />
@@ -176,10 +240,14 @@ export default function Login() {
           </Box>
           <Box sx={{ mt: 2, textAlign: 'center', mb: 1 }}>
             <NextLink href="/terms" passHref legacyBehavior>
-              <Button variant="text" sx={{ fontSize: '0.60rem' }}>Termos de Uso</Button>
+              <Button variant="text" sx={{ fontSize: '0.60rem' }}>
+                Termos de Uso
+              </Button>
             </NextLink>
             <NextLink href="/privacy" passHref legacyBehavior>
-              <Button variant="text" sx={{ fontSize: '0.60rem' }}>Política de Privacidade</Button>
+              <Button variant="text" sx={{ fontSize: '0.60rem' }}>
+                Política de Privacidade
+              </Button>
             </NextLink>
           </Box>
         </RightBox>

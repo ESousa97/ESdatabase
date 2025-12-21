@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import MainLayout from '../../pages/MainLayout';
+import MainLayout from '../Layout/MainLayout';
 import ProcedureDetails from './ProcedureDetails';
 import { demoProjects } from '../../data/demoProjects'; // ajuste se usar outro mock
 
@@ -12,7 +12,7 @@ function ProcedurePage() {
 
   useEffect(() => {
     if (!id) return;
-    const proc = demoProjects.find(item => String(item.id) === String(id)); // força string por precaução
+    const proc = demoProjects.find((item) => String(item.id) === String(id)); // força string por precaução
     setProcedure(proc || null);
     setNotFound(!proc);
   }, [id]);

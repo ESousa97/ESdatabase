@@ -12,7 +12,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 
 const SearchBox = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -48,7 +48,7 @@ const SearchBox = () => {
     const handleClickOutside = (event) => {
       if (searchBoxRef.current && !searchBoxRef.current.contains(event.target)) {
         setIsExpanded(false);
-        setSearchTerm(""); // Limpa o termo de pesquisa ao clicar fora
+        setSearchTerm(''); // Limpa o termo de pesquisa ao clicar fora
       }
     };
 
@@ -69,7 +69,10 @@ const SearchBox = () => {
   };
 
   return (
-    <Box ref={searchBoxRef} sx={{ position: 'relative', width: isExpanded ? 340 : 52, transition: 'width 0.2s' }}>
+    <Box
+      ref={searchBoxRef}
+      sx={{ position: 'relative', width: isExpanded ? 340 : 52, transition: 'width 0.2s' }}
+    >
       <Paper
         sx={{
           display: 'flex',
@@ -78,10 +81,15 @@ const SearchBox = () => {
           px: 1,
           borderRadius: 3,
           boxShadow: 3,
-          background: '#23272F'
+          background: '#23272F',
         }}
       >
-        <IconButton aria-label="search" onClick={handleExpandToggle} size="small" sx={{ color: '#90caf9' }}>
+        <IconButton
+          aria-label="search"
+          onClick={handleExpandToggle}
+          size="small"
+          sx={{ color: '#90caf9' }}
+        >
           <SearchIcon />
         </IconButton>
         {isExpanded && (
@@ -96,7 +104,7 @@ const SearchBox = () => {
               flex: 1,
               color: '#fff',
               fontWeight: 500,
-              letterSpacing: '0.01em'
+              letterSpacing: '0.01em',
             }}
           />
         )}
@@ -113,50 +121,48 @@ const SearchBox = () => {
             mt: 1,
             boxShadow: 6,
             maxHeight: 300,
-            overflowY: 'auto'
+            overflowY: 'auto',
           }}
         >
           {isLoading ? (
             <Box sx={{ py: 5, display: 'flex', justifyContent: 'center' }}>
               <CircularProgress size={28} />
             </Box>
-          ) : (
-            results.length > 0 ? (
-              <List>
-                {results.map((result) => (
-                  <ListItem
-                    button
-                    key={result.id}
-                    onClick={() => handleCardClick(result.id)}
-                    sx={{
-                      borderRadius: 2,
-                      my: 0.5,
-                      '&:hover': { background: 'rgba(144,202,249,0.1)' }
+          ) : results.length > 0 ? (
+            <List>
+              {results.map((result) => (
+                <ListItem
+                  button
+                  key={result.id}
+                  onClick={() => handleCardClick(result.id)}
+                  sx={{
+                    borderRadius: 2,
+                    my: 0.5,
+                    '&:hover': { background: 'rgba(144,202,249,0.1)' },
+                  }}
+                >
+                  <ListItemText
+                    primary={result.titulo}
+                    secondary={result.descricao}
+                    primaryTypographyProps={{
+                      fontWeight: 600,
+                      fontSize: '1rem',
+                      color: '#fff',
                     }}
-                  >
-                    <ListItemText
-                      primary={result.titulo}
-                      secondary={result.descricao}
-                      primaryTypographyProps={{
-                        fontWeight: 600,
-                        fontSize: '1rem',
-                        color: '#fff'
-                      }}
-                      secondaryTypographyProps={{
-                        fontSize: '0.92rem',
-                        color: '#90caf9'
-                      }}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            ) : (
-              <Box sx={{ py: 3, px: 2, textAlign: 'center' }}>
-                <Typography variant="body2" fontWeight="bold" color="#90caf9">
-                  Humm, não encontrei nada relacionado nos processos
-                </Typography>
-              </Box>
-            )
+                    secondaryTypographyProps={{
+                      fontSize: '0.92rem',
+                      color: '#90caf9',
+                    }}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <Box sx={{ py: 3, px: 2, textAlign: 'center' }}>
+              <Typography variant="body2" fontWeight="bold" color="#90caf9">
+                Humm, não encontrei nada relacionado nos processos
+              </Typography>
+            </Box>
           )}
         </Box>
       )}

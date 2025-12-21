@@ -4,9 +4,9 @@ import List from '@mui/material/List';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ListItemText from '@mui/material/ListItemText';
-import CircularProgress from '@mui/material/CircularProgress'; // Importe o CircularProgress
+import CircularProgress from '@mui/material/CircularProgress';
 import { useRouter } from 'next/router';
-import MainLayout from '../../pages/MainLayout';
+import MainLayout from '../Layout/MainLayout';
 import { useTheme } from '@mui/material/styles';
 import { StyledListItem, StyledPaper } from './CompactListStyles';
 
@@ -18,8 +18,9 @@ const CompactList = ({ sortCriteria, sortDirection }) => {
 
   useEffect(() => {
     setLoading(true); // Inicie o carregamento
-    axios.get('http://localhost:3000/api/cardlist')
-      .then(response => {
+    axios
+      .get('http://localhost:3000/api/cardlist')
+      .then((response) => {
         const sortedData = response.data.sort((a, b) => {
           let itemA, itemB;
           switch (sortCriteria) {
@@ -44,7 +45,7 @@ const CompactList = ({ sortCriteria, sortDirection }) => {
         setItems(sortedData);
         setLoading(false); // Finalize o carregamento
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching card list:', error);
         setLoading(false); // Finalize o carregamento mesmo em caso de erro
       });
@@ -63,19 +64,17 @@ const CompactList = ({ sortCriteria, sortDirection }) => {
           <StyledPaper elevation={0}>
             <List>
               {items.map((item) => (
-                <StyledListItem
-                  button
-                  key={item.id}
-                  onClick={() => handleListItemClick(item.id)}
-                >
+                <StyledListItem button key={item.id} onClick={() => handleListItemClick(item.id)}>
                   <ListItemAvatar>
-                    <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
-                      {item.title[0]}
-                    </Avatar>
+                    <Avatar sx={{ bgcolor: theme.palette.primary.main }}>{item.title[0]}</Avatar>
                   </ListItemAvatar>
                   <ListItemText
                     primary={item.title}
-                    secondary={item.description.length > 200 ? `${item.description.substring(0, 200)}...` : item.description}
+                    secondary={
+                      item.description.length > 200
+                        ? `${item.description.substring(0, 200)}...`
+                        : item.description
+                    }
                   />
                 </StyledListItem>
               ))}

@@ -11,7 +11,7 @@ Copyright (c) 2024 Data Base Project
 Por meio desta, é concedida permissão, gratuitamente, a qualquer pessoa que obtenha uma cópia deste software e arquivos de documentação associados (o "Software"), para negociar o Software sem restrição, incluindo, sem limitação, os direitos de:
 
 - ✅ **Usar** o Software
-- ✅ **Copiar** o Software  
+- ✅ **Copiar** o Software
 - ✅ **Modificar** o Software
 - ✅ **Mesclar** com outros projetos
 - ✅ **Publicar** o Software
@@ -24,9 +24,11 @@ Por meio desta, é concedida permissão, gratuitamente, a qualquer pessoa que ob
 As seguintes condições devem ser atendidas:
 
 ### 📄 Aviso de Copyright
+
 O aviso de copyright acima e este aviso de permissão devem ser incluídos em todas as cópias ou partes substanciais do Software.
 
 ### 🔍 Transparência
+
 Ao distribuir ou modificar este Software, recomenda-se manter referência ao projeto original para fins de reconhecimento e rastreabilidade.
 
 ---
@@ -36,7 +38,7 @@ Ao distribuir ou modificar este Software, recomenda-se manter referência ao pro
 **O SOFTWARE É FORNECIDO "COMO ESTÁ", SEM GARANTIA DE QUALQUER TIPO, EXPRESSA OU IMPLÍCITA, INCLUINDO, MAS NÃO SE LIMITANDO ÀS GARANTIAS DE:**
 
 - 🚫 **Comercialização**
-- 🚫 **Adequação a um propósito específico**  
+- 🚫 **Adequação a um propósito específico**
 - 🚫 **Não violação de direitos**
 
 ### Limitação de Responsabilidade
@@ -55,6 +57,7 @@ Ao distribuir ou modificar este Software, recomenda-se manter referência ao pro
 ## Sobre o Projeto
 
 ### 🎯 Finalidade
+
 Este é um **projeto de demonstração e portfólio** criado para showcasing de competências técnicas em:
 
 - **Frontend:** Next.js, React, Material-UI
@@ -63,13 +66,16 @@ Este é um **projeto de demonstração e portfólio** criado para showcasing de 
 - **Segurança:** Práticas de desenvolvimento seguro
 
 ### 📈 Status do Projeto
+
 - ✅ **Código Aberto:** Disponível para estudo e contribuições
 - ✅ **Educacional:** Ideal para aprendizado e referência
 - ✅ **Portfólio:** Demonstração de habilidades técnicas
 - ⚠️ **Não Comercial:** Projeto encerrado como serviço ativo
 
 ### 🤝 Contribuições
+
 Contribuições são bem-vindas! Sinta-se livre para:
+
 - Fazer fork do projeto
 - Criar pull requests
 - Reportar issues
@@ -80,6 +86,7 @@ Contribuições são bem-vindas! Sinta-se livre para:
 ## Contato
 
 Para questões relacionadas ao projeto:
+
 - 📧 **Email:** sousa3086@outlook.com
 - 💻 **GitHub:** Acesse o repositório oficial
 
@@ -93,4 +100,4 @@ Para questões relacionadas ao projeto:
 
 ---
 
-*Este projeto é licenciado sob os termos da Licença MIT. Consulte o arquivo LICENSE para detalhes completos.*
+_Este projeto é licenciado sob os termos da Licença MIT. Consulte o arquivo LICENSE para detalhes completos._

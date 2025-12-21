@@ -1,1 +1,12 @@
+node_modules/
+.next/
+out/
+dist/
+coverage/
+.turbo/
+.vercel/
+
+*.log
+
+# Keep legacy ignore
 Documentation/assets/js

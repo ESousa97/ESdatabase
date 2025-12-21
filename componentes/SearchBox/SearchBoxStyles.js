@@ -55,7 +55,7 @@ export const StyledListItemText = styled(ListItemText)(({ theme }) => ({
   },
   secondary: {
     color: theme.palette.text.secondary,
-  }
+  },
 }));
 
 export const SearchResults = styled(Paper)(({ theme }) => ({

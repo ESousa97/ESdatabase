@@ -2,8 +2,8 @@
 export const demoProjects = [
   {
     id: 1,
-    titulo: "Python para Data Science",
-    descricao: "Curso completo de Python aplicado à ciência de dados e machine learning",
+    titulo: 'Python para Data Science',
+    descricao: 'Curso completo de Python aplicado à ciência de dados e machine learning',
     conteudo: `➤ **Python Data Science - Módulo Completo**
 ➤ **Fundamentos Python**:
 ● Sintaxe básica e estruturas de dados
@@ -52,15 +52,15 @@ export const demoProjects = [
 ● Suporte da comunidade por 1 ano
 
 https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=600&h=400&fit=crop`,
-    categoria: "Linguagens",
-    data_criacao: "2024-03-08T21:40:31.817744",
+    categoria: 'Linguagens',
+    data_criacao: '2024-03-08T21:40:31.817744',
     clicks: 0,
-    data_modificacao: "2024-05-24T20:12:51.91156"
+    data_modificacao: '2024-05-24T20:12:51.91156',
   },
   {
     id: 2,
-    titulo: "JavaScript Full Stack Development",
-    descricao: "Desenvolvimento completo com JavaScript moderno - frontend, backend e mobile",
+    titulo: 'JavaScript Full Stack Development',
+    descricao: 'Desenvolvimento completo com JavaScript moderno - frontend, backend e mobile',
     conteudo: `➤ **JavaScript Full Stack - Bootcamp Intensivo**
 ➤ **JavaScript Fundamentals ES6+**:
 ● Var, Let, Const e Scope
@@ -125,15 +125,15 @@ https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=600&h=400&fit=cro
 ● **Performance**: Lighthouse, Web Vitals
 
 https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=600&h=400&fit=crop`,
-    categoria: "Linguagens",
-    data_criacao: "2024-03-08T21:41:28.441654",
+    categoria: 'Linguagens',
+    data_criacao: '2024-03-08T21:41:28.441654',
     clicks: 0,
-    data_modificacao: "2024-07-25T13:03:19.973681"
+    data_modificacao: '2024-07-25T13:03:19.973681',
   },
   {
     id: 3,
-    titulo: "React.js - From Zero to Hero",
-    descricao: "Masterclass completa de React.js com hooks, context, testing e performance",
+    titulo: 'React.js - From Zero to Hero',
+    descricao: 'Masterclass completa de React.js com hooks, context, testing e performance',
     conteudo: `➤ **React.js Masterclass - Desenvolvimento Avançado**
 ➤ **React Fundamentals**:
 ● **JSX**: Sintaxe, expressões, conditional rendering
@@ -229,15 +229,16 @@ https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=600&h=400&fit=cro
 ● **PWA**: Service workers, offline support
 
 https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&h=400&fit=crop`,
-    categoria: "Frameworks",
-    data_criacao: "2024-03-08T21:43:27.003465",
+    categoria: 'Frameworks',
+    data_criacao: '2024-03-08T21:43:27.003465',
     clicks: 0,
-    data_modificacao: "2024-07-25T13:03:19.973681"
+    data_modificacao: '2024-07-25T13:03:19.973681',
   },
   {
     id: 4,
-    titulo: "Django REST Framework Masterclass",
-    descricao: "Desenvolvimento de APIs robustas com Django, DRF, autenticação e deploy em produção",
+    titulo: 'Django REST Framework Masterclass',
+    descricao:
+      'Desenvolvimento de APIs robustas com Django, DRF, autenticação e deploy em produção',
     conteudo: `➤ **Django REST Framework - API Development Expert**
 ➤ **Django Fundamentals**:
 ● **Project Structure**: Apps, settings, URLs patterns
@@ -348,15 +349,16 @@ https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&h=400&fit=cro
 ● **Multi-tenant SaaS**: Tenant isolation, billing
 
 https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&h=400&fit=crop`,
-    categoria: "Frameworks",
-    data_criacao: "2024-03-08T21:45:16.994005",
+    categoria: 'Frameworks',
+    data_criacao: '2024-03-08T21:45:16.994005',
     clicks: 0,
-    data_modificacao: "2024-07-25T13:03:19.973681"
+    data_modificacao: '2024-07-25T13:03:19.973681',
   },
   {
     id: 5,
-    titulo: "PostgreSQL Database Administration",
-    descricao: "Administração avançada de PostgreSQL com performance tuning, backup e alta disponibilidade",
+    titulo: 'PostgreSQL Database Administration',
+    descricao:
+      'Administração avançada de PostgreSQL com performance tuning, backup e alta disponibilidade',
     conteudo: `➤ **PostgreSQL DBA - Database Administration Expert**
 ➤ **PostgreSQL Fundamentals**:
 ● **Arquitetura**: Processes, memory, storage engine
@@ -472,15 +474,16 @@ https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&h=400&fit=crop`,
 ● **Geographic Applications**: PostGIS, spatial indexing
 
 https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=600&h=400&fit=crop`,
-    categoria: "Banco de Dados",
-    data_criacao: "2024-03-08T21:33:06.803645",
+    categoria: 'Banco de Dados',
+    data_criacao: '2024-03-08T21:33:06.803645',
     clicks: 0,
-    data_modificacao: "2024-08-26T13:07:35.801432"
+    data_modificacao: '2024-08-26T13:07:35.801432',
   },
   {
     id: 6,
-    titulo: "MongoDB - NoSQL Database Mastery",
-    descricao: "Especialização completa em MongoDB com agregações, sharding, replica sets e análise de Big Data",
+    titulo: 'MongoDB - NoSQL Database Mastery',
+    descricao:
+      'Especialização completa em MongoDB com agregações, sharding, replica sets e análise de Big Data',
     conteudo: `➤ **MongoDB NoSQL Mastery - Database Expert Track**
 ➤ **MongoDB Fundamentals**:
 ● **Document Model**: BSON, embedded vs referenced documents
@@ -662,9 +665,9 @@ https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=600&h=400&fit=crop`,
 ● **Healthcare**: Patient records, medical imaging metadata
 
 https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop`,
-    categoria: "Banco de Dados",
-    data_criacao: "2024-03-08T21:49:22.962436",
+    categoria: 'Banco de Dados',
+    data_criacao: '2024-03-08T21:49:22.962436',
     clicks: 0,
-    data_modificacao: "2024-07-09T20:57:03.335123"
-  }
+    data_modificacao: '2024-07-09T20:57:03.335123',
+  },
 ];

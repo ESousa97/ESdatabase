@@ -1,38 +1,121 @@
 import NextAuth from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google'; // Importar o provedor do Google
+import GoogleProvider from 'next-auth/providers/google';
 import AzureADProvider from 'next-auth/providers/azure-ad';
+import config from '../../../lib/config';
+
+/**
+ * NextAuth.js Configuration
+ *
+ * Provides authentication via:
+ * - Azure AD (Corporate SSO)
+ * - Google (OAuth 2.0)
+ *
+ * Access control is managed via email allowlist configured
+ * in environment variables (ALLOWED_EMAILS).
+ *
+ * @see https://next-auth.js.org/configuration/options
+ */
+
+// Build providers array dynamically based on configuration
+const providers = [];
+
+// Add Azure AD provider if configured
+if (config.azure.isConfigured) {
+  providers.push(
+    AzureADProvider({
+      clientId: config.azure.clientId,
+      clientSecret: config.azure.clientSecret,
+      tenantId: config.azure.tenantId,
+      authorization: {
+        params: {
+          scope: 'openid email profile User.Read offline_access',
+        },
+      },
+    }),
+  );
+}
+
+// Add Google provider if configured
+if (config.google.isConfigured) {
+  providers.push(
+    GoogleProvider({
+      clientId: config.google.clientId,
+      clientSecret: config.google.clientSecret,
+    }),
+  );
+}
 
 export default NextAuth({
-  providers: [
-    AzureADProvider({
-      clientId: process.env.AZURE_AD_CLIENT_ID,
-      clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
-      tenantId: process.env.AZURE_AD_TENANT_ID,
-      authorization: { params: { scope: 'openid email profile User.Read offline_access' } },
-    }),
-    // Adicionando o Google como um provedor de autenticação
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      authorizationUrl: 'suachaveaqui',
-    }),
-    // Adicione outros provedores conforme necessário
-  ],
+  providers,
+
+  // Use secure cookies in production
+  useSecureCookies: config.app.isProd,
+
+  // Session configuration
+  session: {
+    strategy: 'jwt',
+    maxAge: 24 * 60 * 60, // 24 hours
+  },
+
+  // Custom pages
+  pages: {
+    signIn: '/login',
+    error: '/login',
+  },
 
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      const allowedEmails = ['digiteseu@emailaqui.com.br'];
-  
-      // Verifica se algum dos e-mails do usuário está na lista de permitidos
-      const userEmails = [user.email, account.email, profile.email, email?.email, credentials?.email];
-      const isAllowedEmail = userEmails.some(email => allowedEmails.includes(email));
-  
-      if (isAllowedEmail) {
-        return true; // O login será bem-sucedido se o e-mail estiver na lista de permitidos
-      } else {
-        return false; // O login será bloqueado se o e-mail não estiver na lista de permitidos
+    /**
+     * Sign-in callback
+     * Controls who can sign in based on email allowlist
+     */
+    async signIn({ user, account, profile }) {
+      // If no allowlist configured, allow all authenticated users
+      if (config.allowedEmails.length === 0) {
+        return true;
       }
+
+      // Check if user's email is in the allowlist
+      const userEmail = (user?.email || profile?.email || '').toLowerCase();
+
+      if (config.allowedEmails.includes(userEmail)) {
+        return true;
+      }
+
+      // Log failed attempt in development
+      if (config.app.isDev) {
+        console.log(`Sign-in blocked for: ${userEmail}`);
+      }
+
+      return false;
+    },
+
+    /**
+     * JWT callback
+     * Adds custom claims to the JWT token
+     */
+    async jwt({ token, user, account }) {
+      if (user) {
+        token.id = user.id;
+      }
+      if (account) {
+        token.provider = account.provider;
+      }
+      return token;
+    },
+
+    /**
+     * Session callback
+     * Exposes token data to the client session
+     */
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+        session.provider = token.provider;
+      }
+      return session;
     },
   },
-    
-  });
+
+  // Enable debug mode in development
+  debug: config.app.isDev,
+});

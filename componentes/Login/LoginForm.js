@@ -3,9 +3,7 @@ import { signIn } from 'next-auth/react';
 
 function LoginForm() {
   return (
-    <button onClick={() => signIn('credentials', { callbackUrl: '/components' })}>
-      Login
-    </button>
+    <button onClick={() => signIn('credentials', { callbackUrl: '/components' })}>Login</button>
   );
 }
 

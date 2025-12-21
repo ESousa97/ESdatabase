@@ -3,7 +3,7 @@
   border-collapse: collapse;
   width: 100%;
   margin-top: 20px; /* Espaço acima da tabela para separação */
-  box-shadow: 0 3px 5px rgba(0,0,0,0.2); /* Sombra suave para dar profundidade */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); /* Sombra suave para dar profundidade */
 }
 
 .thead {
@@ -21,7 +21,8 @@
 }
 
 .th,
-.td { /* Aplicando estilos uniformes para th e td */
+.td {
+  /* Aplicando estilos uniformes para th e td */
   border-bottom: 1px solid #ddd; /* Linha de separação sutil */
   padding: 12px; /* Espaçamento interno maior */
   text-align: left; /* Alinhamento do texto */
