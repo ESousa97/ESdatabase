@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import DOMPurify from 'dompurify';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -295,9 +296,11 @@ function ProcedureDetails({ procedure }) {
                 elevation={3}
                 sx={{ margin: '24px 0', borderRadius: 2, overflow: 'hidden' }}
               >
-                <img
+                <Image
                   src={token.value}
                   alt="Imagem do projeto"
+                  width={800}
+                  height={600}
                   style={{
                     width: '100%',
                     maxWidth: IMG_WIDTH,
@@ -306,6 +309,7 @@ function ProcedureDetails({ procedure }) {
                     margin: '0 auto',
                     objectFit: 'cover',
                   }}
+                  unoptimized
                 />
               </Card>
             );
@@ -315,9 +319,11 @@ function ProcedureDetails({ procedure }) {
             if (!imagePath.startsWith('/')) imagePath = '/' + imagePath;
             return (
               <ImageContainer key={i}>
-                <img
+                <Image
                   src={imagePath}
                   alt={`Imagem ${token.value}`}
+                  width={800}
+                  height={600}
                   style={{
                     width: IMG_WIDTH,
                     maxWidth: '100%',
@@ -328,6 +334,7 @@ function ProcedureDetails({ procedure }) {
                     boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
                     objectFit: 'contain',
                   }}
+                  unoptimized
                 />
               </ImageContainer>
             );
