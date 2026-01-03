@@ -25,10 +25,7 @@ import {
   Category as CategoryIcon,
   Schedule as ScheduleIcon,
 } from '@mui/icons-material';
-import {
-  ImageContainer,
-  ContentContainer,
-} from './ProcedureDetailsStyles';
+import { ImageContainer, ContentContainer } from './ProcedureDetailsStyles';
 
 function ProcedureDetails({ procedure }) {
   const [loading, setLoading] = useState(true);
