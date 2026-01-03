@@ -102,6 +102,33 @@ class ErrorBoundary extends Component {
               </Box>
             )}
 
+            {process.env.NODE_ENV === 'development' && this.state.errorInfo && (
+              <Box
+                sx={{
+                  mt: 2,
+                  p: 2,
+                  bgcolor: 'grey.100',
+                  borderRadius: 1,
+                  width: '100%',
+                  overflow: 'auto',
+                }}
+              >
+                <Typography
+                  variant="caption"
+                  component="pre"
+                  sx={{
+                    fontFamily: 'monospace',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word',
+                    color: 'text.secondary',
+                  }}
+                >
+                  {this.state.errorInfo.componentStack ||
+                    this.state.errorInfo.toString()}
+                </Typography>
+              </Box>
+            )}
+
             <Button variant="contained" onClick={this.handleRetry} sx={{ mt: 3 }}>
               Tentar Novamente
             </Button>
