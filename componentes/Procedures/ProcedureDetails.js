@@ -26,8 +26,6 @@ import {
   Schedule as ScheduleIcon,
 } from '@mui/icons-material';
 import {
-  StyledButton,
-  StyledCopyButton,
   ImageContainer,
   ContentContainer,
 } from './ProcedureDetailsStyles';
