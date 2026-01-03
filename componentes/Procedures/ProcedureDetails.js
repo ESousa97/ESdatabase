@@ -206,12 +206,12 @@ function ProcedureDetails({ procedure }) {
     // Detectar seções principais (linhas que começam com ➤)
     if (part.trim().startsWith('➤ **') && part.includes('**:')) {
       const sectionTitle = part.replace('➤ **', '').replace('**:', '').trim();
-      const isExpanded = expandedSections.has(index);
+      const isSectionExpanded = expandedSections.has(index);
 
       return (
         <Accordion
           key={index}
-          expanded={isExpanded}
+          expanded={isSectionExpanded}
           onChange={() => toggleSection(index)}
           sx={{
             margin: '16px 0',
