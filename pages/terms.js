@@ -70,14 +70,6 @@ export default function TermsOfService() {
     },
   ];
 
-  const legislacao = [
-    'Next.js e React para desenvolvimento frontend',
-    'Material-UI para interface de usuário',
-    'Autenticação 2FA com Microsoft e Google',
-    'Arquitetura de procedimentos operacionais',
-    'Práticas de desenvolvimento seguro',
-  ];
-
   return (
     <Container maxWidth="lg">
       <Head>
