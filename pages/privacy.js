@@ -25,7 +25,6 @@ import {
   Shield,
   Visibility,
   Block,
-  Code,
   CheckCircle,
   Cancel,
   GitHub,

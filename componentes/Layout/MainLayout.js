@@ -6,7 +6,6 @@ import Head from 'next/head';
 import AppBar from '../AppBar/AppBar';
 import Drawer from '../Drawer/Drawer';
 import Dialog from '../Dialog/Dialog';
-import { useTheme } from '../ThemeProvider/ThemeProvider';
 
 const drawerWidth = 320;
 
@@ -20,7 +19,6 @@ const MainLayout = ({
   const router = useRouter();
 
   const handleDrawerToggle = () => setOpen(!open);
-  const handleLogout = () => setLogoutDialogOpen(true);
   const handleConfirmLogout = async () => {
     await signOut({ redirect: false });
     router.push('/login');
@@ -55,7 +53,6 @@ const MainLayout = ({
       <MainLayoutContent
         open={open}
         onDrawerToggle={handleDrawerToggle}
-        onLogout={handleLogout}
         onCloseLogoutDialog={handleCloseLogoutDialog}
         logoutDialogOpen={logoutDialogOpen}
         handleConfirmLogout={handleConfirmLogout}
@@ -70,21 +67,13 @@ const MainLayoutContent = ({
   children,
   open,
   onDrawerToggle,
-  onLogout,
   onCloseLogoutDialog,
   logoutDialogOpen,
   handleConfirmLogout,
 }) => {
-  const { darkMode, toggleDarkMode } = useTheme();
-
   return (
     <>
-      <AppBar
-        onDrawerToggle={onDrawerToggle}
-        onLogout={onLogout}
-        onToggleDarkMode={toggleDarkMode}
-        darkMode={darkMode}
-      />
+      <AppBar onDrawerToggle={onDrawerToggle} />
       <Drawer open={open} onClose={onDrawerToggle} />
       <main
         style={{ flexGrow: 1, padding: 16, marginLeft: open ? drawerWidth : 0, paddingTop: '44px' }}

@@ -10,10 +10,6 @@ import {
   CardContent,
   Chip,
   Divider,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Paper,
   useTheme,
   alpha,
@@ -72,14 +68,6 @@ export default function TermsOfService() {
       content:
         'Como projeto de portfólio, não há garantia de suporte contínuo ou atualizações regulares. O projeto pode ser arquivado ou modificado conforme necessário para fins de demonstração.',
     },
-  ];
-
-  const legislacao = [
-    'Next.js e React para desenvolvimento frontend',
-    'Material-UI para interface de usuário',
-    'Autenticação 2FA com Microsoft e Google',
-    'Arquitetura de procedimentos operacionais',
-    'Práticas de desenvolvimento seguro',
   ];
 
   return (
