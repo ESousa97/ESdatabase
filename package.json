@@ -52,7 +52,7 @@
     "nouislider": "15.8.1",
     "pg": "^8.11.3",
     "prop-types": "15.8.1",
-    "react": "^18.2.0",
+    "react": "^19.2.3",
     "react-click-outside": "^3.0.1",
     "react-datetime": "3.3.1",
     "react-dom": "^19.2.3",
