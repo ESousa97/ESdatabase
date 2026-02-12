@@ -1,20 +1,17 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import MainLayout from '../Layout/MainLayout';
 import ProcedureDetails from './ProcedureDetails';
 import { demoProjects } from '../../data/demoProjects'; // ajuste se usar outro mock
 
 function ProcedurePage() {
-  const [procedure, setProcedure] = useState(null);
-  const [notFound, setNotFound] = useState(false);
   const router = useRouter();
   const { id } = router.query;
 
-  useEffect(() => {
-    if (!id) return;
+  const { procedure, notFound } = useMemo(() => {
+    if (!id) return { procedure: null, notFound: false };
     const proc = demoProjects.find((item) => String(item.id) === String(id)); // força string por precaução
-    setProcedure(proc || null);
-    setNotFound(!proc);
+    return { procedure: proc || null, notFound: !proc };
   }, [id]);
 
   return (

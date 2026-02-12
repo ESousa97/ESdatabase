@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import List from '@mui/material/List';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -11,19 +11,17 @@ import { StyledDrawer, StyledListItemButton, CustomListItemIcon } from './SideMe
 import { demoProjects } from '../../data/demoProjects';
 
 const SideMenu = ({ open, onClose }) => {
-  const [categories, setCategories] = useState({});
   const [openSubmenus, setOpenSubmenus] = useState({});
   const router = useRouter();
 
-  useEffect(() => {
-    // Agrupar projetos por categoria
-    const grouped = demoProjects.reduce((acc, item) => {
+  // Agrupar projetos por categoria
+  const categories = useMemo(() => {
+    return demoProjects.reduce((acc, item) => {
       const category = item.categoria || 'Outros';
       if (!acc[category]) acc[category] = [];
       acc[category].push(item);
       return acc;
     }, {});
-    setCategories(grouped);
   }, []);
 
   const handleToggle = (category, event) => {

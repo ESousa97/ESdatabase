@@ -13,12 +13,11 @@ import { StyledListItem, StyledPaper } from './CompactListStyles';
 
 const CompactList = ({ sortCriteria, sortDirection }) => {
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(false); // Estado para controlar o carregamento
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const theme = useTheme();
 
   useEffect(() => {
-    setLoading(true); // Inicie o carregamento
     axios
       .get('http://localhost:3000/api/cardlist')
       .then((response) => {

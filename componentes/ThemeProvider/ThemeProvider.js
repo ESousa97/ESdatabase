@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useMemo, useContext } from 'react';
+import React, { createContext, useState, useEffect, useMemo, useContext, useCallback } from 'react';
 import { createTheme, ThemeProvider as MuiThemeProvider, CssBaseline } from '@mui/material';
 import { useRouter } from 'next/router';
 
@@ -30,16 +30,14 @@ const getDesignTokens = (mode) => ({
 
 const ThemeProvider = ({ children }) => {
   const router = useRouter();
-  const [darkMode, setDarkMode] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const savedMode = localStorage.getItem('darkMode');
-    if (savedMode !== null) {
-      setDarkMode(JSON.parse(savedMode));
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedMode = localStorage.getItem('darkMode');
+      if (savedMode !== null) return JSON.parse(savedMode);
     }
-    setMounted(true);
-  }, []);
+    return false;
+  });
+  const [mounted, setMounted] = useState(() => typeof window !== 'undefined');
 
   useEffect(() => {
     if (mounted) {

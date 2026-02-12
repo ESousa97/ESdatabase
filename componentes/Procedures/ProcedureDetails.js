@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import DOMPurify from 'dompurify';
 import { ToastContainer, toast } from 'react-toastify';
@@ -28,16 +28,12 @@ import {
 import { ImageContainer, ContentContainer } from './ProcedureDetailsStyles';
 
 function ProcedureDetails({ procedure }) {
-  const [loading, setLoading] = useState(true);
+  const loading = !procedure;
   const [videoLoaded, setVideoLoaded] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [expandedSections, setExpandedSections] = useState(new Set());
 
   const IMG_WIDTH = 640;
-
-  useEffect(() => {
-    if (procedure) setLoading(false);
-  }, [procedure]);
 
   const handleLoadVideo = (videoId) => setVideoLoaded(videoId);
   const toggleExpand = () => setIsExpanded(!isExpanded);
