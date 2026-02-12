@@ -1,538 +1,402 @@
+<div align="center">
+
 # ES.Database
 
-Sistema web para centralizar, consultar e navegar procedimentos operacionais e conhecimento técnico.
+[![CI](https://img.shields.io/github/actions/workflow/status/ESousa97/ESdatabase/ci.yml?style=flat&logo=github-actions&logoColor=white)](https://github.com/ESousa97/ESdatabase/actions/workflows/ci.yml)
+[![CodeQL](https://img.shields.io/github/actions/workflow/status/ESousa97/ESdatabase/codeql.yml?style=flat&logo=github&logoColor=white&label=CodeQL)](https://github.com/ESousa97/ESdatabase/actions/workflows/codeql.yml)
+[![CodeFactor](https://img.shields.io/codefactor/grade/github/ESousa97/ESdatabase?style=flat&logo=codefactor&logoColor=white)](https://www.codefactor.io/repository/github/esousa97/esdatabase)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat&logo=opensourceinitiative&logoColor=white)](https://opensource.org/licenses/MIT)
+[![Status](https://img.shields.io/badge/Status-Archived-lightgrey.svg?style=flat&logo=archive&logoColor=white)](#)
 
-## Status do projeto
+**Sistema web para centralizar, consultar e navegar procedimentos operacionais e conhecimento técnico. Construído com Next.js, React 18 e Material-UI 5.**
 
-- **Maintained:** best-effort
-- **Stack:** Next.js (Pages Router) + React 18 + MUI 5
+[Demo ao Vivo](https://e-sdatabase.vercel.app/login) • [Documentação](docs/ARCHITECTURE.md)
 
-## Badges
+</div>
 
-[![CI](https://github.com/ESousa97/ESdatabase/actions/workflows/ci.yml/badge.svg)](https://github.com/ESousa97/ESdatabase/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/ESousa97/ESdatabase/actions/workflows/codeql.yml/badge.svg)](https://github.com/ESousa97/ESdatabase/actions/workflows/codeql.yml)
+---
 
-## Visão geral
+> **⚠️ Projeto Arquivado**
+> Este projeto não recebe mais atualizações ou correções. O código permanece disponível como referência e pode ser utilizado livremente sob a licença MIT. Fique à vontade para fazer fork caso deseje continuar o desenvolvimento.
 
-O ES.Database organiza conhecimento operacional (procedimentos, guias e referências técnicas) em um único lugar, com UX focada em consulta rápida.
+---
 
-## Problema que resolve
+## Índice
 
-Em times de suporte/ops, procedimentos tendem a ficar espalhados (PDFs, wikis e chats). Isso aumenta MTTR e dificulta onboarding.
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Funcionalidades](#funcionalidades)
+- [Tecnologias](#tecnologias)
+- [Começando](#começando)
+  - [Pré-requisitos](#pré-requisitos)
+  - [Instalação](#instalação)
+  - [Configuração](#configuração)
+  - [Uso Local](#uso-local)
+- [Scripts Disponíveis](#scripts-disponíveis)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Arquitetura](#arquitetura)
+- [Segurança](#segurança)
+- [Testes](#testes)
+- [Deploy](#deploy)
+- [Roadmap](#roadmap)
+- [Contribuição](#contribuição)
+- [Licença](#licença)
+- [Contato](#contato)
+
+---
+
+## Sobre o Projeto
+
+O ES.Database organiza conhecimento operacional — procedimentos, guias e referências técnicas — em um único lugar, com UX focada em consulta rápida. Em times de suporte e operações, procedimentos tendem a ficar espalhados entre PDFs, wikis e chats, o que aumenta o MTTR e dificulta o onboarding. Este projeto resolve esse problema centralizando tudo com busca inteligente e múltiplos modos de visualização.
+
+### Por que Next.js + Material-UI?
+
+A combinação oferece SSR/SSG para performance, rotas baseadas em arquivos para simplicidade, e um sistema de design completo que acelera o desenvolvimento de interfaces responsivas e acessíveis. A autenticação via NextAuth garante integração direta com provedores corporativos (Azure AD) e pessoais (Google).
+
+---
 
 ## Funcionalidades
 
-- Autenticação com NextAuth (Azure AD e/ou Google)
-- Allowlist de e-mails por variável de ambiente (opcional)
-- Listagens em múltiplos modos (cards / detalhado / compacto)
-- Dark mode
+- **Autenticação 2FA** — Login via Azure AD e/ou Google com NextAuth.js
+- **Allowlist de e-mails** — Controle de acesso por variável de ambiente (opcional)
+- **Múltiplos modos de visualização** — Cards, detalhado e compacto
+- **Busca global em tempo real** — Pesquisa com debounce por todos os procedimentos
+- **Navegação por categorias** — Menu lateral com categorias expansíveis
+- **Dark mode** — Alternância de tema com persistência em localStorage
+- **Conteúdo rico** — Vídeos do YouTube incorporados, blocos de código copiáveis e imagens
+- **Error Boundary global** — Tratamento de erros com fallback UI
+- **Security headers** — HSTS, X-Content-Type-Options, X-Frame-Options, CSP
+- **Testes automatizados** — Jest + React Testing Library
 
-## Stack e requisitos
+---
+
+## Tecnologias
+
+### Core
+
+![Next.js](https://img.shields.io/badge/Next.js_14-000000?style=flat&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React_18-61DAFB?style=flat&logo=react&logoColor=black)
+![MUI](https://img.shields.io/badge/Material--UI_5-007FFF?style=flat&logo=mui&logoColor=white)
+![NextAuth](https://img.shields.io/badge/NextAuth.js-000000?style=flat&logo=auth0&logoColor=white)
+
+### Ferramentas de Desenvolvimento
+
+![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=eslint&logoColor=white)
+![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=flat&logo=prettier&logoColor=black)
+![Husky](https://img.shields.io/badge/Husky-000000?style=flat&logo=git&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=github-actions&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)
+
+**Requisitos mínimos:**
 
 - Node.js 18+ (recomendado 20 LTS)
 - npm 9+
-- Next.js 14
-- React 18
-- MUI 5
 
-## Instalação
+---
+
+## Começando
+
+### Pré-requisitos
+
+```bash
+node --version  # v18 ou superior (recomendado v20)
+npm --version   # v9 ou superior
+```
+
+### Instalação
+
+1. **Clone o repositório**
+
+```bash
+git clone https://github.com/ESousa97/ESdatabase.git
+cd ESdatabase
+```
+
+2. **Instale as dependências**
 
 ```bash
 npm ci
 ```
 
-## Uso
+### Configuração
 
-### Rodar em desenvolvimento
+Crie o arquivo `.env.local` a partir do exemplo:
 
 ```bash
-copy .env.example .env.local
+cp .env.example .env.local
+```
+
+Preencha as variáveis necessárias:
+
+```env
+NEXTAUTH_URL=http://localhost:3001
+NEXTAUTH_SECRET=sua-chave-secreta    # gere com: openssl rand -base64 32
+
+# Azure AD (opcional)
+AZURE_AD_CLIENT_ID=your-azure-client-id
+AZURE_AD_CLIENT_SECRET=your-azure-client-secret
+AZURE_AD_TENANT_ID=your-azure-tenant-id
+
+# Google (opcional)
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+
+# Allowlist (opcional, CSV)
+ALLOWED_EMAILS=user1@example.com,user2@example.com
+```
+
+> **Nota:** Providers de autenticação são habilitados somente quando suas variáveis estão configuradas. Sem `ALLOWED_EMAILS`, qualquer usuário autenticado tem acesso.
+
+### Uso Local
+
+**Subir o servidor:**
+
+```bash
 npm run dev
 ```
 
-Abra `http://localhost:3001`.
+**Acesse:** `http://localhost:3001`
 
-### Build e execução de produção
+**Build de produção:**
 
 ```bash
 npm run build
 npm run start
 ```
 
-## Configuração
-
-Todas as variáveis estão documentadas em `.env.example`.
-
-Principais:
-
-- `NEXTAUTH_URL` (ex.: `http://localhost:3001`)
-- `NEXTAUTH_SECRET` (gere com `openssl rand -base64 32`)
-- `AZURE_AD_CLIENT_ID`, `AZURE_AD_CLIENT_SECRET`, `AZURE_AD_TENANT_ID`
-- `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
-- `ALLOWED_EMAILS` (CSV, opcional)
-
-## Arquitetura
-
-Documentação e diagrama textual: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
-
-Resumo:
-
-```
-[Browser]
-    |
-    v
-[Next.js Pages Router]
-    |
-    +--> /login --------------> NextAuth (OAuth Providers)
-    |
-    +--> /components ---------> UI + ListViewWrapper
-    |
-    +--> /procedimentos/[id] -> ProcedurePages -> ProcedureDetails
-```
-
-## Scripts
-
-- `npm run dev` — desenvolvimento
-- `npm run build` — build
-- `npm run start` — start
-- `npm run lint` — ESLint
-- `npm run lint:fix` — ESLint (fix)
-- `npm run format` — Prettier (write)
-- `npm run format:check` — Prettier (check)
-- `npm test` — Jest
-- `npm run test:ci` — Jest (CI)
-
-## Roadmap (curto)
-
-- Adicionar testes de UI mais específicos (RTL)
-- Isolar camada de dados (fetch) em `lib/`
-- Evoluir mocks `data/` para API real
-
-## Contribuição
-
-Veja [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Licença
-
-MIT — veja [LICENSE.md](LICENSE.md).
-
-- **Lista branca de e-mails** para controle de acesso
-- **Gerenciamento de sessões** com NextAuth.js
-- **Criptografia HTTPS** e cabeçalhos seguros
-
-### 🔍 Busca Inteligente & Navegação
-
-- **Busca global em tempo real** por todos os procedimentos
-- **Navegação por categorias** com menus expansíveis
-- **Filtros avançados** por data, ordem alfabética e atualizações
-- **Design responsivo** para acesso móvel e desktop
-
-### 📊 Modos Múltiplos de Visualização
-
-- **📱 Visualização em Cartões** com thumbnails
-- **📋 Visualização Detalhada** com metadados completos
-- **📄 Visualização Compacta** para densidade máxima de informação
-- **🎨 Modos Claro/Escuro** conforme preferência do usuário
-
-### 🎬 Suporte a Conteúdo Rico
-
-- **📹 Tutoriais incorporados do YouTube** com player customizado
-- **🖼️ Galerias de imagens** com carregamento otimizado
-- **💻 Blocos de código copiáveis** com realce de sintaxe
-- **📝 Parsing customizado de Markdown** com elementos interativos
-
-### ⚡ Performance Otimizada
-
-- **Renderização no Servidor (SSR)** com Next.js
-- **Geração Estática (SSG)** para carregamento rápido
-- **Otimização e lazy loading de imagens**
-- **Integração com CDN** para distribuição global
-
 ---
 
-## 🛠️ Stack Tecnológica
-
-<details>
-<summary><strong>Tecnologias Frontend</strong></summary>
-
-| Tecnologia        | Versão  | Propósito                       |
-| ----------------- | ------- | ------------------------------- |
-| **Next.js**       | 14.1.4  | Framework React com SSR/SSG     |
-| **React**         | 18.2.0  | Biblioteca para UI              |
-| **Material-UI**   | 5.18.0  | Sistema de design e componentes |
-| **Framer Motion** | 11.0.24 | Animações e transições          |
-| **TypeScript**    | 5.4.4   | Tipagem estática e melhor DX    |
-
-</details>
-
-<details>
-<summary><strong>Backend & Infraestrutura</strong></summary>
-
-| Tecnologia             | Propósito                              |
-| ---------------------- | -------------------------------------- |
-| **Next.js API Routes** | Funções backend serverless             |
-| **PostgreSQL**         | Banco de dados principal               |
-| **NextAuth.js**        | Autenticação e gerenciamento de sessão |
-| **Vercel**             | Plataforma de deploy e hosting         |
-| **Node.js**            | Ambiente de execução                   |
-
-</details>
-
-<details>
-<summary><strong>Desenvolvimento & Qualidade</strong></summary>
-
-| Ferramenta         | Propósito                      |
-| ------------------ | ------------------------------ |
-| **ESLint**         | Linting e padrões de código    |
-| **Prettier**       | Formatação de código           |
-| **Sass**           | Pré-processamento CSS avançado |
-| **Git**            | Controle de versão             |
-| **GitHub Actions** | Pipeline CI/CD                 |
-
-</details>
-
----
-
-## 🏗️ Arquitetura
-
-```mermaid
-graph TB
-    subgraph "Camada Cliente"
-        A[Navegador] --> B[Frontend Next.js]
-    end
-
-    subgraph "Camada Aplicação"
-        B --> C[Componentes React]
-        C --> D[Material-UI]
-        C --> E[Provedor de Tema]
-        C --> F[Mecanismo de Busca]
-    end
-
-    subgraph "Camada API"
-        B --> G[NextAuth.js]
-        B --> H[Rotas API]
-        G --> I[Provedores OAuth]
-        H --> J[Camada de Banco de Dados]
-    end
-
-    subgraph "Infraestrutura"
-        K[CDN Vercel] --> B
-        L[PostgreSQL] --> H
-        M[Armazenamento de Assets] --> B
-    end
-
-    style B fill:#e1f5fe
-    style G fill:#f3e5f5
-    style H fill:#e8f5e8
-    style L fill:#fff3e0
-```
-
-### Princípios da Arquitetura
-
-1. **🏛️ Design Modular**: Arquitetura baseada em componentes para facilidade de manutenção
-2. **🔄 Serverless First**: Aproveitando a rede de borda da Vercel para escalabilidade
-3. **🛡️ Segurança por Design**: Autenticação e autorização em todas as camadas
-4. **📱 Mobile First**: Princípios responsivos aplicados em toda interface
-5. **⚡ Performance Otimizada**: SSR, SSG e estratégias inteligentes de cache
-
----
-
-## 🚀 Começando
-
-### Pré-requisitos
-
-```bash
-# Softwares necessários
-Node.js >= 18.x
-npm >= 8.x
-PostgreSQL >= 12.x (para funcionalidade completa)
-```
-
-### Início Rápido
-
-1. **Clone o repositório**
-
-   ```bash
-   git clone https://github.com/ESousa97/ESdatabase.git
-   cd ESdatabase
-   ```
-
-2. **Instale as dependências**
-
-   ```bash
-   npm install
-   ```
-
-3. **Configure as variáveis de ambiente**
-
-   ```bash
-   cp .env.example .env.local
-   # Edite .env.local com suas configurações
-   ```
-
-4. **Inicie o servidor de desenvolvimento**
-
-   ```bash
-   npm run dev
-   ```
-
-5. **Acesse a aplicação**
-
-   ```
-   http://localhost:3001
-   ```
-
-### Configuração do Ambiente
-
-<details>
-<summary><strong>Variáveis de Ambiente Obrigatórias</strong></summary>
-
-```env
-# Banco de dados
-DATABASE_URL="postgresql://usuario:senha@localhost:5432/database"
-
-# Autenticação
-NEXTAUTH_URL="http://localhost:3001"
-NEXTAUTH_SECRET="sua-chave-secreta"
-
-# Provedores OAuth
-AZURE_AD_CLIENT_ID="seu-client-id-azure"
-AZURE_AD_CLIENT_SECRET="seu-client-secret-azure"
-AZURE_AD_TENANT_ID="seu-tenant-id-azure"
-
-GOOGLE_CLIENT_ID="seu-client-id-google"
-GOOGLE_CLIENT_SECRET="seu-client-secret-google"
-```
-
-</details>
-
----
-
-## 📁 Estrutura do Projeto
-
-```
-ESdatabase/
-├── 📂 componentes/           # Componentes React
-│   ├── 📂 AppBar/           # Barra de navegação
-│   ├── 📂 CardList/         # Componentes para visualização em cartões
-│   ├── 📂 SearchBox/        # Funcionalidade de busca
-│   ├── 📂 ThemeProvider/    # Gerenciamento de tema
-│   └── 📂 Procedures/       # Exibição de procedimentos
-├── 📂 pages/                # Páginas Next.js & rotas API
-│   ├── 📂 api/             # Endpoints backend
-│   ├── 📂 procedimentos/   # Páginas dinâmicas de procedimentos
-│   └── 📄 *.js             # Páginas estáticas
-├── 📂 public/              # Assets estáticos
-├── 📂 styles/              # Estilos globais e temas
-├── 📂 data/                # Dados mock para demo
-└── 📄 package.json         # Dependências e scripts
-```
-
----
-
-## 🎯 Exemplos de Uso
-
-### Fluxo de Autenticação
-
-```javascript
-// Login seguro com Microsoft/Google
-import { signIn } from 'next-auth/react';
-
-await signIn('azure-ad', {
-  callbackUrl: '/dashboard',
-});
-```
-
-### Implementação da Busca
-
-```javascript
-// Busca em tempo real com debounce
-const [results, setResults] = useState([]);
-
-useEffect(() => {
-  const search = debounce(async (query) => {
-    const response = await fetch(`/api/search?q=${query}`);
-    setResults(await response.json());
-  }, 300);
-
-  search(searchTerm);
-}, [searchTerm]);
-```
-
-### Parser de Conteúdo Customizado
-
-```javascript
-// Conteúdo rico com vídeos incorporados e blocos de código
-const parseContent = (content) => {
-  return content
-    .replace(/@@(.+?)@@/g, '<code-block>$1</code-block>')
-    .replace(/youtube\.com\/watch\?v=([^&]+)/g, '<video-embed id="$1" />');
-};
-```
-
----
-
-## 🔒 Recursos de Segurança
-
-### Arquitetura de Segurança em Múltiplas Camadas
-
-1. **Camada de Autenticação**
-   - OAuth 2.0 com Azure AD & Google
-   - Autorização por whitelist de e-mails
-   - Gerenciamento de tokens JWT
-
-2. **Camada de Aplicação**
-   - Sanitização de entradas com DOMPurify
-   - Cabeçalhos para proteção contra XSS
-   - Validação de token CSRF
-
-3. **Camada de Infraestrutura**
-   - Aplicação obrigatória de HTTPS
-   - Configuração de cabeçalhos de segurança
-   - Implementação de rate limiting
-
-### Boas Práticas de Segurança Implementadas
-
-- ✅ **Arquitetura zero trust** com autorização baseada em e-mail
-- ✅ **Cabeçalhos Content Security Policy (CSP)**
-- ✅ **Gerenciamento seguro de sessão** com NextAuth.js
-- ✅ **Proteção das variáveis de ambiente**
-- ✅ **Prevenção contra SQL Injection** via queries parametrizadas
-
----
-
-## 📊 Métricas de Performance
-
-### Performance em Produção (Histórico)
-
-- **🎯 10.000+ usuários ativos mensais**
-- **⚡ Tempo médio de carregamento < 2 segundos**
-- **📱 Compatibilidade móvel: 98%**
-- **🔍 Tempo médio de resposta de busca < 500ms**
-- **⏱️ Uptime de 99,9% no período ativo**
-
-### Métricas Técnicas
-
-- **Nota no Lighthouse**: 95+ em todos os critérios
-- **Core Web Vitals**: Excelente avaliação
-- **Tamanho do bundle**: Otimizado para carregamento rápido
-- **SEO**: 100/100
-
----
-
-## 🧪 Fluxo de Desenvolvimento
-
-### Scripts Disponíveis
+## Scripts Disponíveis
 
 ```bash
 # Desenvolvimento
-npm run dev              # Inicia servidor de desenvolvimento
+npm run dev              # Servidor com hot reload (porta 3001)
 npm run build            # Build para produção
-npm run start            # Inicia servidor de produção
+npm run start            # Servidor de produção (porta 3001)
 
-# Qualidade
-npm run lint             # Executa ESLint
-npm run test             # Executa testes (planejado)
-npm run type-check       # Validação TypeScript
+# Qualidade de código
+npm run lint             # ESLint
+npm run lint:fix         # ESLint com auto-fix
+npm run format           # Prettier (write)
+npm run format:check     # Prettier (check)
+
+# Testes
+npm test                 # Jest (watch mode)
+npm run test:ci          # Jest (CI com coverage)
+npm run test:watch       # Jest (watch)
 
 # Manutenção
-npm run install:clean    # Instala dependências limpando cache
+npm run clean            # Remove .next, out, dist, coverage
+npm run clean:all        # Remove também node_modules
+npm run install:clean    # Clean install completo + dev
 ```
 
-### Padrões de Qualidade de Código
+---
 
-- **ESLint**: Padrões rigorosos de código
-- **Prettier**: Formatação consistente
-- **TypeScript**: Segurança de tipos e melhor experiência dev
-- **Commits Convencionais**: Mensagens padronizadas
+## Estrutura do Projeto
+
+```
+ESdatabase/
+├── componentes/
+│   ├── AppBar/                 # Barra de navegação superior
+│   ├── CardList/               # Visualização em cartões
+│   ├── CompactList/            # Visualização compacta
+│   ├── DetailedList/           # Visualização detalhada
+│   ├── Dialog/                 # Dialog de confirmação (logout)
+│   ├── Drawer/                 # Drawer lateral
+│   ├── ErrorBoundary/          # Error Boundary global
+│   ├── Layout/                 # MainLayout (AppBar + Drawer + Head)
+│   ├── ListViewWrapper/        # Switch entre modos de visualização
+│   ├── Login/                  # Ícones e formulário de login
+│   ├── Procedures/             # ProcedurePages + ProcedureDetails
+│   ├── SearchBox/              # Busca global com resultados em tempo real
+│   ├── SideMenu/               # Menu lateral com categorias
+│   ├── ThemeProvider/          # Tema MUI + dark mode
+│   └── index.js                # Barrel exports
+├── data/
+│   ├── demoCards.js            # Dados mock para cards
+│   └── demoProjects.js         # Dados mock para procedimentos
+├── docs/
+│   └── ARCHITECTURE.md         # Documentação de arquitetura
+├── lib/
+│   └── config.js               # Configuração centralizada de env
+├── pages/
+│   ├── api/
+│   │   └── auth/
+│   │       └── [...nextauth].js  # Configuração NextAuth
+│   ├── procedimentos/
+│   │   └── [id].js             # Página dinâmica de procedimento
+│   ├── _app.js                 # Custom App (providers globais)
+│   ├── index.js                # Redirect para login
+│   ├── login.js                # Página de login
+│   ├── components.js           # Página principal (listagem)
+│   ├── privacy.js              # Política de privacidade
+│   └── terms.js                # Termos de uso
+├── __tests__/
+│   ├── ErrorBoundary.test.js   # Testes do Error Boundary
+│   ├── ListViewWrapper.test.js # Testes dos modos de visualização
+│   └── config.test.js          # Testes da configuração
+├── styles/
+│   └── scss/                   # Estilos globais SCSS
+├── public/                     # Assets estáticos e favicons
+├── .github/
+│   └── workflows/
+│       ├── ci.yml              # Pipeline CI (lint + test + build)
+│       └── codeql.yml          # Análise de segurança CodeQL
+├── package.json                # Dependências e scripts
+├── next.config.js              # Configuração Next.js + security headers
+├── jest.config.js              # Configuração Jest
+├── CHANGELOG.md                # Histórico de mudanças
+├── CONTRIBUTING.md             # Guia de contribuição
+├── SECURITY.md                 # Política de segurança
+├── CODE_OF_CONDUCT.md          # Código de conduta
+└── LICENSE.md                  # Licença MIT
+```
+
+> Para mais detalhes sobre a arquitetura, consulte [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ---
 
-### Diretrizes para Contribuição
+## Arquitetura
 
-- Siga o estilo e padrões de código existentes
-- Documente novas funcionalidades
-- Inclua testes unitários para novas funcionalidades
-- Atualize o README se necessário
-- Respeite a licença MIT do projeto
+O projeto segue o padrão do Next.js Pages Router com componentes React organizados por funcionalidade:
 
----
+```
+[Browser]
+    │
+    ▼
+[Next.js Pages Router]
+    │
+    ├── /login ──────────────► NextAuth (Azure AD / Google)
+    │
+    ├── /components ─────────► ListViewWrapper
+    │                           ├── CardList (cards)
+    │                           ├── DetailedList (detalhado)
+    │                           └── CompactList (compacto)
+    │
+    └── /procedimentos/[id] ─► ProcedurePages → ProcedureDetails
+                                  ├── Vídeos YouTube
+                                  ├── Blocos de código
+                                  └── Imagens e conteúdo rico
+```
 
-## 📜 Licença
+### Princípios
 
-Este projeto está licenciado sob a **Licença MIT** - veja o arquivo [LICENSE.md](LICENSE.md) para detalhes.
-
-### O que isso significa:
-
-- ✅ **Uso comercial** permitido
-- ✅ **Modificação** permitida
-- ✅ **Distribuição** permitida
-- ✅ **Uso privado** permitido
-- ⚠️ **Obrigatoriedade de manter o aviso de licença e direitos autorais**
-
----
-
-## 🌟 Status do Projeto
-
-> **📌 Status Atual**: **Projeto Demonstração/Portfólio**
->
-> Este projeto foi originalmente implantado em produção atendendo mais de 10.000 usuários mensais, antes de ser convertido em demonstração em setembro de 2024. O código representa práticas corporativas de desenvolvimento e serve como exemplo abrangente de arquitetura moderna para aplicações web.
-
-### Por que open source?
-
-1. **🎓 Valor Educacional**: Demonstra práticas reais de desenvolvimento
-2. **💡 Inovação**: Estimula contribuições e melhorias da comunidade
-3. **🏆 Portfólio**: Demonstra habilidades técnicas e resolução de problemas
-4. **🤝 Comunidade**: Retorno para a comunidade de desenvolvedores
+1. **Modular** — Componentes isolados com estilos próprios (styled-components via MUI)
+2. **Serverless First** — Deploy via Vercel com edge network
+3. **Segurança por Design** — Autenticação + allowlist + security headers em todas as camadas
+4. **Mobile First** — Responsivo em todas as interfaces
 
 ---
 
-## 📞 Contato & Suporte
+## Segurança
 
-### Entre em Contato
+O projeto implementa múltiplas camadas de segurança:
 
-- **📧 Email**: [sousa3086@outlook.com](mailto:sousa3086@outlook.com)
-- **💼 LinkedIn**: [Enoque Sousa](https://www.linkedin.com/in/enoque-sousa-bb89aa168/)
-- **🐙 GitHub**: [@ESousa97](https://github.com/ESousa97)
-
-### Opções de Suporte
-
-- **🐛 Reportar Bugs**: [Issues no GitHub](https://github.com/ESousa97/ESdatabase/issues)
-- **💡 Solicitar Funcionalidades**: [Discussões no GitHub](https://github.com/ESousa97/ESdatabase/discussions)
-- **❓ Perguntas**: Crie uma issue com label `question`
-- **🤝 Colaborações**: Contate por email para parcerias
+| Camada           | Implementação                                                                                        |
+| ---------------- | ---------------------------------------------------------------------------------------------------- |
+| **Autenticação** | OAuth 2.0 (Azure AD + Google) via NextAuth.js                                                        |
+| **Autorização**  | Allowlist de e-mails por variável de ambiente                                                        |
+| **Headers**      | HSTS, X-Content-Type-Options, X-Frame-Options, X-XSS-Protection, Referrer-Policy, Permissions-Policy |
+| **Sanitização**  | DOMPurify para conteúdo HTML renderizado                                                             |
+| **CI/CD**        | npm audit + CodeQL semanal + Dependabot                                                              |
 
 ---
 
-## 🙏 Agradecimentos
+## Testes
 
-### Agradecimentos Especiais
+```bash
+# Executar testes
+npm test
 
-- **🎓 Alura**: Pelo conhecimento fundamental para este projeto
-- **⚛️ Comunidade React/Next.js**: Pela excelente documentação e suporte
-- **🎨 Time Material-UI**: Pelo sistema de design completo
-- **☁️ Vercel**: Pela plataforma de deploy excepcional
-- **👥 Comunidade Open Source**: Pela inspiração e troca de conhecimento
+# Testes em CI com coverage
+npm run test:ci
+```
 
-### Tecnologias que tornaram isso possível
+Os testes cobrem:
 
-Este projeto não existiria sem o incrível ecossistema open source e os recursos educacionais que possibilitaram o aprendizado autodidata e crescimento profissional.
+| Arquivo                   | Escopo                                    |
+| ------------------------- | ----------------------------------------- |
+| `ErrorBoundary.test.js`   | Renderização normal e fallback de erro    |
+| `ListViewWrapper.test.js` | Switch entre modos cards/detailed/compact |
+| `config.test.js`          | Valores padrão e allowedEmails            |
+
+---
+
+## Deploy
+
+### Vercel (Produção)
+
+O deploy é automático via integração GitHub → Vercel. As variáveis de ambiente devem ser configuradas no painel da Vercel.
+
+```bash
+vercel --prod
+```
+
+### Local
+
+```bash
+npm run dev
+# ou para simular produção:
+npm run build && npm run start
+```
+
+---
+
+## Roadmap
+
+- [ ] Adicionar testes de UI mais específicos (React Testing Library)
+- [ ] Isolar camada de dados (fetch) em `lib/`
+- [ ] Evoluir mocks `data/` para API real
+- [ ] Migrar para App Router (Next.js 14+)
+
+---
+
+## Contribuição
+
+Contribuições são bem-vindas! Veja o guia completo em [CONTRIBUTING.md](CONTRIBUTING.md).
+
+Resumo rápido:
+
+```bash
+npm ci && npm run dev        # Setup local
+npm run lint                 # Verificar código
+npm run test:ci              # Rodar testes
+npm run build                # Validar build
+```
+
+Este projeto usa **Conventional Commits** — ex: `feat(auth): adicionar logout`, `fix(ui): corrigir layout mobile`.
+
+---
+
+## Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE.md](LICENSE.md) para mais detalhes.
+
+```
+MIT License - você pode usar, copiar, modificar e distribuir este código.
+```
+
+---
+
+## Contato
+
+**José Enoque Costa de Sousa**
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/enoque-sousa-bb89aa168/)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/ESousa97)
+[![Portfolio](https://img.shields.io/badge/Portfolio-FF5722?style=flat&logo=todoist&logoColor=white)](https://enoquesousa.vercel.app)
 
 ---
 
 <div align="center">
 
-### 🚀 Pronto para explorar?
+**[⬆ Voltar ao topo](#esdatabase)**
 
-**[🌐 Ver Demo Online](https://e-sdatabase.vercel.app/login)** | **[📖 Ler Documentação](#-documentação)** | **[🛠️ Começar](#-começando)**
-
----
-
-**Feito com ❤️ por [Enoque Sousa](https://github.com/ESousa97)**
+Feito com ❤️ por [Enoque Sousa](https://github.com/ESousa97)
 
 _De uma ideia para resolver um problema simples, a um sistema em produção atendendo milhares de usuários, até uma contribuição open source para a comunidade._
 
-</div>
-```
+**Status do Projeto:** Archived — Sem novas atualizações
 
-> ✨ **Criado em:** 13 de mar. de 2024 às 21:11
+</div>
