@@ -4,6 +4,7 @@
 
 [![CI](https://img.shields.io/github/actions/workflow/status/ESousa97/ESdatabase/ci.yml?style=flat&logo=github-actions&logoColor=white)](https://github.com/ESousa97/ESdatabase/actions/workflows/ci.yml)
 [![CodeQL](https://img.shields.io/github/actions/workflow/status/ESousa97/ESdatabase/codeql.yml?style=flat&logo=github&logoColor=white&label=CodeQL)](https://github.com/ESousa97/ESdatabase/actions/workflows/codeql.yml)
+[![CodeFactor](https://img.shields.io/codefactor/grade/github/ESousa97/ESdatabase?style=flat&logo=codefactor&logoColor=white)](https://www.codefactor.io/repository/github/esousa97/esdatabase)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat&logo=opensourceinitiative&logoColor=white)](https://opensource.org/licenses/MIT)
 [![Status](https://img.shields.io/badge/Status-Archived-lightgrey.svg?style=flat&logo=archive&logoColor=white)](#)
 
@@ -383,7 +384,7 @@ MIT License - você pode usar, copiar, modificar e distribuir este código.
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/enoque-sousa-bb89aa168/)
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/ESousa97)
-[![Portfolio](https://img.shields.io/badge/Portfolio-FF5722?style=flat&logo=todoist&logoColor=white)](https://esousa97.github.io/Portifolio/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-FF5722?style=flat&logo=todoist&logoColor=white)](https://enoquesousa.vercel.app)
 
 ---
 
