@@ -64,7 +64,7 @@
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",
     "sass": "1.97.2",
-    "styled-components": "5.3.5",
+    "styled-components": "6.3.8",
     "webpack": "^5.104.0"
   },
   "devDependencies": {
