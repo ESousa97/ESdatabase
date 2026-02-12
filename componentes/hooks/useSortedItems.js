@@ -3,10 +3,9 @@ import axios from 'axios';
 
 const useSortedItems = (sortCriteria, sortDirection) => {
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     axios
       .get('http://localhost:3000/api/cardlist')
       .then((response) => {

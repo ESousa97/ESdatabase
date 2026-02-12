@@ -88,6 +88,7 @@ A combinação oferece SSR/SSG para performance, rotas baseadas em arquivos para
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)
 
 **Requisitos mínimos:**
+
 - Node.js 18+ (recomendado 20 LTS)
 - npm 9+
 
@@ -292,13 +293,13 @@ O projeto segue o padrão do Next.js Pages Router com componentes React organiza
 
 O projeto implementa múltiplas camadas de segurança:
 
-| Camada | Implementação |
-|--------|---------------|
-| **Autenticação** | OAuth 2.0 (Azure AD + Google) via NextAuth.js |
-| **Autorização** | Allowlist de e-mails por variável de ambiente |
-| **Headers** | HSTS, X-Content-Type-Options, X-Frame-Options, X-XSS-Protection, Referrer-Policy, Permissions-Policy |
-| **Sanitização** | DOMPurify para conteúdo HTML renderizado |
-| **CI/CD** | npm audit + CodeQL semanal + Dependabot |
+| Camada           | Implementação                                                                                        |
+| ---------------- | ---------------------------------------------------------------------------------------------------- |
+| **Autenticação** | OAuth 2.0 (Azure AD + Google) via NextAuth.js                                                        |
+| **Autorização**  | Allowlist de e-mails por variável de ambiente                                                        |
+| **Headers**      | HSTS, X-Content-Type-Options, X-Frame-Options, X-XSS-Protection, Referrer-Policy, Permissions-Policy |
+| **Sanitização**  | DOMPurify para conteúdo HTML renderizado                                                             |
+| **CI/CD**        | npm audit + CodeQL semanal + Dependabot                                                              |
 
 ---
 
@@ -314,11 +315,11 @@ npm run test:ci
 
 Os testes cobrem:
 
-| Arquivo | Escopo |
-|---------|--------|
-| `ErrorBoundary.test.js` | Renderização normal e fallback de erro |
+| Arquivo                   | Escopo                                    |
+| ------------------------- | ----------------------------------------- |
+| `ErrorBoundary.test.js`   | Renderização normal e fallback de erro    |
 | `ListViewWrapper.test.js` | Switch entre modos cards/detailed/compact |
-| `config.test.js` | Valores padrão e allowedEmails |
+| `config.test.js`          | Valores padrão e allowedEmails            |
 
 ---
 
@@ -399,4 +400,3 @@ _De uma ideia para resolver um problema simples, a um sistema em produção aten
 **Status do Projeto:** Archived — Sem novas atualizações
 
 </div>
-
