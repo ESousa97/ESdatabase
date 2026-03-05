@@ -1,8 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: 💬 Discussions
-    url: https://github.com/your-username/ESdatabase/discussions
-    about: Ask questions and discuss with the community
-  - name: 📖 Documentation
-    url: https://github.com/your-username/ESdatabase#readme
-    about: Check out our documentation first
+  - name: ⚠️ Projeto Arquivado
+    url: https://github.com/ESousa97/ESdatabase
+    about: Este repositório está arquivado para fins de estudo. Novas issues não serão respondidas.

@@ -1,5 +1,7 @@
 # Código de Conduta
 
+> **⚠️ AVISO DE ARQUIVAMENTO:** Este repositório não está mais ativo e permanece público apenas para fins de estudo. Não há garantia de resposta, revisão ou correção.
+
 ## Nosso compromisso
 
 Contribuímos para um ambiente aberto e acolhedor.

@@ -1,5 +1,7 @@
 # Contribuindo para o ES.Database
 
+> **⚠️ AVISO DE ARQUIVAMENTO:** Este repositório não está mais ativo e permanece público apenas para fins de estudo. Não há garantia de resposta, revisão ou correção.
+
 Obrigado por considerar contribuir.
 
 ## Requisitos

@@ -6,6 +6,8 @@ labels: ['documentation']
 assignees: ''
 ---
 
+> **⚠️ AVISO DE ARQUIVAMENTO:** Este repositório está arquivado apenas para fins de estudo. Novas issues não serão respondidas nem resolvidas.
+
 ## 📚 Documentation Issue
 
 ### Type

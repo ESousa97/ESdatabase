@@ -1,5 +1,7 @@
 ## 📋 Description
 
+> **⚠️ AVISO DE ARQUIVAMENTO:** Este projeto está arquivado. Pull Requests não serão revisados ou mesclados.
+
 <!-- Provide a brief description of the changes in this PR -->
 
 ## 🔗 Related Issue

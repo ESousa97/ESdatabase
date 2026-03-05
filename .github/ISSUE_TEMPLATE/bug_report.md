@@ -6,6 +6,8 @@ labels: ['bug', 'triage']
 assignees: ''
 ---
 
+> **⚠️ AVISO DE ARQUIVAMENTO:** Este repositório está arquivado apenas para fins de estudo. Novas issues não serão respondidas nem resolvidas.
+
 ## 🐛 Bug Description
 
 A clear and concise description of the bug.

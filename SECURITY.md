@@ -1,5 +1,7 @@
 # Security Policy
 
+> **⚠️ AVISO DE ARQUIVAMENTO:** Este repositório não está mais ativo e permanece público apenas para fins de estudo. Não há garantia de resposta, revisão ou correção.
+
 ## Supported Versions
 
 This project is maintained on a best-effort basis. Security fixes are applied to the latest version.

@@ -6,6 +6,8 @@ labels: ['enhancement', 'triage']
 assignees: ''
 ---
 
+> **⚠️ AVISO DE ARQUIVAMENTO:** Este repositório está arquivado apenas para fins de estudo. Novas issues não serão respondidas nem resolvidas.
+
 ## ✨ Feature Description
 
 A clear and concise description of the feature you'd like.

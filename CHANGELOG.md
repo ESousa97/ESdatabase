@@ -7,6 +7,16 @@ This project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [Archived] - 2026-03-04
+
+### Changed
+
+- Arquivamento oficial do repositório.
+- Desativação de atualizações de dependências via Dependabot.
+- Inclusão de avisos de arquivamento nos templates de Issues e Pull Requests.
+- Desativação da abertura de "blank issues".
+- Atualização do Código de Conduta, Diretrizes de Contribuição e Política de Segurança informando o estado inativo.
+
 ### Added
 
 - Repo governance and automation (CI/CodeQL/Dependabot/templates)
